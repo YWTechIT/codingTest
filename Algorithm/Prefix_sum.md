@@ -23,3 +23,29 @@ result = prefix_sum[right] - prefix_sum[left - 1]
 print(result)
 👉🏽 70
 ```
+
+---
+
+### [ 예제 ] 백준 11659
+<a href='https://www.acmicpc.net/problem/11659'>문제</a>
+
+```python
+import sys
+
+n, m = map(int, input().split())
+data_input = list(map(int, sys.stdin.readline().split()))
+
+value = 0
+prefix_sum = [0]
+
+for i in data_input:
+    value = value + i
+    prefix_sum.append(value)
+
+for i in range(m):
+    left, right = map(int, sys.stdin.readline().split())
+    result = prefix_sum[right] - prefix_sum[left - 1]
+    print(result)
+```
+
+![](https://images.velog.io/images/abcd8637/post/4cf4768d-b24e-407b-88c8-1d9aa907a413/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202020-12-31%2010.52.32.png)
