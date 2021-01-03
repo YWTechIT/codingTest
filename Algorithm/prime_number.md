@@ -52,8 +52,43 @@ for i in range(n, m + 1):
     if array[i]:
         print(i, end=' ')
 ```
+---
 
-# 소수판별 알고리즘 3(<a href='https://www.acmicpc.net/problem/2153'>백준 - 2153</a>) 
+# 소수판별 알고리즘 3(<a href='https://www.acmicpc.net/problem/2153'>백준 - 1929</a>) 
+소수판별 알고리즘의 기본적인 문제이다.
+범위가 최대 `1,000,000`까지 주어지고 소수를 구하는 문제인데, 에라토스테네스의 체를 구하면 해결 할 수 있다.
+이 책을 보고나서 기능구현은 잘 했다고 생각했는데, 답안을 제출하고 나니까 자꾸 틀렸다는 결과만 나와서 당황했었다.
+
+결론적으로, 문제 중 `1 <= M <= N <= 1,000,000`까지 최대값의 범위가 주어졌는데 이를 활용하지 못했기 때문이다.
+또, 최소값은 1로 정해져있는데 1은 소수가 아니기때문에 `array[1] = False` 예외처리를 해주지 못했다.
+
+다음부터 문제를 풀 때 범위까지 잘 확인해야겠다는 생각이 들었다.
+
+코드는 다음과 같다.
+```python
+import math
+
+n, m = map(int, input().split())
+
+array = [True for i in range(1000001)]
+array[1] = 0
+
+for i in range(2, int(math.sqrt(m)) + 1):
+    if array[i] == True:
+        j = 2
+        while i * j <= m:
+            array[i * j] = False
+            j = j + 1
+
+for i in range(n, m + 1):
+    if array[i]:
+        print(i)
+```
+
+
+---
+
+# 소수판별 알고리즘 4(<a href='https://www.acmicpc.net/problem/2153'>백준 - 2153</a>) 
 알고리즘 문제푸는게 익숙치 않아 오래걸렸는데, 순전히 나의 힘으로 문제를 풀었다.
 그만큼 내가 집중해서 해결했다는 얘기다.
 엄청 고민했는데 다시보니까 코드가 길지 않아서 놀랬다 😮 😮
