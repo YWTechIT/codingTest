@@ -51,6 +51,36 @@ for password in itertools.combinations(array, l):
     if count >= 1 and count <= l - 2:
         print(''.join(password))
 ```
+---
 
+### [ 예제 2 ] 백준 6603
+조합에 관한 문제를 하나 더 풀어봤다.
+마찬가지로 기능구현은 어떻게 해야하는지 알았지만, `input`값을 어떻게 줘야할지 막막했다.
+그러던 중 list[0]값과 list[1:]값을 분리하는 식을 알았다.
 
+예를 들어, `list`의 값이 `[1, 2, 3, 4, 5]`라고 하자. 
+그러면, `[1]`과 나머지 `[2, 3, 4, 5]`로 분류 할 수 있다.
+
+쉽게 예를 들어보자.
+`k, *s = map(int, input().split())`일때 값을 `1 2 3 4 5`로 넣게 된다면
+k는 `1`, *s는 `[2, 3, 4, 5]`가 된다.
+
+또 문제에서 입력 값이 0이면 입력을 더 이상 하지 않는데,
+`while True`문을 사용하여 `if`의 값이 0 이면 더 이상 입력을 받지 않게 설정하면 된다.
+
+마지막에 출력 값을 `list`를 벗겨내야하는데 이는, `join`함수를 사용해서 중간에 `' 공백 '`을 넣어주었다.
+다만, `join`을 `int` 형에 적용 할 수 없기 때문에 `문자형(str)`으로 바꿔줘야한다.
+
+```python
+import itertools
+
+while True:
+    k, *s = map(int, input().split())
+    s.sort()
+    if k == 0:
+        break
+    for result in itertools.combinations(s, 6):
+        print(' '.join(map(str, result)))
+    print()
+```
 
