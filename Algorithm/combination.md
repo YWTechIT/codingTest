@@ -1,7 +1,10 @@
 ## combination
 > 조합(combination): 서로 다른 `n개`에서 순서에 상관없이 서로 다른 `r개`를 선택하는 것
+> 
 > nCr으로 불림 
+> 
 > 순서에 의미가 없을 때 주로 사용함.
+> 
 > 참고영상: <a href='https://www.youtube.com/watch?v=1I6fAgEOPt4'>수학삼촌</a>
 
 ```python
