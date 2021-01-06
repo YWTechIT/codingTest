@@ -87,3 +87,59 @@ print(result)
 ```
 
 ![](https://images.velog.io/images/abcd8637/post/9c31551c-f401-479f-b4b0-1deaa39c7145/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202021-01-05%2012.01.36.png)
+
+---
+
+## ✏️ [ 문제 ] 숫자카드게임
+<a href='https://book.naver.com/bookdb/book_detail.nhn?bid=16439154'>이것이 코딩 테스트다 - 나동빈</a>
+
+여러개의 숫자 중에서 가장 높은 숫자가 쓰인 카드 한 장을 뽑는 게임
+
+>해설: 각 행마다 가장 작은 수를 찾은 뒤에 그 수 중에서 가장 큰 수를 찾기
+
+```python
+n, m = list(map(int, input().split()))
+result = 0
+
+# n만큼 열 생성
+# data로 입력을 받음.
+# min_value중에서 큰 수를 기존의 result와 비교한뒤에 새로운 result에 저장함
+
+for i in range(n):
+    data = list(map(int, input().split()))
+    min_value = min(data)
+    result = max(result, min_value)
+
+print(result)
+```
+
+---
+
+## ✏️ [ 문제 ] 1이 될 때까지
+<a href='https://book.naver.com/bookdb/book_detail.nhn?bid=16439154'>이것이 코딩 테스트다 - 나동빈</a>
+
+문제: 어떠한 수 N이 1이 될 때까지 다음의 두 과정 중 하나를 반복적으로 선택하여 수행하려고한다. 단, 두 번째 연산은 N이 K로 나누어떨어 질 때만 선택할 수 있다.
+
+```python
+n, k = map(int, input().split())
+count = 0
+
+# 전체 while문을 사용해서 거짓 조건으로 먼저 빼고 이후 참인 조건을 넣자.
+# 마지막으로 남은 수는 1씩 빼기
+while n >= k:
+    while n % k != 0:
+        n = n - 1
+        n = n / k
+    n = n / k
+    count = count + 1
+
+while n > 1:
+    n = n - 1
+    count = count + 1
+
+print(count)
+
+```
+
+
+
