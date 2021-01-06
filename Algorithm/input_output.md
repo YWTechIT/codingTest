@@ -59,3 +59,18 @@ array = [[0] * m for _ in range(n)]
 print(array)
 👉🏽 [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
 ```
+
+---
+
+## 📍 [list]형을 다른형으로 출력 할 때
+```python
+a, x = map(int, input().split())
+result = list(map(int, input().split()))
+
+array = []
+
+for i in result:
+    if i < x:
+        array.append(i)
+print(' '.join(map(str, array)))
+```
