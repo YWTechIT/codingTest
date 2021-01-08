@@ -38,3 +38,49 @@ R R R U D
 👉🏽 출력
 3 4
 ```
+
+## 📍 [ 문제 ] 왕실의 나이트
+`cases`변수가 `dx`, `dy`기능을 대신하며, 이동할 방향을 기록할 수 있게 하였다.
+첫번째 코드는 `cases`변수 선언하여 `dx, dy`의 코드를 넣고 `new_array`, `new_row`를 계산할 때 `dx = case[0]`, `dy = case[1]`과 같은 역할을 하게함.
+
+```python
+data = input()
+column = int(chr(ord(data[0]) - 48))
+row = int(data[1])
+count = 0
+
+cases = [(-2, -1), (-2, 1), (2, -1), (2, 1), (-1, -2), (1, -2), (-1, 2), (1, 2)]
+
+for case in cases:
+    new_column = column + case[0]
+    new_row = row + case[1]
+    if new_column > 0 and new_row > 0 and new_column <= 8 and new_row <= 8:
+        count = count + 1
+        print(new_row, new_column)
+print(count)
+👉🏽 입력: al
+👉🏽 출력: 2
+```
+
+두번째 코드는 `dx, dy`변수 사용함.
+
+```python
+data = input()
+column = int(chr(ord(data[0]) - 48))
+row = int(data[1])
+count = 0
+
+move_types = [True for _ in range(8)]
+dx = [-2, -2, 2, 2, -1, 1, -1, 1]
+dy = [-1, 1, -1, 1, -2, -2, 2, 2]
+
+for i in range(len(move_types)):
+    nx = column + dx[i]
+    ny = row + dy[i]
+    if nx > 0 and ny > 0 and nx <= 8 and ny <= 8:
+        count = count + 1
+print(count)
+👉🏽 입력: al
+👉🏽 출력: 2
+```
+
