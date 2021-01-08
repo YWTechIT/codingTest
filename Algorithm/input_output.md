@@ -74,3 +74,16 @@ for i in result:
         array.append(i)
 print(' '.join(map(str, array)))
 ```
+
+## 📍 각 자리수의 값을 더할 때
+
+```python
+numbers = 222
+number = str(numbers)
+result = 0
+
+for i in range(len(number)):
+    result = result + int(number[i])
+print(result)
+👉🏽 6
+```
