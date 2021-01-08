@@ -25,3 +25,21 @@ print(count)
 👉🏽 출력
 11475            
 ```
+
+## ✏️ [ 문제 ] 백준 - 블랙잭(2798)
+<a href='https://www.acmicpc.net/problem/2798'>문제</a>
+
+```python
+import itertools
+
+n, m = map(int, input().split())
+cards = list(map(int, input().split()))
+
+result = 0
+
+# 배열값을 큰 순으로 정렬하려면 result보다 크게 범위를 설정한다.
+for card in itertools.combinations(cards, 3):
+    if result < sum(card) <= m:
+        result = sum(card)
+print(result)
+```
