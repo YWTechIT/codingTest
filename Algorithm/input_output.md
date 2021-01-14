@@ -58,7 +58,13 @@ m = 4
 array = [[0] * m for _ in range(n)]
 print(array)
 👉🏽 [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+
+# 2차원 리스트의 맵 정보 입력받기
+graph = []
+for i in range(n):
+    graph.append(list(map(int, input())))
 ```
+
 
 ---
 
