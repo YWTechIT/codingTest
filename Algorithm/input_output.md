@@ -93,3 +93,51 @@ for i in range(len(number)):
 print(result)
 👉🏽 6
 ```
+
+## 📍 원하는 튜플기준으로 출력하고 싶을 때
+```python
+n = int(input())
+
+array = []
+for i in range(n):
+    input_data = input().split()
+    array.append((input_data[0], int(input_data[1]))
+
+# 점수 기준 sort(오름차순)
+array = sorted(array, key = lambda student: student[1])
+
+# 점수 기준 sort(내림차순)
+array = sorted(array, key = lambda student: student[1], reverse=True)
+
+for score in array:
+    print(score[1], end=' ')
+
+👉🏽 입력
+3
+이순신 93
+장보고 50
+문성공 99
+
+👉🏽 출력
+50 93 99 (오름차순)
+99 93 50 (내림차순)
+
+# 이름 기준 sort(오름차순)
+array = sorted(array, key = lambda student: student[0])
+
+# 이름 기준 sort(내림차순)
+array = sorted(array, key = lambda student: student[0], reverse=True)
+
+for name in array:
+    print(name[0], end=' ')
+
+👉🏽 입력
+3
+이순신 93
+장보고 50
+문성공 99
+
+👉🏽 출력
+문성공 이순신 장보고 (오름차순)
+장보고 이순신 문성공 (내림차순)
+```
