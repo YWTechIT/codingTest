@@ -1,6 +1,26 @@
 ## 백준 2750
 <a href='https://www.acmicpc.net/problem/2178'>문제</a>
 
+`N의 범위가 (1 <= N <= 1,000,000)`일때는 input 대신 `sys.stdin.readline()`을 사용하자.
+
+```python
+import sys
+
+n = int(input())
+
+array = []
+
+for i in range(n):
+    array.append(int(sys.stdin.readline()))
+
+array = sorted(array)
+
+for i in array:
+    print(i)
+```
+
+---
+
 >1. `sort()`
 >2. `선택정렬(selection_sort)`
 >3. `삽입정렬(insertion_sort)`
