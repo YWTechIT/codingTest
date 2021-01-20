@@ -77,3 +77,7 @@ def quick_sort(array):
 
 print(quick_sort(array))
 ```
+
+> 평균적인 시간복잡도: O(NlogN)
+> 최악의 시간복잡도: O(N^2)
+> 선택정렬, 삽입정렬보다 시간복잡도면에서 우수하다.
