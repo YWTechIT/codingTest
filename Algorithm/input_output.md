@@ -42,6 +42,42 @@ for i in range(n):
 ```
 ---
 
+## 📍 임의의 개수의 정수를 리스트에 저장할 때
+```python
+# sys.stdin 
+import sys
+n = int(input())
+
+array = []
+
+for i in range(n):
+    matrix.append(list(map(int,sys.stdin.readline().split())))
+
+print(matrix)
+```
+
+```python
+# input()
+
+n = int(input())
+
+array = []
+
+for i in range(n):
+    matrix.append(input().split())
+
+print(matrix)
+```
+---
+
+## 📍 [ list ]에서 중복 값을 제거하기
+```python
+array = [1, 2, 2, 3, 3, 3, 4, 5, 6]
+array_set = list(set(array))
+👉🏽 [1, 2, 3, 4, 5, 6]
+```
+---
+
 ## 📍 1차원 배열
 ```python
 n = 5
@@ -64,8 +100,6 @@ graph = []
 for i in range(n):
     graph.append(list(map(int, input())))
 ```
-
-
 ---
 
 ## 📍 [list]형을 다른형으로 출력 할 때
@@ -80,6 +114,7 @@ for i in result:
         array.append(i)
 print(' '.join(map(str, array)))
 ```
+---
 
 ## 📍 각 자리수의 값을 더할 때
 
@@ -93,6 +128,7 @@ for i in range(len(number)):
 print(result)
 👉🏽 6
 ```
+---
 
 ## 📍 원하는 튜플기준으로 출력하고 싶을 때
 ```python
