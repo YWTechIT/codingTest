@@ -54,7 +54,7 @@ def binary_search_recursive(array, target, start, end):
         else:
             return start = mid + 1
     return None
-    
+
 n, target = list(map(int, input().split()))
 array = list(map(int, input().split()))
 result = binary_search_recursive(array, target, 0, n-1)
@@ -68,3 +68,23 @@ else:
 4
 ```
 
+## bisect_range(이진탐색)
+> bisect_left(a,x): 정렬된 순서를 유지하면서 배열 a에 x를 삽입 할 가장 왼쪽 인덱스를 반환
+> bisect_right(a,x): 정렬된 순서를 유지하면서 배열 a에 x를 삽입 할 가장 오른쪽 인덱스를 반환
+
+
+```python
+# 값이 특정 범위에 속하는 데이터의 개수 구하기
+from bisect import bisect_left, bisect_right
+
+def count_range(array, left_value, right_value):
+    right_index = bisect_right(array, right_value)
+    left_index = bisect_left(array, left_value)
+    return right_index - left_index
+
+array = [1, 2, 3, 3, 3, 3, 4, 4, 8, 9]
+
+print(count_range(array, 4, 4))
+print(count_range(array, -1, 3))
+👉🏽 2 6
+```
