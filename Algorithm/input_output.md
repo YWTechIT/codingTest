@@ -15,6 +15,20 @@
 
 출처: <a href='https://www.acmicpc.net/board/view/855'>백준</a>
 
+### 📍 한 줄, 여러 줄
+
+```python
+# 한 줄 입력 받을 때
+import sys
+array = list(map(int, sys.stdin.readline().split()))
+
+# 여러 줄 입력 받을 때
+import sys
+for line in sys.stdin:
+    print(line)
+```
+
+
 ### 📍sys.stdin.readline()
 입력한 한 라인을 `interable`에 저장한다.
 `띄어쓰기`와 `\n`까지 포함하므로 `split()`을 이용하자.

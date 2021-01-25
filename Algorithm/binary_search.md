@@ -90,3 +90,52 @@ print(count_range(array, 4, 4))
 print(count_range(array, -1, 3))
 👉🏽 2 6
 ```
+
+```python
+# 이진탐색에서의 계수정렬
+'''
+5
+8 3 7 9 2
+3
+5 7 9
+'''
+# array는 최대값 + 1
+# 전체 부품 번호를 입력받아 자리수에 1을 넣어줌
+# 전체 부품의 자리와 `target`의 자리를 비교해 출력
+import sys
+
+n = int(input())
+array = [0] * 1000001
+
+for i in input().split():
+    array[int(i)] = 1
+
+m = int(input())
+target = list(map(int, sys.stdin.readline().split()))
+
+for i in target:
+    if array[i] == 1:
+        print('yes', end=' ')
+    else:
+        print('no', end=' ')
+
+👉🏽 no yes yes 
+```
+
+```python
+# set 자료형을 통한 이진탐색
+import sys
+
+n = int(input())
+array = set(map(int, sys.stdin.readline().split()))
+
+m = int(input())
+target = list(map(int, sys.stdin.readline().split()))
+
+for i in target:
+    if i in array:
+        print('yes')
+    else:
+        print('no')
+👉🏽 no yes yes 
+```
