@@ -39,6 +39,8 @@ else:
 4
 ```
 
+---
+
 ```python
 # for문
 '''
@@ -69,6 +71,8 @@ else:
 👉🏽 출력
 4
 ```
+
+---
 
 ## bisect_range(이진탐색)
 > bisect_left(a,x): 정렬된 순서를 유지하면서 배열 a에 x를 삽입 할 가장 왼쪽 인덱스를 반환
@@ -139,3 +143,130 @@ for i in target:
         print('no')
 👉🏽 no yes yes 
 ```
+
+---
+
+### 📍 [ 문제 1 ] 백준 - 1920(수 찾기)
+<a href='https://www.acmicpc.net/problem/1920'>문제</a>
+
+```python
+# 이진탐색(재귀)
+'''
+5
+4 1 5 2 3
+5
+1 3 7 9 5
+'''
+import sys
+
+def find_number(array, target, start, end):
+    if start > end:
+        return False
+    mid = (start + end) // 2
+
+    if array[mid] == target:
+        return True
+    elif array[mid] > target:
+        return find_number(array, target, start, mid-1)
+    else:
+        return find_number(array, target, mid+1, end)
+
+n = int(input())
+array = sorted(list(map(int, sys.stdin.readline().split())))
+
+m = int(input())
+target = list(map(int, sys.stdin.readline().split()))
+
+for i in target:
+    if find_number(array, i, 0, n-1):
+        print(1)
+    else:
+        print(0)
+👉🏽 
+1
+1
+0
+0
+0
+1
+```
+
+```python
+# set 자료형
+'''
+5
+4 1 5 2 3
+5
+1 3 7 9 5
+'''
+import sys
+
+n = int(input())
+array = set(map(int, sys.stdin.readline().split()))
+
+m = int(input())
+target = list(map(int, sys.stdin.readline().split()))
+
+for i in target:
+    if i in array:
+        print(1)
+    else:
+        print(0)
+👉🏽 
+1
+1
+0
+0
+0
+1
+```
+
+---
+### 📍 [ 문제 2 ] 백준 - 10816(숫자 카드 2)
+<a href='https://www.acmicpc.net/problem/10816'>문제</a>
+
+```python
+# 딕셔너리 선언 후 값 비교
+import sys
+
+n = int(input())
+array = sys.stdin.readline().split()
+n_dict = {}
+
+for i in array:
+    if i in n_dict:
+        n_dict[i] = n_dict[i] + 1
+    else:
+        n_dict[i] = 1
+
+m = int(input())
+target = sys.stdin.readline().split()
+
+for i in target:
+    if i in n_dict:
+        print(n_dict[i], end=' ')
+    else:
+        print(0, end=' ')
+```
+
+```python
+# Counter 함수 사용
+import sys
+from collections import Counter
+
+n = int(input())
+array = sys.stdin.readline().split()
+
+m = int(input())
+target = sys.stdin.readline().split()
+
+count = Counter(array)
+
+for i in target:
+    if i in count:
+        print(count[i], end=' ')
+    else:
+        print(0, end=' ')
+```
+
+---
