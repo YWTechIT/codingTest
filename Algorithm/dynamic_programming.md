@@ -1,7 +1,7 @@
 ### dynamic_programming(다이나믹 프로그래밍)
 다이나믹 프로그래밍은 메모리 공간을 약간 더 사용해 연산 속도를 비약적으로 증가시키는 방법으로, 동적 계획법이라고도 표현한다.
 
-### 📍 예시 - 피보나치 수열
+### 📍 [ 예시 ] - 피보나치 수열
 ```python
 # dynamic_recursive(top_down)
 memo = [0] * 100
@@ -99,6 +99,7 @@ def tile(x):
 print(tile(n))
 👉🏽 5
 ```
+
 ```python
 '''
 3
@@ -117,3 +118,33 @@ for i in range(3, n+1):
 print(d[n])
 👉🏽 5
 ```
+
+---
+
+### ⚡️ [ 문제 3 ] - 2 x N 타일링
+<a href='https://www.acmicpc.net/problem/11726'> 문제 </a>
+
+<a href='https://www.acmicpc.net/problem/11727'> 유사문제 </a>
+
+
+```python
+'''
+2
+
+9
+'''
+n = int(input())
+
+d = [0] * 1001
+
+d[1] = 1
+d[2] = 2
+
+for i in range(3, n+1):
+    d[i] = (d[i-1] + d[i-2]) % 10007
+print(d[n])
+👉🏽 2
+👉🏽 55
+```
+
+
