@@ -152,3 +152,69 @@ else:
 👉🏽 3
 👉🏽 -1
 ```
+---
+
+### [ 문제 2 ] 전보
+어느 날 C라는 도시에서 위급 상황이 발생했다.
+그래서 최대한 많은 도시로 메시지를 보내고자 한다. 메시지는 도시 C에서 출발하여 각 도시 사이에 설치된 통로를 거쳐, 최대한 많이 퍼져나갈것이다. 각 도시의 번호와 통로가 설치되어 있는 정보가 주어졌을 때, 도시 C에서 보낸 메세지를 받게 되는 도시의 개수는 총 몇 개 이며, 도시들이 모두 메시지를 받는 데까지 걸리는 시간은 얼마인지 계산하는 프로그램을 작성하시오.
+
+>1. `입력조건`: 첫째 줄에 도시의 개수 N, 통로의 개수 M, 메세지를 보내고자 하는 도시 C가 주어진다.
+>2. 둘째 줄부터 `M+1`번째 줄에 걸쳐서 통로에 대한 정보 `X`, `Y`, `Z`가 주어진다. 이는 특정 도시 `X`에서 다른 특정 도시 `Y`로 이어지는 통로가 있으며, 메시지가 전달되는 시간이 `Z`라는 의미다.
+>3. `출력조건`: 첫째 줄에 도시 C에서 보낸 메시지를 받는 도시의 총 개수와 총 걸리는 시간을 공백으로 구분하여 출력한다.
+
+`N`과 `M`의 범위가 `5,000`보다 크기때문에 `floyd_warshall` 알고리즘을 사용하긴 힘들고, `linear_path` 알고리즘 역시 `3,000`보다 크기때문에 
+사용하기 힘들다.
+
+따라서, 한 도시에서 다른 도시까지의 최단거리 문제로 치환할 수 있으므로 다익스트라 알고리즘을 이용하자.
+
+그림을 그려보니까 메세지를 보내는데 드는 비용은 `max: 4`가 소요된다. 따라서, `distance[i]`에서 `max`값만 따로 추출하면 된다. 
+
+그리고 출력 중 메세지를 받는 도시의 수는 `distance`가 나올때마다 `count += 1`을 넣어주면된다. 그러나, 자기자신은 제외해야하기 때문에 `count - 1`도 넣어주자.
+
+```python
+'''
+3 2 1
+1 2 4
+1 3 2
+'''
+
+import heapq
+
+INF = int(1e9)
+n, m, start = map(int, input().split())
+graph = [[] for _ in range(n+1)]
+distance = [INF] * (n+1)
+
+for i in range(m):
+    x, y, z = map(int, input().split())
+    graph[x].append((y,z))
+
+def dijkstra(start):
+    q = []
+    heapq.heappush(q, (0, start))
+    distance[start] = 0
+
+    while q:
+        dist, now = heapq.heappop(q)
+        if distance[now] < dist:
+            continue
+
+        for i in graph[now]:
+            cost = dist + i[1]
+            if cost < distance[i[0]]:
+                distance[i[0]] = cost
+                heapq.heappush(q, (cost, i[0]))
+
+dijkstra(start)
+
+max_distance = 0
+count = 0
+
+for i in distance:
+    if i != INF:
+        count = count + 1
+        max_distance = max(max_distance, i)
+
+print(count - 1, max_distance)
+👉🏽 2 4
+```
