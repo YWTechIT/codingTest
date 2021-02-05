@@ -62,7 +62,7 @@ for i in range(1, v+1):
 ```
 ---
 
-### 경로 압축기법 코드
+### ⚡️ 경로 압축기법 코드
 ```python
 # 기존 코드는 else return 값이 x였음.
 def find_parent(parent, x):
@@ -74,7 +74,7 @@ def find_parent(parent, x):
 
 ---
 
-### 서로소 집합을 이용한 사이클 판별
+### 📍 서로소 집합을 이용한 사이클 판별
 서로소 집합은 무방향 그래프 내에서의 사이클을 판별할 때 사용할수 있다는 특징이 있다.
 참고로 방향 그래프에서의 사이클 여부는 `DFS`통해 판별할 수 있으며, 개인적으로 공부하도록 하자.
 
@@ -130,5 +130,65 @@ else:
 
 👉🏽 cycle이 발생하지 않았습니다.!
 ```
-
 ---
+
+### ⚡️ [ 문제 1 ] 팀 결성
+>1. 팀 합치기: 두 팀을 합치는 연산이다
+>2. 같은 팀 여부 확인: 특정한 두 학생이 같은 팀에 속하는지를 확인하는 연산이다.
+
+```python
+'''
+# 1과 8이 연결되지 않은 경우
+8 7
+0 1 2
+0 2 3
+0 3 4
+0 5 6
+0 6 7
+0 7 8
+1 1 8
+
+# 1과 8이 연결되는 경우
+8 8
+0 1 2
+0 2 3
+0 3 4
+0 4 5
+0 5 6
+0 6 7
+0 7 8
+1 1 8
+'''
+
+def find_parent(parent, x):
+    if parent[x] != x:
+        return find_parent(parent, parent[x])
+    else:
+        return parent[x]
+
+def union_parent(parent, a, b):
+    a = find_parent(parent, a)
+    b = find_parent(parent, b)
+    if a < b:
+        parent[b] = a
+    else:
+        parent[a] = b
+
+v, e = map(int, input().split())
+parent = [0] * (v+1)
+
+for i in range(1, v+1):
+    parent[i] = i
+
+for i in range(e):
+    check, a, b = map(int, input().split())
+    if check == 0:
+        union_parent(parent, a, b)
+    else:
+        if find_parent(parent, a) == find_parent(parent, b):
+            print('YES')
+        else:
+            print('NO')
+
+👉🏽 NO YES
+```
