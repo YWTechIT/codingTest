@@ -70,3 +70,77 @@ for edge in edges:
 print(result)
 👉🏽 159
 ```
+---
+
+### ⚡️ [ 문제 1 ] 백준 1647 - 도시 분할 계획
+<a href = 'https://www.acmicpc.net/problem/1647'>문제</a>
+
+핵심 아이디어는 전체 그래프에서 2개의 최소 신장 트리를 만들어야한다.
+
+최소한의 비용으로 2개의 신장트리를 분할하는 방법 중 크루스칼을 이용해 최소 신장트리를 찾은 뒤에 최소 신장트리를 구성하는 간선 중 가장 비용이 큰 간선을 제거하는 방식이다.
+
+문제에서 마을을 2개로 분할할 계획을 세우고 있다고 했다. 마을을 2개로 분리하기전에 `최소 신장트리(크루스칼)`를 이용하면 최소값이 나온다. 
+
+트리 자료구조는 노드가 N개일 때 항상 간선의 개수는 N-1이다. 
+
+여기서 임의의 간선 한 개를 더 잘라도 1개의 집은 마을이 되고, 최소 신장트리는 만족한다. 1개를 더 자른다는 말은 비용을 자른다는 말이 되고, 결론적으로 `N-1`번째 비용을 구하면 된다.
+
+
+```python
+import sys
+input = sys.stdin.readline
+
+'''
+7 12
+1 2 3
+1 3 2
+3 2 1
+2 5 2
+3 4 4
+7 3 6
+5 1 5
+1 6 2
+6 4 1
+6 5 3
+4 5 3
+6 7 4
+'''
+
+def find_parent(parent, x):
+    if parent[x] != x:
+        return find_parent(parent, parent[x])
+    else:
+        return parent[x]
+
+def union_parent(parent, a, b):
+    a = find_parent(parent, a)
+    b = find_parent(parent, b)
+    if a < b:
+        parent[b] = a
+    else:
+        parent[a] = b
+
+v, e = map(int, input().split())
+parent = [0] * (v+1)
+edges = []
+result = 0
+last = 0
+
+for i in range(e):
+    a, b, cost = map(int, input().split())
+    edges.append((cost, a, b))
+
+for i in range(1, v+1):
+    parent[i] = i
+
+edges.sort()
+
+for edge in edges:
+    cost, a, b = edge
+    if find_parent(parent, a) != find_parent(parent, b):
+        union_parent(parent, a, b)
+        result = result + cost
+        last = cost
+print(result - last)
+👉🏽 8
+```
