@@ -3,6 +3,10 @@
 > 각 단계에서 답을 고를 때 가장 좋아 보이는 답을 선택
 > 선택할 당시 최적의 답을 고르지만, 최종 해답이 반드시 최적임을 보증하지 않음
 
+2021.2.8.
+> 1. 다음 해를 계산하기 전까지는 모두 만들 수 있다고 가정함.
+> 2. 만약에 만들수 없다면, `n-1`번째를 확인함
+
 ---
 
 ## 📍 유형 1. 거스름 돈
@@ -141,5 +145,173 @@ print(count)
 
 ```
 
+---
 
+## ✏️ [ 문제 ] 곱하기 혹은 더하기
+각 자리의 숫자로만 이루어진 문자열 S가 주어졌을 때, 왼쪽부터 오른쪽으로 하나씩 모든 숫자를 확인하며 숫자 사이에 `x(곱하기)` 혹은 `+(더하기)`연산자를 넣어 만들어 질 수 있는 가장 큰 수를 구하는 프로그램을 작성하시오.
 
+### 🤔 나의 풀이
+큰 수를 만들기 위해서는 더하기보다는 곱하는것이 타당하다고 생각했다. 하지만 입력 예시에 `0`과 `1`이 포함되는 경우가 있었는데, `1`은 간과하고 `0`만 생각하고 `0`이 나오면 조건에 더해주는 코드만 넣었다. 
+
+그리고 `multi`의 초기값은 곱하기때문에 1로 설정하자<spans style ='color:blue'>(습관적으로 0으로 선언했다가 결과값이 자꾸 0으로 나오길래 `pycharm`이 고장난 줄 알았다. ~~컴퓨터는 거짓말을 하지 않았다.~~)</span>
+
+또, 문제에 입력 예시가 2개나 있었지만, 혹시 몰라 반증의 예를 찾다가 `91110`을 떠올렸다.  
+
+내가 작성한 코드로 계산하면 `9x1x1x1+0 = 9`가 되는데 이는, 더하기 조건에 1을 포함하면 나오는 `9+1+1+1+0 = 12` 값이 반례가 되기때문에 결론적으로 0과 1을 더하기 조건에 포함시켰다.
+
+그리고 책에서는 `input`값에 `list`을 쓰지 않았는데 이후에 `if array[i] <= '1':`에서 1은 문자열(str)이기 때문에 따옴표를 붙여준것도 헷갈리지 말자.
+
+```python
+'''
+02984
+567
+91110
+'''
+array = list(map(int, input()))
+multi = 1
+plus = 0
+result = 0
+
+for i in range(len(array)):
+    if array[i] <= 1:
+        plus = plus + array[i]
+    else:
+        multi = multi * array[i]
+    result = multi + plus
+print(result)
+👉🏽 
+576
+210
+12
+```
+
+---
+
+## ✏️ [ 문제 ] 문자열 뒤집기
+연속된 하나 이상의 숫자를 잡고 모두 뒤집는다. 
+뒤집는 것은 1을 0으로, 0을 1로 바꾸는 것을 의미한다.
+
+### 🤔 나의 풀이
+접근을 어떻게 할까 고민했는데, 약간의 힌트를 얻어 현재 array[i] 값과 다음 array[i+1]이 비교하여 서로 같지 않을때 array[i+1]의 수가 0인지 1인지에 따라 `count` 하는 변수를 다르게 설정하여 조건을 걸었다.
+
+마지막에는 두개의 변수 중 `min값`을 출력하게 설정했다.
+
+```python
+array = list(map(int, input()))
+count_0 = 0
+count_1 = 0
+
+if array[0] == 1:
+    count_1 += 1
+else:
+    count_0 += 1
+
+for i in range(len(array)-1):
+    if array[i] != array[i+1]:
+        if array[i+1] == 1:
+            count_1 += 1
+            print(array[i+1])
+        else:
+            count_0 += 1
+
+result = min(count_0, count_1)
+print(result)
+👉🏽 1
+```
+---
+
+## ✏️ [ 문제 ] 만들 수 없는 금액
+N개의 동전을 이용하여 만들 수 없는 양의 정수 금액 중 최솟값을 구하는 프로그램을 작성하시오.
+
+### 🤔 나의 풀이
+어떤 방식을 사용해야하는지 고민을 오래했다.
+만들 수 없는 금액이면 반대로 만들 수 있는 금액을 구하고 나머지 값 중 최소값을 구하면되나? 라는 생각도 했는데 접근 방향이 잘못됐다.. 😅 😅
+
+먼저 화폐를 오름차순으로 정렬하고 현재 금액 값을 선언한 이후 하나씩 비교하면서 현재 금액값을 만들 수 있으면 현재 금액값을 갱신하는 방식을 이용했다.
+
+![](https://images.velog.io/images/abcd8637/post/5c1dfb92-64bf-409c-8d51-d3bc3e8d09ed/KakaoTalk_Photo_2021-02-08-13-22-10.jpeg)
+
+중요한 점은 갱신한 값보다 작은 값들은 화폐로 만들 수 있다.
+예를 들어 `current = 4`보다 작은 값 `3`은 `1, 2`를 사용해서 만들 수 있다. 
+
+만약, 갱신이 불가능하면 `-1`값은 만들 수 있는지 살펴보자
+
+```python
+'''
+3 2 1 1 9
+'''
+n = int(input())
+coins = list(map(int, input().split()))
+current = 1
+
+coins.sort()
+
+for i in coins:
+    if i <= current:
+        current = current + i
+    print(current)
+👉🏽 8 
+```
+---
+
+## ✏️ [ 문제 ] 코드업 2001 - 최소 대금
+<a href='https://codeup.kr/problem.php?id=2001'>코드업 - 2001 문제 </a>
+
+### 🤔 나의 풀이
+이렇게 풀어도 되나 싶은데, 2가지 방법을 이용했다.
+결과적으로 최소의 가격을 선택해 최소값을 구하는 문제이기때문에 `.sort`를 사용해서 맨 앞에 있는 값을 출력해서 계산하는 방법과 `min()` 함수를 사용해 최소값을 출력하는 방법을 사용했다.
+
+민망할 정도로 코드가 짧긴하지만 정답판정을 받았다.
+
+```python
+'''
+800
+700
+900
+198
+330
+'''
+
+total_set = []
+pasta = []
+juice = []
+
+for i in range(5):
+    input_set = int(input())
+    total_set.append(input_set)
+    pasta = total_set[0:3]
+    juice = total_set[3:5]
+
+pasta.sort()
+juice.sort()
+
+result = (pasta[0] + juice[0]) * 1.1
+print(round(result, 2))
+👉🏽 987.8
+```
+
+```python
+## 방법 2
+'''
+800
+700
+900
+198
+330
+'''
+
+total_set = []
+pasta = []
+juice = []
+
+for i in range(5):
+    input_set = int(input())
+    total_set.append(input_set)
+    pasta = total_set[0:3]
+    juice = total_set[3:5]
+
+result= (min(pasta) + min(juice)) * 1.1
+bill = round(result, 2)
+print(bill)
+👉🏽 987.8
+```
