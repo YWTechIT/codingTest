@@ -197,6 +197,25 @@ print(result)
 ```
 ---
 
+## 📍 각 자리수의 문자열(str) 체크하기
+
+```python
+# isalpha(), isdigit()
+# int형 말고 str형에서만 사용 가능
+
+string = ['hello', '123']
+
+for i in string:
+    if i.isalpha():
+        print('alpha')
+    elif i.isdigit():
+        print('digit')
+👉🏽 
+alpha
+digit
+```
+---
+
 ## 📍 원하는 튜플기준으로 출력하고 싶을 때
 ```python
 n = int(input())
