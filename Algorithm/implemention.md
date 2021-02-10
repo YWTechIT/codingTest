@@ -9,6 +9,32 @@ if n % 4 == 0
 elif n % 4 != 0:
     print('4의 배수가 아닙니다.')
 ```
-
 ---
+
+## 📍 입력마다 최대값을 갱신할 때
+```python
+'''
+3
+29
+38
+12
+57
+74
+40
+85
+61
+'''
+max_index = 0
+index = 0
+
+for i in range(1, 10):
+    number = int(input())
+    if number > max_index:
+        max_index = number
+        index = i
+print(max_index)
+print(index)
+👉🏽 85
+8
+````
 
