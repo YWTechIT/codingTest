@@ -37,3 +37,11 @@ print(array.index(2))
 ```
 ---
 
+## 📍 리스트컴프리헨션을 이용한 i제곱
+```python
+import sys
+sys.stdin.readline
+array = [i*i map(int, input().split())]
+print(sum(array)%10)
+```
+---
