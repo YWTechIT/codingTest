@@ -1,3 +1,43 @@
+## 📍 pass, continue, break
+```python
+# pass
+for i in range(10):
+    if i % 2 == 0:
+        pass
+        print(i)
+    else:
+        print('나머지')
+👉🏽 0
+나머지입니다.
+2
+나머지입니다.
+4
+
+# continue
+for i in range(5):
+    if i % 2 == 0:
+        continue
+        print(i)
+    else:
+        print('나머지')
+👉🏽 나머지입니다.
+나머지입니다.
+
+# break
+for i in range(5):
+    if i % 2 == 0:
+        break
+        print(i)
+    else:
+        print('나머지')
+👉🏽 빈 화면
+``` 
+> 1. pass: 조건문에서 넣어줄 조건이 딱히 없을경우
+> 2. continue: 해당 조건을 건너 뜀
+> 3. break: 해당 반복문 자체를 멈춤
+
+---
+
 ## 📍 n의 배수일 때, 배수가 아닐 때
 
 ```python
@@ -68,3 +108,23 @@ for i in range(len(array)):
     if i != len(array) -1 and array[i] == array[i+1]:
 ```
 ---
+
+## 📍 이중반복문 내부 숫자배열
+반복문 1개당 시간복잡도: O(N)
+
+```python
+array = 'scv'
+for i in range(3):
+    for j in range(len(array)):
+        print(i)
+👉🏽 0 0 0 1 1 1 2 2 2 (s s s c c c v v v)
+
+for i in range(3):
+    for j in range(len(array)):
+        print(j)
+👉🏽 0 1 2 0 1 2 0 1 2 (s c v s c v s c v)
+```
+
+---
+
+
