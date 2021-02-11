@@ -39,6 +39,14 @@ array = list(map(int, sys.stdin.readline().split()))
 import sys
 for line in sys.stdin:
     print(line)
+
+# 여러개의 테스트케이스일때
+while True:
+    a, b = map(int, input().split())
+    if a == 0 and b == 0:
+        break
+    else:
+        print(a+b)
 ```
 
 ---
