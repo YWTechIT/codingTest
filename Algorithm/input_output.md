@@ -17,6 +17,17 @@
 
 출처: <a href='https://www.acmicpc.net/board/view/855'>백준</a>
 
+---
+
+### 📍 input()값을 한 문자씩 바꿀 때
+```python
+array = input()
+result=list(array)
+print(result)
+👉🏽 ['a', 'r', 'r', 'a', 'y']
+```
+---
+
 ### 📍 한 줄, 여러 줄
 
 ```python
@@ -30,6 +41,7 @@ for line in sys.stdin:
     print(line)
 ```
 
+---
 
 ### 📍sys.stdin.readline()
 입력한 한 라인을 `interable`에 저장한다.
