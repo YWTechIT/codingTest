@@ -45,3 +45,26 @@ array = [i*i map(int, input().split())]
 print(sum(array)%10)
 ```
 ---
+
+## 📍 중복되는 문자열 정렬
+```python
+# 만약, list(array)와 중복된 단어를 정렬한 array와 같다면 count+=1
+n = int(input())
+for i in range(n):
+    array = input()
+    if list(array) = array.sorted(array, key=array.find):
+        count+=1
+```
+---
+
+## 📍 array[i] == array[i+1] 범위 설정
+```python
+# 1번
+for i in range(len(array)):
+    if i < len(array) -1 and array[i] == array[i+1]:
+
+# 2번
+for i in range(len(array)):
+    if i != len(array) -1 and array[i] == array[i+1]:
+```
+---
