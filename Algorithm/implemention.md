@@ -127,4 +127,32 @@ for i in range(3):
 
 ---
 
+## 📍 백준 2675 - 문자열 반복
+시간복잡도를 최소화하기 위해 반복문도 최소화선언
+```python
+# 1번
+T = int(input())
+
+for i in range(T):
+    case = input().split()
+    n, s = int(case[0]), list(case[1])
+    for j in range(len(s)):
+        for k in range(n):
+            print(s[j], end='')
+    print()
+
+# 2번 
+T = int(input())
+
+for i in range(T):
+    n, s = input().split()
+    for j in range(len(s)):
+        print(int(n) * s[j], end='')
+    print()
+
+```
+
+---
+
+
 
