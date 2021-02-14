@@ -20,4 +20,17 @@ for i in range(65, 91):
 
 ---
 
+### 📍 모듈 호출
+```python
+import string
+
+digits = string.digits
+upper_case = string.ascii_uppercase
+
+print(digits)
+print(upper_case)
+
+👉🏽 '0123456789'
+👉🏽 '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+```
 
