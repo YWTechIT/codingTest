@@ -1,6 +1,17 @@
 ## implementation(구현)
 머릿속으로는 잘 떠오르지만 막상 코드로 작성하면 잘 떠오르지 않는 문제들
 
+## 📍 list를 str로 변환하기
+```python
+array = ''.join([str(_) for _ in range(10)])
+char = ''.join([chr(i) for i in range(65, 71)])
+
+👉🏽 '0123456789'
+'ABCDEF'
+
+```
+
+---
 
 ## 📍 pass, continue, break
 ```python
