@@ -52,9 +52,19 @@ print(y)
 
 ---
 
-## 📍 n진수 to 10진수
+## 📍 2진수 to 10진수
 ```python
 number = 0x11
 print(int(number))
-
 ```
+
+```python
+number = '1011'
+decimal = 0
+
+for idx, val in enumerate(x[::-1]):
+    decimal = decimal + (2 ** idx) * int(val)
+print(decimal)
+```
+
+---
