@@ -1,11 +1,11 @@
-## base_calculation(진법 변환)
+## base_calculation(진수 변환)
 ex) number = 10
 > 1. 2진수: 0b1010
 > 2. 8진수: 0o12
 > 3. 16진수: 0xa
 
 ---
-## 📍 python 내장함수
+## 📍 python 내장함수(bin, oct, int, hex)
 
 ```python
 number = 10
@@ -19,23 +19,27 @@ hex(number)
 
 ---
 
-## 📍 10진수 -> n진수 convert
-
+## 📍 python import string(2진수 -> 16진수)
 ```python
-# n <= 10진수
-n = 2
-x = 11
+import string
+
+notation = string.digits + string.ascii_uppercase
+
+n, base = map(int, input().split())
 y = ''
 
-while x != 0:
-    y = str(x % n) + y
-    x = x // n
+while n != 0:
+    y = str(notation[n % base]) + y
+    n = n // base
 print(y)
 ```
 
+---
+
+## 📍 2 <= n <= 16 base_convert
+
 ```python
-# n > 10진수
-# char은 x만큼 바꿔줘야함
+# 2 <= n <= 16진수
 x, base = map(int, input().split())
 char = '0123456789ABCDEF'
 y = ''
@@ -44,7 +48,6 @@ while x != 0:
     y = str(char[x % base]) + y
     x = x // base
 print(y)
-
 ```
 
 ---
