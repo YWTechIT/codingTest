@@ -116,12 +116,23 @@ print(r)
 ---
 
 ### 📍 백준 1212 - 8진수 2진수
-<a href='https://www.acmicpc.net/problem/1212'>백준 14915 - 진수 변환기</a>
+<a href='https://www.acmicpc.net/problem/1212'>백준 1212 - 8진수 2진수</a>
 
 놀라울정도로 코드가 짧아서 놀랐다.
 
 ```python
 print(bin(int(input(), 8)) [2:])
+```
+
+---
+
+### 📍 백준 1373 - 2진수 8진수
+<a href='https://www.acmicpc.net/problem/1373'>백준 1373 - 2진수 8진수</a>
+
+놀라울정도로 코드가 짧아서 놀랐다.
+
+```python
+print(oct(int(input(), 2)) [2:])
 ```
 
 ---
