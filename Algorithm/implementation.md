@@ -144,6 +144,7 @@ for i in range(3):
 
 ## 📍 백준 1152 - 단어의 개수
 <a href='https://www.acmicpc.net/problem/1152'>백준 1152 - 단어의 개수</a>
+
 주어진 문자열에서 단어의 개수를 찾고 싶을 때는 띄어쓰기를 기준으로 나누고 + 1을 해주면된다.
 
 예외상황으로 문자열의 제일 앞, 뒤는 `strip()` 함수를 사용해서 공백을 제거해준다.
@@ -163,6 +164,7 @@ else:
 
 ## 📍 백준 2675 - 문자열 반복
 <a href='https://www.acmicpc.net/problem/2675'>백준 2675 - 문자열 반복</a>
+
 시간복잡도를 최소화하기 위해 반복문도 최소화선언
 
 ```python
@@ -228,7 +230,34 @@ for _ in range(T):
 ```
 ---
 
+## 📍 백준 11721 - 열 개씩 끊어 출력하기
 
+<a href='https://www.acmicpc.net/problem/11721'>백준 11721 - 열 개씩 끊어 출력하기</a>
 
+for문에 몇 개씩 끊어 출력하도록 기준을 잡을 수 있다.
 
+```python
+# 내가 푼 코드
+import sys
+input = sys.stdin.readline
+s = input()
 
+for i in range(len(s)):
+    if i < 10:
+        print(s[i],end='')
+    elif i % 10 == 0:
+        print()
+        print(s[i], end='')
+    else:
+        print(s[i], end='')
+```
+
+```python
+# 다른 사람이 푼 코드
+import sys
+input = sys.stdin.readline
+s = input()
+
+for i in range(0, len(s), 10):
+    print(s[i:i+10])
+``````
