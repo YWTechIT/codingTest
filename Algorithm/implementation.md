@@ -143,6 +143,7 @@ for i in range(3):
 ---
 
 ## 📍 백준 1152 - 단어의 개수
+<a href='https://www.acmicpc.net/problem/1152'>백준 1152 - 단어의 개수</a>
 주어진 문자열에서 단어의 개수를 찾고 싶을 때는 띄어쓰기를 기준으로 나누고 + 1을 해주면된다.
 
 예외상황으로 문자열의 제일 앞, 뒤는 `strip()` 함수를 사용해서 공백을 제거해준다.
@@ -161,7 +162,9 @@ else:
 ---
 
 ## 📍 백준 2675 - 문자열 반복
+<a href='https://www.acmicpc.net/problem/2675'>백준 2675 - 문자열 반복</a>
 시간복잡도를 최소화하기 위해 반복문도 최소화선언
+
 ```python
 # 1번
 T = int(input())
@@ -186,6 +189,46 @@ for i in range(T):
 ```
 
 ---
+
+## 📍 백준 8958 - OX 퀴즈
+
+<a href='https://www.acmicpc.net/problem/8958'>백준 8958 - OX퀴즈</a>
+
+첫 번째 반복문이 종료되면, `cnt, sum` 변수들을 초기화시켜야한다.
+
+연속되는 숫자는 `sum+=1`, 연속되지 않는 숫자를 만나면 `cnt=1`로 초기화 시키기.
+
+```python
+'''
+5
+OOXXOXXOOO
+OOXXOOXXOO
+OXOXOXOXOXOXOX
+OOOOOOOOOO
+OOOOXOOOOXOOOOX
+'''
+
+import sys
+
+input = sys.stdin.readline
+T = int(input())
+
+for _ in range(T):
+    quiz = input()
+    cnt = 0
+    result = 0
+    for i in range(len(quiz)):
+        if quiz[i] == 'O':
+            cnt += 1
+            result += cnt
+        else:
+            cnt = 0
+    print(result)
+👉🏽 10 9 7 55 30
+```
+---
+
+
 
 
 
