@@ -145,6 +145,8 @@ for i in range(3):
 ## 📍 백준 1152 - 단어의 개수
 <a href='https://www.acmicpc.net/problem/1152'>백준 1152 - 단어의 개수</a>
 
+### ⚡️ 나의 풀이
+
 주어진 문자열에서 단어의 개수를 찾고 싶을 때는 띄어쓰기를 기준으로 나누고 + 1을 해주면된다.
 
 예외상황으로 문자열의 제일 앞, 뒤는 `strip()` 함수를 사용해서 공백을 제거해준다.
@@ -164,6 +166,8 @@ else:
 
 ## 📍 백준 2675 - 문자열 반복
 <a href='https://www.acmicpc.net/problem/2675'>백준 2675 - 문자열 반복</a>
+
+### ⚡️ 나의 풀이
 
 시간복잡도를 최소화하기 위해 반복문도 최소화선언
 
@@ -195,6 +199,8 @@ for i in range(T):
 ## 📍 백준 8958 - OX 퀴즈
 
 <a href='https://www.acmicpc.net/problem/8958'>백준 8958 - OX퀴즈</a>
+
+### ⚡️ 나의 풀이
 
 첫 번째 반복문이 종료되면, `cnt, sum` 변수들을 초기화시켜야한다.
 
@@ -234,6 +240,8 @@ for _ in range(T):
 
 <a href='https://www.acmicpc.net/problem/11721'>백준 11721 - 열 개씩 끊어 출력하기</a>
 
+### ⚡️ 나의 풀이
+
 for문에 몇 개씩 끊어 출력하도록 기준을 잡을 수 있다.
 
 ```python
@@ -260,4 +268,66 @@ s = input()
 
 for i in range(0, len(s), 10):
     print(s[i:i+10])
-``````
+```
+
+---
+## 📍 백준 1977 - 완전 제곱수
+
+<a href='https://www.acmicpc.net/problem/1977'>백준 1977 - 완전 제곱수</a>
+
+### ⚡️ 나의 풀이
+
+완전제곱수를 만들 때는 root만 계산하면 되는줄 알았는데, 반례가있기 때문에 다시 제곱을 취해줘야한다는것을 처음 알았다.
+
+그리고 root를 취할 때 `math.sqrt` 대신 `i ** 0.5`를 하면 간편하게 계산 할 수 있다. (이것도 처음 알았다.)
+
+>1. first = int(i ** 0.5)
+  * 처음 수를 root를 취하자(i^0.5)
+>2. second = first ** 2
+  * first에 다시 거듭제곱(i^2) 
+
+굳이 while문을 사용하지 않아도된다.
+만약, append값이 없으면 `( num == [] )`과 같이 사용한다.
+ 
+```python
+m = int(input())
+n = int(input())
+
+num = []
+for i in range(m, n+1):
+    root = int(i ** 0.5)
+    if i == root ** 2:num.append(i)
+
+if num == []:
+    print(-1)
+else:
+    print(f'{sum(num)}\n{min(num)}')
+```
+---
+## 📍 백준 4673 - 셀프 넘버
+
+<a href='https://www.acmicpc.net/problem/4673'>백준 4673 - 셀프넘버</a>
+
+### ⚡️ 나의 풀이
+
+int형을 str로 바꿔 계산하자. 
+조건에 n이 10000까지기 때문에 for문의 범위를 10001로 설정했다.
+
+문제를 풀다가 잘 안풀리면 곧장 포기하고 다른 방법으로 풀려는 경향이 있는데, 끈질기게 끝까지 매달리는 능력을 길러야겠다.
+
+```python
+def d(n):
+    result = 0
+    for i in str(n):
+        result = result + int(i)
+    return result + int(n)
+
+a=[]
+for j in range(1, 10001):
+    n = d(j)
+    a.append(n)
+
+for k in range(1,10001):
+    if k not in a:
+        print(k)
+```
