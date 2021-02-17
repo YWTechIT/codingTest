@@ -331,3 +331,31 @@ for k in range(1,10001):
     if k not in a:
         print(k)
 ```
+---
+
+## 📍 백준 2577 - 숫자의 개수
+
+<a href='https://www.acmicpc.net/problem/2577'>백준 2577 - 숫자의 개수</a>
+
+### ⚡️ 나의 풀이
+어제 풀었던 문제와 동일하게 입력 받은수를 `str`로 변환하여 풀면 되는 문제였다.
+`string.count()` 함수를 사용 할 생각을 안하고 또 `cnt+=1`로 풀려고해서 잠깐 먼 여정을 떠날 뻔 했다..😅
+
+비슷한 패턴이 떠올라 뒤져보던 찰나 `count()`함수가 떠올라서 작성했고 정답 판정을 받았다.
+
+기억하자! `str`형태면 `count()`를 사용할수 있다는것을...
+
+```python
+A = int(input())
+B = int(input())
+C = int(input())
+
+n = A*B*C
+
+for i in range(10):
+    print(str(n).count(str(i)))
+```
+---
+
+
+
