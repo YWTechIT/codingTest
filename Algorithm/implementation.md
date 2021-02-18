@@ -1,6 +1,36 @@
 ## implementation(구현)
 머릿속으로는 잘 떠오르지만 막상 코드로 작성하면 잘 떠오르지 않는 문제들
 
+## 💡 [21. 2. 18.]
+모든 케이스를 계산하는것이 완전탐색이다. 
+완전탐색을 사용하려면 먼저, 입력 조건을 살펴보자.
+일반적인 코딩테스트의 채점 환경에서 1초에 2,000만에서 1억정도의 연산처리가 가능하므로 그 전까지의 경우의 수는 완전탐색으로 살펴보자.
+
+---
+
+## 📍 list가 빈 배열인지 확인하는 코드
+```python
+a = []
+
+if len(a) == 0:
+    print(True)
+else:
+    print(False)
+```
+```python
+if not a:
+    print(True)
+else:
+    print(False)
+```
+```python
+if a == []:
+    print(True)
+else:
+    print(False)
+```
+---
+
 ## 📍 list를 str로 변환하기
 ```python
 array = ''.join([str(_) for _ in range(10)])
@@ -356,6 +386,46 @@ for i in range(10):
     print(str(n).count(str(i)))
 ```
 ---
+
+## 📍 2020 카카오 신입 공채 - 문자열 압축
+
+<a href='https://programmers.co.kr/learn/courses/30/lessons/60057?language=python3'>2020 카카오 신입 공채 - 문자열 압축</a>
+
+### ⚡️ 나의 풀이
+뭔가 지금까지 배웠던 문자열 개념들을 총 정리? 하는듯했다.
+어떤 코드는 다른 문제들을 풀 때 사용했던 코드를 가져온경우도 있다.
+이걸 풀고나서 이래서 많은 문제들을 풀어봐야하는구나 라는 생각이 들었다.
+
+문제를 이해하고 막상 풀려니까 코드로는 작성하기 어려웠다.
+이 문제는 <a href = 'https://www.youtube.com/watch?v=jaPH3GLbqfw&list=LL&index=9&t=636s'>유튜브 - 우리밋강의</a>님께서 설명하신대로 푸니까 이해가 잘 됐다.
+개인적으로 정규표현식은 잘 사용하지 않았는데, 정규표현식을 통해 문제를 푸니까 신기했다.
+나중에 비슷한 문제가 나왔을 때, 문자열을 n씩 쪼개는 코드는 정규표현식을 통해 간단하게 풀 수 있겠다.
+
+``````
+
+import re
+
+n = 'abcabcabcabcdededededede'
+result_count=[]
+for i in range(1, len(n) // 2 + 1):
+    reList = re.sub('(\w{%i})' % i, '\g<1> ', n).split()
+    cnt = 1
+    result = []
+    print(reList)
+    for j in range(len(reList)):
+        if j < len(reList) -1 and reList[j] == reList[j+1]:cnt+=1
+        else:
+            if cnt == 1:
+                result.append(reList[j])
+            else:
+                result.append(str(cnt) + reList[j])
+                cnt = 1
+    result_count.append(len(''.join(result)))
+print(min(result_count))
+
+
+
+
 
 
 
