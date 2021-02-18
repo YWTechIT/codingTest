@@ -8,6 +8,80 @@
 
 ---
 
+## 💡 1차원 배열을 입력만큼 회전
+
+```python
+# slicing 기법
+def rotate(arr, n):
+    if not arr:
+        return 0
+
+    N = len(n)
+    n %= N
+
+    left = [:-n]
+    right = [-n:]
+    return right + left
+
+print(rotate([1, 2, 3, 4, 5], 2))
+👉🏽 [3, 4, 5, 1, 2]
+```
+
+```python
+# for문을 사용한 기법
+def rotate(arr, n):
+    if not arr:
+        return 0
+
+    N = len(n)
+    new_arr = [0 for _ in range(N)]
+    n %= N
+
+    for i in range(N):
+        new_arr[(i % n) % N] = arr[i]
+    return new_arr
+    
+print(rotate([1, 2, 3, 4, 5], 2))
+👉🏽 [3, 4, 5, 1, 2]
+```
+---
+
+## 💡 2차원 배열 90도, 180도, 270도, 360도 회전
+```python
+def rotate(arr, n):
+    N = len(arr)
+    new_arr = [[0] * N for i in range(N)]
+
+    # 90도
+    if n % 4 == 1:
+        for i in range(N):
+            for j in range(N):
+                new_arr[j][N - 1 - i] = arr[i][j]
+    # 180도
+    elif n % 4 == 2:
+        for i in range(N):
+            for j in range(N):
+                new_arr[N - 1 - i][N - 1 - j] = arr[i][j]
+    # 270도
+    elif n % 4 == 3:
+        for i in range(N):
+            for j in range(N):
+                new_arr[N - 1 - j][i] = arr[i][j]
+    # 360도
+    else:
+        for i in range(N):
+            for j in range(N):
+                new_arr[i][j] = arr[i][j]
+    return new_arr
+
+arr = [[0, 0, 0], [1, 1, 1], [0, 0, 0]]
+print(rotate(arr, 1))
+```
+---
+
+
+---
+
 ## 📍 list가 빈 배열인지 확인하는 코드
 ```python
 a = []
@@ -38,7 +112,6 @@ char = ''.join([chr(i) for i in range(65, 71)])
 
 👉🏽 '0123456789'
 'ABCDEF'
-
 ```
 
 ---
@@ -401,30 +474,28 @@ for i in range(10):
 개인적으로 정규표현식은 잘 사용하지 않았는데, 정규표현식을 통해 문제를 푸니까 신기했다.
 나중에 비슷한 문제가 나왔을 때, 문자열을 n씩 쪼개는 코드는 정규표현식을 통해 간단하게 풀 수 있겠다.
 
-``````
-
+```python
 import re
 
-n = 'abcabcabcabcdededededede'
-result_count=[]
-for i in range(1, len(n) // 2 + 1):
-    reList = re.sub('(\w{%i})' % i, '\g<1> ', n).split()
-    cnt = 1
-    result = []
-    print(reList)
-    for j in range(len(reList)):
-        if j < len(reList) -1 and reList[j] == reList[j+1]:cnt+=1
-        else:
-            if cnt == 1:
-                result.append(reList[j])
+def solution(s):
+    result_count=[]
+    for i in range(1, len(n) // 2 + 1):
+        reList = re.sub('(\w{%i})' % i, '\g<1> ', n).split()
+        cnt = 1
+        result = []
+        print(reList)
+        for j in range(len(reList)):
+            if j < len(reList) -1 and reList[j] == reList[j+1]:cnt+=1
             else:
-                result.append(str(cnt) + reList[j])
-                cnt = 1
-    result_count.append(len(''.join(result)))
-print(min(result_count))
-
-
-
+                if cnt == 1:
+                    result.append(reList[j])
+                else:
+                    result.append(str(cnt) + reList[j])
+                    cnt = 1
+        result_count.append(len(''.join(result)))
+    print(min(result_count))
+```
+---
 
 
 
