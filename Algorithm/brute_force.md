@@ -10,6 +10,75 @@
 
 ---
 
+## 💡 1차원 배열을 입력만큼 회전
+
+```python
+# slicing 기법
+def rotate(arr, n):
+    if not arr:
+        return 0
+
+    N = len(n)
+    n %= N
+
+    left = [:-n]
+    right = [-n:]
+    return right + left
+
+print(rotate([1, 2, 3, 4, 5], 2))
+👉🏽 [3, 4, 5, 1, 2]
+```
+
+```python
+# for문을 사용한 기법
+def rotate(arr, n):
+    if not arr:
+        return 0
+
+    N = len(n)
+    new_arr = [0 for _ in range(N)]
+    n %= N
+
+    for i in range(N):
+        new_arr[(i % n) % N] = arr[i]
+    return new_arr
+    
+print(rotate([1, 2, 3, 4, 5], 2))
+👉🏽 [3, 4, 5, 1, 2]
+```
+---
+## 💡 2차원 배열 90도, 180도, 270도, 360도 회전
+```python
+def rotate(arr, n):
+    N = len(arr)
+    new_arr = [[0] * N for i in range(N)]
+
+    # 90도
+    if n % 4 == 1:
+        for i in range(N):
+            for j in range(N):
+                new_arr[j][N - 1 - i] = arr[i][j]
+    # 180도
+    elif n % 4 == 2:
+        for i in range(N):
+            for j in range(N):
+                new_arr[N - 1 - i][N - 1 - j] = arr[i][j]
+    # 270도
+    elif n % 4 == 3:
+        for i in range(N):
+            for j in range(N):
+                new_arr[N - 1 - j][i] = arr[i][j]
+    # 360도
+    else:
+        for i in range(N):
+            for j in range(N):
+                new_arr[i][j] = arr[i][j]
+    return new_arr
+
+arr = [[0, 0, 0], [1, 1, 1], [0, 0, 0]]
+print(rotate(arr, 1))
+```
+---
 ## 📍 [ 문제 ] 시간
 
 문제: 정수 `N`이 입력되면 00시 00분 00초부터 N시 59분 59초이하의 모든 시간 중 '3'이 포함되는 경우의 수를 찾아보세요.
@@ -48,3 +117,4 @@ for card in itertools.combinations(cards, 3):
         result = sum(card)
 print(result)
 ```
+---
