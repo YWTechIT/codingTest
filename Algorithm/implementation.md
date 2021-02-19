@@ -254,6 +254,12 @@ array = [i*i map(int, input().split())]
 print(sum(array)%10)
 ```
 ---
+## 📍 중복되는 문자열을 없앨 때(서로 다른 값이 몇 개 있는지 확인 할 때)
+```python
+arr = [int(input()) % 42 for i in range(10)]
+print(len(set(arr)))
+```
+---
 
 ## 📍 중복되는 문자열 정렬
 ```python
