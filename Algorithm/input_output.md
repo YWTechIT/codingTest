@@ -61,6 +61,36 @@ while True:
 쉽게 표현하고 싶으면 input_data = sys.stdin.readline()을 사용하여 코드를 간결하게 하자.
 
 ---
+## 📍 출력 형태
+```python
+# sep
+print('abcd8637', 'naver.com', sep='@')
+👉🏽 abcd8637@naver.com
+print('2021', '2', '21', sep='.')
+👉🏽 2021.2.21
+``` 
+
+```python
+# end
+print('%s' %('My name is'), end=' ')
+print('%s' %('Yeongwoo An'), end=' ')
+print('%s' %("What's your name?"))
+👉🏽 My name is Yeongwoo An What's your name?
+```
+
+```python
+# format
+print('{a} and {b}' .format(a='here', b='there'))
+print('{} 과 {}' .format(1, 2))
+print('{0} and {1} and {0}'. format(1,2))
+print("%s's number is %d" %('yeongwoo', 7) )
+👉🏽 here and there
+1 과 2
+1 and 2 and 1
+yeongwoo's number is 7
+```
+
+---
 
 ## 📍 원하는 만큼 입출력을 받고 싶을 때
 ```python
