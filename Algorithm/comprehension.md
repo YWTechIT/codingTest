@@ -8,6 +8,12 @@ python에는 총 4개의 comprehension이 있다.
 >3. dict comprehension(DC)
 >4. generator comprehension(GC)
 
+### ⚡️ comprehension 읽는 방법
+example: `[i for i in range(1, 11) if i % 2 == 0]`, `[i for i in array if i != '정']`
+>1. 1부터 10까지 범위 i가 if문을 지나서 최종적으로 맨 앞 i에 들어감.
+>2. array에서 꺼낸 i값이 '정'과 다르면 i로 출력해라.
+
+
 ### ⚡️ List Comprehension
 반복되거나 특정 조건을 리스트형으로 구현하고 싶을 때 주로 사용한다.
 
