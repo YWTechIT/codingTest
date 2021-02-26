@@ -220,9 +220,35 @@ elif n % 4 != 0:
 ```
 ---
 
-## 📍 입력마다 최대값을 갱신할 때
+## 📍 최소값 갱신하기
 ```python
+# 방법 1
+a = [15, 68, 77, 10, 3]
+min_number = a[0]
 
+for i in a:
+    if i < min_number:
+        min_number = i
+print(min_number)
+👉🏽 3
+
+# 방법 2
+a = [15, 68, 77, 10, 3]
+a = sorted(a)
+print(a[0])
+👉🏽 3
+
+# 방법 3
+a = [15, 68, 77, 10, 3]
+print(min(a))
+👉🏽 3
+
+```
+---
+
+## 📍 최대값 갱신하기
+```python
+# 방법 1
 max_index = 0
 index = 0
 
@@ -235,6 +261,26 @@ print(max_index)
 print(index)
 👉🏽 85
 8
+
+# 방법 2
+a = [15, 68, 77, 10, 3]
+max_number = a[0]
+
+for i in a:
+    if max_number < i:
+        max_number = i
+print(max_number)
+
+# 방법 3
+a = [15, 68, 77, 10, 3]
+a = sorted(a, reverse=True)
+print(a[0])
+👉🏽 77
+
+# 방법 4
+a = [15, 68, 77, 10, 3]
+print(max(a))
+👉🏽 77
 ```
 ---
 
