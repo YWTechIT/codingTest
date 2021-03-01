@@ -55,6 +55,34 @@ a.split()
 ```
 ---
 
+### 📍 특정 문자가 총 몇 번 나왔는지 cnt하기
+두가지 방법이 있음
+1. index를 추출
+2. range로 범위 설정 후 data[index]를 추출
+
+```python
+array = ['abcdefabcdefbacdef']
+
+cnt = 0
+
+# 방법 1
+for data in array:
+    for index in data:
+        if index == 'a':
+            cnt+=1
+print(cnt)
+👉🏽 3
+
+# 방법 2
+for data in array:
+    for index in range(len(data)):
+        if data[index] == 'M':
+            cnt+=1
+print(cnt)
+👉🏽 3
+```
+---
+
 ### 📍 [ 문제 1 ] 백준 1546 - 평균
 <a href='https://www.acmicpc.net/problem/1546'>백준 1546 - 평균</a>
 
