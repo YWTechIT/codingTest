@@ -312,3 +312,78 @@ for i in range(max_length):
 👉🏽 Aa0aPAf985Bz1EhCz2W3D1gk
 ```
 
+---
+### 📍 [ 문제 9 ] 백준 11656 - 접미사배열
+<a href='https://www.acmicpc.net/problem/11656'>백준 11656 - 접미사배열</a>
+
+### 💡 나의 풀이
+`list comprehension`으로 `result` 변수에 0부터 len(s)까지의 길이를 각각 슬라이싱에 대입했다.
+
+조건에 정렬도 붙어있어 `sort`를 해줬다.
+
+```python
+'''
+baekjoon
+'''
+s = input()
+
+result = [s[i:] for i in range(len(s))]
+result = sorted(result)
+
+for i in result:
+    print(i)
+👉🏽
+aekjoon
+baekjoon
+ekjoon
+joon
+kjoon
+n
+on
+oon
+```
+
+---
+### 📍 [ 문제 10 ] 백준 1764 - 듣보잡
+문제: <a href='https://www.acmicpc.net/problem/1764'>백준 1764 - 듣보잡</a>
+
+### 💡 나의 풀이
+처음에 입력을 `for i in range(n+m)`만큼 받으려고 했으나, 그렇게 되면 두개의 `array`에 대한 범위를 새로 설정을 해야하기 때문에 반복문을 2개로 나눠 설정했다.
+
+입력을 단순하게 `input()`으로 받아서 사용하니까 시간초과가 날뻔했다. `sys`라이브러리를 사용하자.
+>1. input(): 3840ms
+>2. sys.stdin.readline: 112ms
+
+또, `list comprehension` 중에 `strip()`코드를 사용하지 않으면 `출력 형식이 잘못되었습니다.`판정을 받으니까 붙여주도록 하자.
+
+이 문제의 핵심 코드는 `intersection(교집합)`인데, 두 개의 리스트 중 겹치는 원소를 출력하기 위해 사용했다.
+
+`intersection(교집합)`은 다음과 같이 2가지 방법으로 사용 할 수 있다. 
+이때, 주의 할 점은 `list`를 `set`형으로 형 변환을 해줘야한다.
+
+>1. set(s1) & set(s1)
+>2. s1.intersection(s2)
+
+마지막 출력에 해당개수를 출력하는 조건은 `len()`을 사용하면 쉽게 해결할 수 있다.
+(처음에 `cnt+=1`를 써야하나 헤맸는데, 이런 간편한 방법이...)
+
+```python
+import sys
+input = sys.stdin.readline
+
+n, m = map(int, input().split())
+
+listen = [input().strip() for i in range(n)]
+see = [input().strip() for j in range(m)]
+
+# 방법 1
+intersection = sorted(list(set(listen) & set(see)))
+
+# 방법 2
+intersection2 = sorted(list(set(listen).intersection(set(see))))
+
+print(len(intersection))
+
+for i in intersection:
+    print(i)
+```
