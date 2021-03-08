@@ -216,9 +216,14 @@ print(array)
 graph = []
 for i in range(n):
     graph.append(list(map(int, input())))
-```
----
 
+# 2차원 배열 comprehension으로 받기
+n = int(input())
+map = [list(map(int, input().split())) for i in range(n)]
+print(map)
+```
+
+---
 ## 📍 [list]형을 다른형으로 출력 할 때
 ```python
 a, x = map(int, input().split())
