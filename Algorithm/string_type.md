@@ -10,11 +10,45 @@ print(a)
 ```
 
 ---
+### 📍 문자열 한 글자씩 배열에 추가하기
+```python
+'''
+3 
+AAAA
+ABCA
+AAAA
+'''
+
+N = int(input())
+arr = [list(input()) for _ in range(N)]
+👉🏽 [['A', 'A', 'A', 'A'], ['A', 'B', 'C', 'A'], ['A', 'A', 'A', 'A']]
+```
+
+---
 ### 📍 문자 개수세기(count)
 ```python
 a = 'hobby'
 a.count('b')
 👉🏽 2
+```
+
+---
+### 📍 각 자리수의 문자열(str) 체크하기
+
+```python
+# isalpha(), isdigit()
+# int형 말고 str형에서만 사용 가능
+
+string = ['hello', '123']
+
+for i in string:
+    if i.isalpha():
+        print('alpha')
+    elif i.isdigit():
+        print('digit')
+👉🏽 
+alpha
+digit
 ```
 
 ---
