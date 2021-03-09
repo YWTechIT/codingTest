@@ -47,6 +47,11 @@ a = '12345'
 b = 'abc'
 result = ' '.join([i+j for i in a for j in b])
 👉🏽 1a 1b 1c 2a 2b 2c 3a 3b 3c 4a 4b 4c 5a 5b 5c
+
+# 8. 2차원 배열 한번에 받기
+n = int(input())
+map = [list(map(int, input().split())) for i in range(n)]
+print(map)
 ```
 ---
 
