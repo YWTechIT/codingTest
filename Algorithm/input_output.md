@@ -90,8 +90,16 @@ print("%s's number is %d" %('yeongwoo', 7) )
 yeongwoo's number is 7
 ```
 
----
+```python
+'''
+arr = [1, 2, 3, 4]
+'''
 
+print(*arr)
+👉🏽 1 2 3 4
+```
+
+---
 ## 📍 원하는 만큼 입출력을 받고 싶을 때
 ```python
 n, m = map(int, input().split())
@@ -187,6 +195,23 @@ for i in range(1, n+1):
 👉🏽 [0, 0, 1, 1, 2, 1]
 ```
 
+## 📍 정수와 배열이 한 줄로 들어오는경우
+```python
+'''
+4 10 20 30 40
+3 7 5 12
+3 125 15 25
+'''
+
+N, *arr = map(int, input().split())
+print(N)
+👉🏽 4
+
+print(*arr)
+👉🏽 10 20 30 40
+```
+
+---
 ## 📍 [ list ]에서 중복 값을 제거하기
 ```python
 array = [1, 2, 2, 3, 3, 3, 4, 5, 6]
@@ -224,7 +249,7 @@ print(map)
 ```
 
 ---
-## 📍 [list]형을 다른형으로 출력 할 때
+## 📍 [list]형을 string형으로 출력 할 때
 ```python
 a, x = map(int, input().split())
 result = list(map(int, input().split()))
@@ -263,27 +288,8 @@ if n % 4 == 0
 elif n % 4 != 0:
     print('4의 배수가 아닙니다.')
 ```
+
 ---
-
-## 📍 각 자리수의 문자열(str) 체크하기
-
-```python
-# isalpha(), isdigit()
-# int형 말고 str형에서만 사용 가능
-
-string = ['hello', '123']
-
-for i in string:
-    if i.isalpha():
-        print('alpha')
-    elif i.isdigit():
-        print('digit')
-👉🏽 
-alpha
-digit
-```
----
-
 ## 📍 원하는 튜플기준으로 출력하고 싶을 때
 ```python
 n = int(input())
