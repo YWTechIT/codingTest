@@ -16,6 +16,39 @@ print(last_index)
 ```
 
 ---
+## 📍 Swap
+두 변수의 값을 바꾸는 기능
+```python
+# 기존
+a = 'MyName'
+b = 'AYW'
+
+temp = a
+a = b
+b = temp
+👉🏽 AYW MyName
+
+# 향상
+a = 1
+b = 2
+
+a, b = b, a
+print(a, b)
+👉🏽 2 1
+```
+
+---
+## 📍 Packing
+하나의 변수에 여러 값을 할당하는 방법
+```python
+a, b, c = [1, 2, 3]
+d = a, b, c
+
+print(d)
+👉🏽 (1, 2, 3)
+```
+
+---
 ## 📍 Unpacking
 for문을 사용하지 않고도 iterable한 결과를 출력하고 싶을 때
 `tuple`, `set`형도 가능하다.
@@ -29,17 +62,6 @@ for i in array:
 
 print(*array)
 👉🏽 1 2 3 4 5
-```
-
----
-## 📍 Packing
-하나의 변수에 여러 값을 할당하는 방법
-```python
-a, b, c = [1, 2, 3]
-d = a, b, c
-
-print(d)
-👉🏽 (1, 2, 3)
 ```
 
 ---
@@ -64,3 +86,13 @@ print(dict(zip(fruits, name)))
 ```
 
 >reference: <a href='https://github.com/VSFe/Algorithm_Study/blob/main/Concept/00_Special/Pythonic_Code_For_Coding_Test.md'>VSfe_github</a>
+
+---
+## 📍 n번째 자리까지 무조건 출력하기
+
+```python
+# 소수점 넷째자리에서 반올림하여 무조건 소숫점 셋째 자리까지 출력 할 때.
+a, b = map(float, input().split())
+print('%.3f' %(a/b))
+👉🏽 2.000
+```
