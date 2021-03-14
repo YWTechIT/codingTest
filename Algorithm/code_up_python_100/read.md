@@ -214,3 +214,30 @@ for i in range(1, 16):
     print('%X*%X=%X' %(n, i, n*i))
 ```
 
+---
+<a href='https://codeup.kr/problem.php?id=6082'>코드업 6082 - 3 6 9 게임이 왕이 되자</a>
+
+`1부터 n+1`범위에서 `3, 6, 9`가 들어간 수가 있으면 `X`로 표현하는 문제인데, 2가지 방법으로 나눠서 풀었다.
+>1. i를 10으로 나눴을때의 나머지를 3, 6, 9로 설정할 때
+>2. i를 str()형으로 바꾸고 3, 6, 9를 포함할 때
+
+```python
+# 1번
+n = int(input())
+
+for i in range(1, n+1):
+    if i % 10 == 3 or i % 10 == 6 or i % 10 == 9:
+        print('X', end=' ')
+    else:
+        print(i, end= ' ')
+
+# 2번
+n = int(input())
+
+for i in range(1, n+1):
+    if '3' in str(i) or '6' in str(i) or '9' in str(i):
+        print('X', end=' ')
+    else:
+        print(i, end=' ')
+```
+
