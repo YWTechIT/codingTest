@@ -654,7 +654,7 @@ else:
 ```
 
 ---
-## 📍 코드업 2920 - 음계
+## 📍 코드업 6082 - 3 6 9 게임이 왕이 되자
 
 <a href='https://codeup.kr/problem.php?id=6082'>코드업 6082 - 3 6 9 게임이 왕이 되자</a>
 
@@ -684,7 +684,7 @@ for i in range(1, n+1):
 ```
 
 ---
-## 📍 코드업 2442 - 별 찍기 5
+## 📍 백준 2442 - 별 찍기 5
 
 <a href='https://www.acmicpc.net/problem/2442'>백준 2442 - 별 찍기5</a>
 
@@ -700,7 +700,7 @@ for i in range(1, n+1):
 ```
 
 ---
-## 📍 코드업 2445 - 별 찍기 8
+## 📍 백준 2445 - 별 찍기 8
 
 <a href='https://www.acmicpc.net/problem/2445'>백준 2445 - 별 찍기8</a>
 
