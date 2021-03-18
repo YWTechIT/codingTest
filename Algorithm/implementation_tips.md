@@ -96,3 +96,39 @@ a, b = map(float, input().split())
 print('%.3f' %(a/b))
 👉🏽 2.000
 ```
+
+---
+## 📍 원본 리스트에 중복된 숫자가 있는지 확인 할 때
+```python
+# 1. set형 중복확인
+import random
+
+n = int(input())
+A = random.sample(range(-n, n + 1), n)
+set_A = set(A)
+
+def check_string(n):
+    if len(A) > len(set_A):
+        return print('겹치는 원소가 존재합니다.')
+    else:
+        return print('겹치는 원소가 존재하지 않습니다.')
+
+check_string(A)
+
+# 2. 원소 하나씩 확인
+import random
+
+n = int(input())
+A = random.sample(range(-n, n + 1), n)
+A.sort()
+
+def check(n):
+    for i in range(len(A)):
+        if i < len(A) -1 and A[i] in A[i+1:]:
+            return '겹치는 원소가 존재합니다.'
+    else:
+        return '겹치는 원소가 존재하지 않습니다.'
+
+print(check(A))
+```
+
