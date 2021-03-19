@@ -132,3 +132,22 @@ def check(n):
 print(check(A))
 ```
 
+---
+## 📍 빈 리스트에 입력값을 바로 추가할 때
+```python
+'''
+3
+1
+2
+3
+'''
+import sys
+input = sys.stdin.readline
+N = int(input())
+data = [0] * N
+
+for i in range(N):
+    data[i] = int(input())
+print(data)
+👉🏽 [1, 2, 3]
+```
