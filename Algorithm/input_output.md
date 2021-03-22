@@ -230,6 +230,29 @@ array = [0] * n
 
 ## 📍 2차원 배열
 ```python
+# 풀어서 만들기
+list1 = []
+list2 = []
+value = 1
+
+for i in range(4):
+    for j in range(3):
+        list1.append(value)
+        value+=1
+    list2.append(list1)
+    list1 = []
+print(list2)
+👉🏽 [[1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12]]
+
+for i in list2:
+    for j in i:
+        print(j, end= ' ')
+        result += j
+    print()
+
+print(result)
+👉🏽 78
+
 # 3행 4열
 n = 3
 m = 4
