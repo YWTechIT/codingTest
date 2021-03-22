@@ -7,6 +7,21 @@
 2. 복잡한 코드(반복): `pypy3`가 우세
 
 ---
+## 📍 모든 대문자, 소문자, 대소문자, 숫자 가져오기
+```python
+import string
+
+print(string.ascii_lowercase)
+👉🏽 abcdefghijklmnopqrstuvwxyz
+print(string.ascii_uppercase)
+👉🏽 ABCDEFGHIJKLMNOPQRSTUVWXYZ
+print(string.ascii_letters)
+👉🏽 abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
+print(string.digits)
+👉🏽 0123456789
+```
+
+---
 ## 📍 list에서 첫번째, 마지막 값만 변수로 선언하기
 ```python
 array = [10, 20, 30, 40, 50]
@@ -72,7 +87,21 @@ print(*array)
 
 ---
 ## 📍 zip
-동일한 개수로 이루어진 자료형을 묶어주는 함수다
+동일한 개수로 이루어진 자료형을 묶어주는 함수다. 여러개의 `iterable`을 동시에 순회할 때 사용한다.
+
+```python
+# 각 리스트의 앞 정수만 출력해서 새로운 배열 만들기
+mylist = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+new_list = list(map(list, zip(*mylist)))
+👉🏽 [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
+
+# 각 리스트를 dict형태로 만들기
+animals = ['cat', 'dog', 'lion']
+sounds = ['meow', 'woof', 'roar']
+answer = dict(zip(animals, sounds))
+👉🏽 {'cat': 'meow', 'dog': 'woof', 'lion': 'roar'}
+```
+
 ```python
 fruits = ['alpha', 'bravo', 'charlie']
 name = [1, 2, 3]
@@ -80,7 +109,7 @@ name = [1, 2, 3]
 for f, n in zip(fruits, name):
     print(f, n)
 
-👉🏽alpha 1
+👉🏽 alpha 1
 bravo 2
 charlie 3
 
