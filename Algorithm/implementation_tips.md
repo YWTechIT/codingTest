@@ -186,3 +186,20 @@ for i in range(N):
 print(data)
 👉🏽 [1, 2, 3]
 ```
+
+---
+## 📍 자신은 제외하고 뽑을 때 
+```python
+numbers = [1, 2, 3, 4, 5]
+
+for i in range(len(numbers)):
+    for j in range(i+1, len(numbers)):
+        print(i, j,end=' ')
+    print()
+    
+👉🏽
+0 1 0 2 0 3 0 4 
+1 2 1 3 1 4 
+2 3 2 4 
+3 4 
+```
