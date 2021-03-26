@@ -203,3 +203,33 @@ for i in range(len(numbers)):
 2 3 2 4 
 3 4 
 ```
+
+---
+## 📍 max값의 자리수(index)를 찾을 때
+1. max값이 1개: index()
+   
+```python
+# 1. index()
+result = [1, 2, 3, 4]
+print(result.index(max(result)))
+👉🏽 3
+
+# 2. for()
+for i in range(len(result)):
+    if result[i] == max(result):
+        print(i)
+👉🏽 3
+```
+
+2. max값이 2개이상: for(), enumerate()
+```python
+result = [1, 7, 2, 3, 7, 7]
+
+# for()
+answer = [i for i in range(len(result)) if result[i] == max(result)]
+👉🏽 1 4 5
+
+# enumerate()
+answer = [idx for idx, v in enumerate(result) if v == max(result)]
+👉🏽 1 4 5
+```
