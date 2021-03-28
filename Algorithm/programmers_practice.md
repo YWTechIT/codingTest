@@ -157,3 +157,123 @@ def solution(s):
 def solution(s):
     return s.lower().count('p') == s.lower().count('y')
 ```
+
+---
+### 📌 완주하지 못한 선수
+`count`를 이용해서 풀려고 했지만, 정확도가 100% 나오지 않아 완벽하게 풀지 못했다.
+
+4가지 풀이 방법이 있다.
+>1. Counter
+>2. Hash
+>3. range(len())
+>4. zip()
+
+첫번째로 `Counter` 모듈을 선언해서 풀 수 있는데, `Counter`끼리는 더하거나 뺄 수 있다. 이번문제를 풀면서 처음 보는데 되게 유용한것 같다. 단 1줄로 답을 제출 할 수 있다 ~~(WOW)~~
+```python
+# Counter
+from collections import Counter
+def solution(participant, completion):
+    return str(*(Counter(participant) - Counter(completion)))
+```
+
+두번째는 `Hash`값을 이용하는건데, 제한사항에 `completion의 길이는 participant의 길이보다 1 작습니다.`처럼, 값이 무조건 1개가 나오기때문에 `temp`에 `hash`값을 누적해주고, 참가자 `hash`값을 빼주면 결과적으로 남는 `hash`값에 키를 붙여주면 누군지 알 수 있다.
+```python
+# Hash
+def solution(participant, completion):
+    hash_dic = {}
+    temp = 0
+
+    for part in participant:
+        hash_dic[hash(part)] = part
+        temp += hash(part)
+
+    for com in completion:
+        temp -= hash(com)
+
+    return hash_dic[temp]
+```
+
+세번째와 네번째는 푸는 방법이 비슷한데, 정렬해서 `index`를 하나씩 비교하다 다른 값이면 출력, 끝까지 돌았는데도 다른 값을 찾지 못했다면 `participant[-1]`을 출력하는 방법이다. 
+```python
+# range(len())
+def solution(participant, completion):
+    participant.sort()
+    completion.sort()
+
+    for i in range(len(participant) -1):
+        if participant[i] != completion[i]:
+            return participant[i]
+    return participant[-1]
+```
+
+---
+### 📌 전화번호 목록
+배열안에 한 번호가 다른 번호에 포함되어있으면 `False`를, 포함되어있지 않다면 `True`를 반환하는 문제다.
+
+### 💡 나의 풀이
+결론적으로 완벽한 해답을 찾지 못했다. 😅 😅
+
+첫번째는 현재값과 다음값을 비교하는 방법이었다.
+배열을 정렬`(sort)`하고 `if array[i] in array[i+1]`을 생각했는데 정확성에서 100% 답이 아니었다. 왜냐면 현재 번호가 포함되어있는 다음 번호에서도 자릿수가 다른 경우`(['11', '1211)`가 있을 수 있기 때문이다. `질문하기`를 보니까 예전에는 통과한 코드인데, `21.3.4.`부로 테스트 케이스가 변경되면서 더 이상 통과하지 않는 코드가 되었다.
+
+두번째는 해쉬(hash)값을 이용하는 방법이었다. 
+`for문`으로 값을 하나하나씩 불러와서 0부터 hash값을 누적했을 때 다음 hash값과 동일하면 `False`, 아니면 `True`를 생각했다.
+이때까지만 해도 `hash('119')`의 값과 `hash('11') + hash('9')`값은 동일하지 않을까?라고 생각했다. 왜냐면 문자열끼리 더하면 `'11'+9' = '119'`가 되니까... 지금 생각하면 엉뚱한 생각이지만, 문제 풀때까지만 해도 <span style='color:blue'>~~(와 나 천재?)~~ 라는 생각을 잠깐 했었다.</span>
+
+---
+다른 사람의 코드를 보고 잘 이해되는 코드가 2개 있었는데 다음과 같았다.
+> `zip + startswith`, `hash값`
+
+zip함수부터 살펴보면 풀이 방법은 다음과 같다.
+>1. array와 array[1:]를 선언한다.
+>2. 두개의 배열을 `정렬(sort)`시킨다.
+>2. `zip`으로 하나씩 비교하면서 `array[1:]` 현재값이 `array` 현재값으로 시작한다면 `False`, 아니면 `True`
+
+```python
+# zip
+def solution(phone_book):
+    phone_book.sort()
+
+    for prev, n in zip(phone_book, phone_book[1:]):
+        if n.startswith(prev):
+            return False
+    return True
+```
+
+hash함수는 다음과 같다.
+내가 풀려고 했던 두번째 방법과 비슷하지만, 조금 달랐는데 hash값을 더하는 대신 `key`값을 누적하면서 더했을 때 다른 값과 같은지 비교하는 방법이었다. 조금만 더 생각했으면 접근했을텐데 아쉬웠다.
+그리고 이 코드의 마지막 `if`조건문을 이해하는데 시간이 필요했다. 
+배열안에 여러개의 값이 들어있을 때 값을 찾으려면 배열안의 배열 그 자체를 하나의 원소로 취급하는데 어떻게 현재 값 `temp`가 다른 원소 `123`과 같을 수 있단 말인가?
+
+예를 들어 `phone_book`이 다음과 같을 때 현재 `temp`가 12면 값을 찾을 수 없는 상태가 아닌가?
+```python
+phone_book = { '123': 1, '1235': 1, '567': 1, '88': 1}
+current_value = '12'
+
+print(current_value in phone_book)
+👉🏽 False
+```
+
+그런데, 거꾸로 시야를 넓혀보면 금방 답을 찾을 수 있다.
+예를 들어, 현재 number는 `1235` 이고 현재 `temp`가 `123`이라고 생각하면 이때는 `temp in hash_dic`이 성립한다.
+앞 원소에만 집중한 나머지, 뒤의 `index`를 이용하여 `temp`를 만들 때 앞 `index`와 동일하다는것을 신경쓰지 못했다.
+
+```python
+# dict
+def solution(phone_book):
+    hash_dic = {}
+
+    for i in phone_book:
+        hash_dic[i] = 1
+    
+    for number in hash_dic:
+        temp = ''
+        for j in number:
+            temp += j
+
+            # temp가 현재 비교하려는 number와 같지않지만 다른 index에 존재할 때
+            if temp != number and temp in hash_dict: 
+                return False
+    return True
+```
+---
