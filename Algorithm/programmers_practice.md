@@ -20,6 +20,20 @@ arr(0)
 ```
 
 ---
+### 📌 unpacking, append 팁
+1. `unpacking` 변수를 반복문에도 선언 할 수 있다.(따로 선언하지 않아도 됨.)
+2. sorted 사용 후 원하는 변수를 append 한 줄에 쓸 수 있다.
+
+```python
+# 1번
+for i, j, k in commands:
+    result.append(sorted(array[i-1:j])[k-1])
+
+# 2번(comprehension)
+result = [sorted(array[i-1:j])[k-1] for i, j, k in commands]
+```
+
+---
 ### 📌 두 정수 사이의 합
 
 ### 💡 나의 풀이
@@ -293,4 +307,21 @@ def solution(phone_book):
                 return False
     return True
 ```
----
+
+------
+### 📌 2016년
+00월 00일처럼 날짜가 주어졌을 때 무슨요일인지 맞추는 문제이다.
+처음에 생각한 방법은 1일부터 31일까지 쭉 나열하고 7일이 되면 한바퀴를 다 돌기때문에 7로 나눈 나머지가 0, 1, ... 7이면 해당요일을 출력하는 방법을 떠올렸다.
+
+전체적인 방법은 벗어나지 않았지만, if문을 사용하지 않고 그냥 `요일[날짜]`처럼 작성하면 코드도 간결해진다.
+
+그리고 `1월`의 요일만 구하는게 아니라 `1월 ~ 12월`의 요일도 구해야하므로 months라는 변수를 선언해 1~12월의 요일들을 리스트에 선언했다. 구하려고 하는 달(month)은 그 전까지의 달(month)의 합과 일(day)을 더한 값에 %7을 해주면 해당 요일이 나온다.
+```python
+def solution(a, b):
+    months = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    days = ['FRI', 'SAT', 'SUN', 'MON', 'TUE', 'WED', 'THU']
+    
+    return days[(sum(month[:a-1]) + b-1) % 7]
+```
+
+
