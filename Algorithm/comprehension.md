@@ -73,6 +73,11 @@ not_vowel = ' '.join({i for i in word if i not in ['a', 'e', 'i', 'o', 'u']})
 info = {'name': 'AYW', 'age':27, 'height': 170}
 result = {key: value for key, value in info.items()}
 👉🏽 {'name': 'AYW', 'age': 27, 'height': 170}
+
+clothes = dict([["yellowhat", "headgear"], ["bluesunglasses", "eyewear"], ["green_turban", "headgear"]])
+hash_dic = {idx: val for idx, val in clothes.items()}
+👉🏽 {'yellowhat': 'headgear', 'bluesunglasses': 'eyewear', 'green_turban': 'headgear'}
+
 ```
 
 ---
