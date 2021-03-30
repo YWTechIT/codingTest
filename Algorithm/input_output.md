@@ -293,10 +293,17 @@ numbers = 222
 number = str(numbers)
 result = 0
 
+# 1번
 for i in range(len(number)):
     result = result + int(number[i])
 print(result)
 👉🏽 6
+
+# 2번
+return sum([int(i) for i in str(s)])
+
+# 3번
+return sum(list(map(int, str(s))))
 ```
 ---
 
