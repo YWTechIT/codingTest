@@ -233,3 +233,18 @@ answer = [i for i in range(len(result)) if result[i] == max(result)]
 answer = [idx for idx, v in enumerate(result) if v == max(result)]
 👉🏽 1 4 5
 ```
+
+---
+## 📍 sum을 표현하는 3가지 방법
+```python
+# 1.
+result = 0
+for i in range(1, 10+1):
+    result += i
+
+# 2.
+result = sum(i for i in range(1, 10+1))
+
+# 3.
+result = sum(range(1, 10+1))
+```
