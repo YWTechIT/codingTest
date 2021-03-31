@@ -534,3 +534,62 @@ def solution(n):
 
 print(solution(626331))
 ```
+
+---
+### 📌 제일 작은 수 제거하기
+`arr`에서 가장 작은 수를 제거한 배열을 리턴하는 함수를 완성하라.
+단, 리턴하려면 배열이 빈 배열일 경우 `[-1]`을 리턴하라.
+
+### 💡 나의 풀이
+가장 작은 수를 제거할 때는 다음과 같은 방법이 있다.
+>1. `sorted`함수로 오름차순 / 내림차순으로 정렬한 뒤 맨 앞 / 뒤 원소를 제거하기
+>2. `min`함수로 제일 작은 값을 찾아 해당 원소만 제거(remove)하기
+
+문제에서는 n의 범위가 주어지지 않았지만, 시간복잡도를 고려해서 2번으로 선택했다.
+`sorted`함수의 시간복잡도는 `O(NlogN)`이고, `max/min` 함수의 시간복잡도는 `O(N)`이기 때문이다.
+<a href='https://wiki.python.org/moin/TimeComplexity'>자료구조 별 시간복잡도: 파이썬 공식문서</a>
+
+`remove`함수는 원소 제거 후 `empty`면 빈 배열을 반환한다.
+
+다른사람은 `comprehension`으로 구현했는데 `i`는 제일 작은 원소보다 큰 값만 리스트로 리턴하게 짰다.
+또, `return [] or -1`의 코드는 `True`값을 `return`하게 되어있는데, 이는 `빈 배열([])`은 `False`이고 `-1`은 `True`이기 때문이다. 
+
+글을 작성하다가 다시 한번 풀어보니까 가장 작은 값이 중복되는 케이스 (`[1, 1, 2, 3]`)는 내 코드가 틀렸다는것을 알 수 있다. 이때는 다른사람의 코드가 정답이 되므로 예외케이스도 꼭 생각해서 풀어야겠다.
+
+```python
+# 내 코드
+def solution(arr):
+    arr.remove(min(arr))
+
+    if not arr:
+        return [-1]
+    return arr
+
+# 다른사람의 코드
+def solution(arr):
+    return [i for i in arr if i > min(arr)] or [-1]
+```
+
+---
+### 📌 하샤드 수
+양의 정수 x가 x의 자릿수의 합으로 x가 나누어져야 하는 문제이다.
+예를 들어 18의 자릿수 합은 1+8=9이고, 18은 9로 나누어 떨어지므로 18은 하샤드 수입니다. 
+
+### 💡 나의 풀이
+이전에 풀었던 `자릿수 더하기`와 `제일 작은 수 제거하기` 문제와 비슷한 방식으로 접근하면 되는데, 마지막에 `x % harshad == 0`으로 떨어지면 `True`를 리턴하면 된다.
+
+다른사람의 코드를 보며 배운점은 `return x % harshad == 0`의 코드는 `harshad`이 0이면 `True`, 아니면 `False`를 반환하는 간결한 코드이다.
+
+```python
+# 내 코드
+def solution(x):
+    harshad = sum(list(map(int, str(x))))
+    if x % harshad == 0:
+        return True
+    return False
+
+# 다른사람의 코드
+def solution(x):
+    return x % sum(list(map(int, str(x)))) == 0
+```
+
