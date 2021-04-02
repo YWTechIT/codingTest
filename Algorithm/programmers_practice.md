@@ -705,3 +705,57 @@ def solution(num):
 def solution(num):
     return num % 2 == 0 and 'Even' or 'Odd'
 ```
+
+---
+### 📌 휴대폰 번호 가리기
+전화번호의 뒷 4자리를 제외한 나머지 숫자를 전부 `*`으로 가린 문자열을 리턴하는 함수를 완성해주세요.
+
+### 💡 나의 풀이
+처음에 든 생각은 `for range(len))`문을 사용하려고 했는데, 가독성을 위해 `enumerate`로 수정했다. 하지만, 한 줄로 작성한 나의 코드마저 다른 사람의 코드에 비해서는 긴 코드였다.
+
+`s[0:-4]`까지는 `*`로 정해져있으니까 그것을 유지한채 나머지 s[-4:]만큼만 떼서 가져오면 됐었는데 문제풀때는 왜 생각이 안 났을까😓 😓
+
+```python
+# 내 코드
+def solution(ㄴ):
+    return ''.join(['*' if idx < len(s)-4 else val for idx, val in enumerate(s)])
+
+# 다른사람의 코드 
+def solution(s):
+    return '*' * (len(s)-4) + s[-4:]
+```
+
+---
+### 📌 이상한 문자 만들기
+각 단어의 짝수번째 알파벳은 대문자로, 홀수번째 알파벳은 소문자로 바꾼 문자열을 리턴하는 함수를 완성하세요.
+
+1. 문자열 전체의 짝/홀수 인덱스가 아니라, 단어(공백을 기준)별로 짝/홀수 인덱스를 판단해야합니다.
+2. 첫 번째 글자는 0번째 인덱스로 보아 짝수번째 알파벳으로 처리해야 합니다.
+
+### 💡 나의 풀이
+`s.split(' ')`의 중요성을 깨닫게 해준 문제였다. 각 단어는 <span style='color:blue'>하나 이상</span>의 공백문자라고 했는데, 문제를 간과하고 `s.split()`만 사용해서 정답률이 `31%`로 나왔었다.
+
+`for ~ in range(len))`, `for ~ in enumerate` 중 내가 쓰기 편한 코드인 `enumerate`를 사용했다. 
+
+다른사람은 내가 작성한 코드를 한 줄로 표현했다. 
+이 코드를 한 줄로 표현하니까 코드가 길어져서 나는 눈에 잘 들어오지 않았는데 가독성이 괜찮은가? 
+👇🏽 댓글로 의견을 남겨주세요!! 👇🏽
+
+```python
+# 내 코드
+def solution1(s):
+    s = s.split(' ')
+    result = ''
+    for word in s:
+        for idx, value in enumerate(word):
+            if idx % 2 == 0:
+                result += value.upper()
+            else:
+                result += value.lower()
+        result += ' '
+    return result[:-1]
+
+# 다른사람의 코드
+def solution(s):
+    return ' '.join([''.join([value.upper() if idx % 2 == 0 else value.lower() for idx, value in enumerate(word)]) for word in s.split()])
+```
