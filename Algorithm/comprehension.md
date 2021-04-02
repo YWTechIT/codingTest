@@ -52,6 +52,10 @@ result = ' '.join([i+j for i in a for j in b])
 n = int(input())
 map = [list(map(int, input().split())) for i in range(n)]
 print(map)
+
+# 9. 람다표현식
+arr = list(map(lambda x: x+10, [1, 2, 3]))
+
 ```
 ---
 
