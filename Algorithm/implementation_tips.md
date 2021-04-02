@@ -7,9 +7,67 @@
 2. 복잡한 코드(반복): `pypy3`가 우세
 
 ---
+## 📍 단락평가(Short Circuit Evaluation)
+논리연산에서 코드의 앞만 보고 값을 정할 수 있는 경우 뒤에 나타나는 코드는 분석하지 않고도 값을 결정하는 방법을 뜻하는데,
+쉽게 말하면 어떤 논리연산자(`and`, `or`)가 오느냐에따라 비교대상이 달라진다는 의미이다.
+이전에 프로그래머스 `level-1` 문제를 풀고 다른사람의 코드를 볼 때 궁금했던 코드가 있었다.
+
+예를 들면, `return 10 % 2 == 0 and 'even' or 'odd'`와 같은 코드인데, 이 코드를 한번에 해석할 수 있다?!라고 하면 이 글을 넘겨도 된다.
+하지만, 모르는 사람도 있기에 간략하게나마 작성하려 한다. (자세한 내용은 <a href='https://dojang.io/mod/page/view.php?id=2192'>코딩도장</a>의 강의를 듣자.)
+
+결론적으로 `and`, `or`연산자가 있을 때 단락평가는 다음과 같다.
+>1. `A and B`: A가 `True`면 뒤의 값을 반환하고, A가 `False`면 앞의 값을 반환한다.
+>2. `A or B`: A가 `True`면 앞의 값을 반환하고, A가 `False`면 뒤의 값을 반환한다. 
+
+내용이 확 와닿지 않는가? 그럼 다음 사진을 보자. 다음 사진은 `and`와 `or`의 진리표이다.
+두 진리표를 보면 규칙을 찾을 수 있는데, 
+>1. `and`: 앞이 `False`면 뒤는 쳐다보지않고 그대로 앞의 값(`False`)을 출력한다. 반면에 앞이 `True`면 뒤의 값을 분석해야하기 때문에 뒤의 값을 출력한다.
+>2. `or`: 앞이 `True`면 뒤는 쳐다보지않고 그대로 뒤의 값(`True`)를 출력한다. 반면에 앞이 `False`면 뒤의 값을 분석해야하기 때문에 뒤의 값을 출력한다.
+
+보통 `숫자, 숫자`와 같은 값들은 비교하기 쉬운데 `숫자, 문자` 혹은 `문자, 숫자` 등 섞여있는 형들은 한눈에 비교하기가 쉽지 않다.
+다음의 문제를 보고 답이 무엇인가 곰곰이 생각해보자. 해답은 코드 밑을 드래그해보자! 
+
+
+```python
+# 1. and
+print('python' and 'JS')
+print('python' and 0)
+print(0 and 'python')
+print(0 and False)
+
+# 2. or
+print('python' or 'JS')
+print('python' or 0)
+print(0 or 'python')
+print(0 or False)
+
+# 3. arr or -1
+arr = []
+print(arr or -1)
+
+arr = [1]
+print(arr or -1)
+```
+
+정답은 다음과 같다.
+1. 'JS'
+2. 0
+3. 0
+4. 0
+5. 'python'
+6. 'python'
+7. 'python'
+8. False
+9. -1
+10. [1]
+
+지금까지 단락평가에 대해서 짧게 배워봤다.
+이를 토대로 프로그래머스 문제 풀 때 잘 써먹을 수 있을 것 같다.
+
+---
 ## 📍 모든 대문자, 소문자, 대소문자, 숫자 가져오기
 ```python
-import string
+import stringx
 
 print(string.ascii_lowercase)
 👉🏽 abcdefghijklmnopqrstuvwxyz
