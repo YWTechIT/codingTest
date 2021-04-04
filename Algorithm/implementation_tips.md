@@ -65,6 +65,19 @@ print(arr or -1)
 이를 토대로 프로그래머스 문제 풀 때 잘 써먹을 수 있을 것 같다.
 
 ---
+## 📍 dictionary max key, min key 가져오기
+`max(arr, key= arr.get)`, `min(arr, key= arr.get)`
+
+```python
+info_dict = {'bob': 20, 'tony': 15, 'suzy': 30,  "mario": 100}
+
+print(max(info_dict, key= info_dict.get))
+👉🏽 mario
+print(min(info_dict, key= info_dict.get))
+👉🏽 tony
+```
+
+---
 ## 📍 모든 대문자, 소문자, 대소문자, 숫자 가져오기
 ```python
 import stringx
