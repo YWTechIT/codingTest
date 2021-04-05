@@ -759,3 +759,75 @@ def solution1(s):
 def solution(s):
     return ' '.join([''.join([value.upper() if idx % 2 == 0 else value.lower() for idx, value in enumerate(word)]) for word in s.split()])
 ```
+
+---
+### 📌 최대공약수와 최소공배수
+두 수를 입력받아 두 수의 최대공약수와 최소공배수를 반환하는 함수, solution을 완성해 보세요.
+
+### 💡 나의 풀이
+최대공약수와 최소공배수의 문제는 `유클리드 호제법(Euclidean algorithm)`을 이용하면 간단하게 해결 할 수 있다.
+
+<a href='https://ko.wikipedia.org/wiki/유클리드_호제법'>유클리드 호제법(Euclidean algorithm)의 정의</a>는 다음과 같다.
+
+<span style='color:blue'>2개의 자연수(또는 정식) a, b에 대해서 a를 b로 나눈 나머지를 r이라고 하면(단, a>b), a와 b의 최대공약수는 b와 r의 최대공약수와 같다.</span>
+
+다음 사진과 같은 과정을 거치면 손쉽게 `최대공약수(GCD)`를 구할 수 있는데, `최대공배수(LCM)`는 처음 `a * b`값에 `GCD`로 나눠주면 된다.
+
+![](https://images.velog.io/images/abcd8637/post/f415ae3f-21af-4236-855d-79723ed33e77/KakaoTalk_Photo_2021-04-05-09-17-39.jpeg)
+
+이 문제의 팁을 작성하자면 `최소공배수`를 구할 때 처음 입력받은 `a`와 `b`값이 필요하므로 다른곳에 저장했다가 나중에 사용하자.
+
+그렇지 않으면, `a`와 `b`값이 바뀌게 된다.
+
+또, 유클리드 호제법으로 문제를 풀 때는 a가 b보다 커야한다는 조건이 있으므로 a에는 `max`값을, b에는 `min`값을 주도록 하자.
+
+```python
+def solution(a, b):
+    x, y = max(a, b), min(a, b)
+
+    while y:
+        x %= y
+        x, y = y, x
+    return [x, a*b // x]
+```
+
+---
+### 📌 최대공약수와 최소공배수
+정수 x와 자연수 n을 입력 받아, x부터 시작해 x씩 증가하는 숫자를 n개 지니는 리스트를 리턴하는 함수를 만드시오.
+
+제한 조건
+1. x는 -10000000 이상, 10000000 이하인 정수입니다.
+2. n은 1000 이하인 자연수입니다.
+
+### 💡 나의 풀이
+x가 -10000000 이상, 10000000이하인 정수이므로, 계산 방법을 양수일 때, 음수일 때로 나눴다.
+
+또, 이 문제는 `while`, `range`로 풀 수 있는데, 코드를 짧게 만들고 싶어 한 줄로 요약하려다가 실패하고 `while`문으로 풀었다.(그냥 양수, 음수별로 나눠서 `range`로 작성했으면 더 짧았을 텐데...)
+
+1. `while`: 기존 `number = number + x`의 값을 누적하는 방식이다. 한 사이클이 돌면 `cnt`를 증가시키고 `cnt가 n보다 크거나 같을 때` 종료하는 과정이다.
+2. `range`: x가 양수 혹은 음수일때로 나눠서 작성했다. `range`의 세번째 파라미터에서 `step(x)`만큼 증가하는 코드가 특징이다.
+3. `range`: `등차수열`의 특징을 이용했고, `공차(n)`만큼 곱해주었다.
+
+```python
+# while로 작성한 코드
+def solution1(x, n):
+    number, result = x, []
+    cnt = 0
+    while cnt < n:
+        result.append(number)
+        number += x
+        cnt += 1
+    return result
+
+# range로 작성한 코드
+def solution2(x, n):
+    if x > 0:
+        return list(range(x, x*n+1, x))
+    else:
+        return list(range(x, x*n-1, x))
+
+# 다른사람의 코드
+def solution3(x, n):
+    return [i*x for i in range(1, n+1)]
+```
+
