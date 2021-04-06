@@ -368,3 +368,27 @@ for name in array:
 장보고 이순신 문성공 (내림차순)
 ```
 ---
+
+---
+## 📍 sorted(key = lambda) 사용
+우선순위
+
+1. 식별자를 제외한 문자열 모두를 검사한다.
+2. 그럼에도 불구하고 문자열 모두가 동일하다면 식별자를 기준으로 정렬한다.
+
+```python
+logs = ["dig1 8 1 5 1", "let1 art can", "dig2 3 6", "let2 own kit dig", "let3 art zero"]
+
+def solution(logs):
+    letters, digits = [], []
+
+    for i in logs:
+        if i.split()[1].isdigit():
+            digits.append(i)
+        else:
+            letters.append(i)
+
+    letters = sorted(letters, key= lambda x: (x.split()[1:], x.split()[0]))
+
+    return letters + digits
+```
