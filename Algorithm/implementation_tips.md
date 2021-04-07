@@ -65,6 +65,20 @@ print(arr or -1)
 이를 토대로 프로그래머스 문제 풀 때 잘 써먹을 수 있을 것 같다.
 
 ---
+## 📍 자릿수 만큼 0채우기
+주어진 자릿수 만큼 이진수의 값에 0을 채우기
+
+```python
+# 7번째 자리까지 출력
+n = 7
+
+print('{0:>0{1:}}'.format(int(bin(9)[2:]), n))
+print(bin(9)[2:].zfill(n))
+print('0'*(n-len(bin(9)[2:])) + bin(9)[2:])
+👉🏽 0001001
+```
+
+---
 ## 📍 dictionary max key, min key 가져오기
 `max(arr, key= arr.get)`, `min(arr, key= arr.get)`
 
@@ -90,6 +104,31 @@ print(string.ascii_letters)
 👉🏽 abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
 print(string.digits)
 👉🏽 0123456789
+```
+
+---
+## 📍 람다식을 사용한 간편한 식
+1. 2개의 배열을 zip함수를 사용하여 비트or연산하기
+   
+```python
+# 5자리수까지 출력
+n = 5
+arr1 = [1, 2, 3, 4, 5]
+arr2 = [5, 6, 7, 8, 9]
+
+arr = list(map(lambda x: x[0] | x[1], zip(arr1, arr2))
+arr = list(map(lambda x: bin(x)[2:].zfill(n), arr))
+```
+
+---
+## 📍 반복문을 두번 돌아야할 때 한번만 돌기
+```python
+result = []
+for i in arr:
+    i = i.replace('1', '#')
+    i = i.replace('0', ' ')
+    result.append(i)
+print(result)
 ```
 
 ---
