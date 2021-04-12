@@ -905,10 +905,108 @@ def solution(n, arr1, arr2):
     return result
 ```
 
+---
+### 📌 실패율
+<a href='https://programmers.co.kr/learn/courses/30/lessons/42889'>문제 설명</a>
 
+### 💡 나의 풀이
+처음 문제를 풀면서 다음과 같은 방법을 떠올렸다.
+1. 반복문이 진행될 때마다 전체 `len`의 값이 `count`만큼 줄어들어야 하므로 `stages`를 `sort`해주고 `pop`으로 `i`값을 빼주기: 실패
+2. 이중 반복문을 사용해서 첫번째 순서를 제외한 나머지 순서는 다음과 같이 선언하기 `arr.count(i) / len(arr) - 이전 count(i)`: 실패
+3. 이전 `count`로 반복문이 끝나기 전에 전체 `len`을 빼주기: 성공
 
+결과적으로 3번째 방법으로 풀어서 맞았는데, 1번과 2번 방법으로 1시간 넘게 고민하다가 기운이 다 빠져버렸다. 😅 😅
 
+그리고 반례를 생각하지 않아서 `1, 6, 7, 9, 13, 23, 24, 25번` 테스트케이스에서 오답판정을 받았다.
+혹시라도 저 테스트케이스에서 오답판정을 받았다면 다음 테스트케이스를 실행해보자! `N = 5, stages = [3, 1, 2, 2, 2]` 
 
+힌트는 다음과 같다.(하단 드래그!)
+`마지막 stages`에서 0명의 사용자가 지원했으므로 분모가 0이 된다. 따라서, 아직 마지막 `stages`가 끝나지도 않았는데 더 이상 나눌 값이 없다면...? 어떻게 처리를 해줘야 할까? 한번 생각해보자.
 
+3번을 이용하여 풀었던 자세한 방법은 다음과 같다.
+1. 전체 `stages`를 변수로 선언해준다.(한 반복문이 끝날 때마다 이전 `count`값을 빼줘야 하기 때문이다.)
+2. 반복문에서 현재 i값을 key로, `스테이지에 도달했으나 아직 클리어하지 못한 플레이어의 수 / 스테이지에 도달한 플레이어 수`를 value로 선언해준다.
+3. 전체 `stages`에서 `스테이지에 도달했으나 아직 클리어하지 못한 플레이어의 수`를 빼주자.
 
+여기까지 진행하게되면, 다음과 같은 출력을 볼 수 있다.
+`{1: 0.125, 2: 0.42857142857142855, 3: 0.5, 4: 1.0, 5: 0}`
 
+왜 결과 값을 `리스트`로 하지않고 `딕셔너리`로 선언했는지 궁금할 수도 있을텐데, 실패율이 높은 `stage`부터 내림차순으로 정렬해야하기 때문이다. 
+즉, 일반적인 수의 큰값과 작은값을 기준으로 오름차순 / 내림차순을 하는게 아니라, 실패율을 기준으로 정렬해야하기때문에 `key:value`형태인 딕셔너리로 선언했다.
+
+이제 `value`값을 기준으로 정렬하는데 내 방식은 이랬다.
+`return list(dict(sorted(stages_dic.items(), key=lambda x: x[1], reverse=True)).keys())`
+1. `stages_dic`의 `item` 중 `value`값을 기준으로 정렬한다.
+2. `sorted`는 자동으로 `list`로 반환해주기 때문에 `dict`으로 바꾸고 그 중 `key`값을 반환한다.
+3. return 값이 `list`이므로 `list`를 붙여준다.
+
+다른 사람의 코드는 다음과 같이 선언할 수 있다.
+`return sorted(stages_dic, key = lambda x: stages_dic[x], reverse = True)`
+1. 딕셔너리에서 `sorted`를 사용하면 `key`를 기준으로 정렬하는데 람다함수를 사용해서 `stages_dic[x]` 즉, `value`를 기준으로 정렬한다.
+  * 우리가 딕셔너리 `value` 값에 접근하기위해서 `dic['key']`를 사용하는것과 같은 원리다.
+
+두번째코드가 더 간편해보인다. 기억했다가 나중에 써먹어야겠다.
+
+```python
+# 나의 코드
+def solution(N, stages):
+   stages_dic = {}
+   stages_len = len(stages)
+
+    for i in range(1, N+1):
+        if stages_len == 0:
+            stages_dic[i] = 0
+        else:
+            stages_dic[i] = stages.count(i) / stages_len
+        stages_len -= stages.count(i)
+
+    return list(dict(sorted(stages_dic.items(), key=lambda x: x[1], reverse=True)).keys())
+
+# 다른사람의 코드
+def solution(N, stages):
+   stages_dic = {}
+   stages_len = len(stages)
+
+    for i in range(1, N+1):
+        if stages_len == 0:
+            stages_dic[i] = 0
+        else:
+            stages_dic[i] = stages.count(i) / stages_len
+        stages_len -= stages.count(i)
+
+    return sorted(stages_dic, key = lambda x: stages_dic[x], reverse = True)
+```
+
+---
+### 📌 소수만들기
+<a href='https://programmers.co.kr/learn/courses/30/lessons/12977'>문제 설명</a>
+
+### 💡 나의 풀이
+풀이 방법은 다음과 같다.
+
+1. `nums`에 있는 숫자들 중 서로 다른 3개를 고른다: `combination(3, nums)`
+2. 각각의 `combination`을 모두 더한 후 소수 판별과정을 거친다.
+3. 소수가 맞으면 `cnt +=1`
+4. 반복문이 끝나면 `return cnt`
+
+처음에 `break`를 사용해야할지, `continue`를 사용해야할지 헷갈렸다. 
+결론적으로 `sum(i)`를 j로 나눌 때 한번이라도 0으로 나누어떨어지는 값이 나오면 해당 반복문을 더 이상 실행하지 않아야 다음 `sum(i)`로 넘어가기때문에 `break`를 사용했다. `continue`를 사용하면 다음 `sum(i)`값을 불러오는 것이 아닌, 다음 j값을 불러오게 된다.
+
+여기서 중요한 문법은 `for - else`문법인데, `j`가 반복문 끝까지 돌았는데 `break`에 걸리는것이 없다면, `cnt+=1`을 하게 작성했다.
+같은 반복문 안에서만 사용가능한 것이 아니라, 밖에서도 사용가능한점 숙지하자.
+
+```python
+from itertools import combinations
+
+def solution(nums):
+    result = [sum(i) for i in combinations(nums, 3)]
+    cnt = 0
+    
+    for i in result:
+        for j in range(2, i//2+1):
+            if i % j == 0:
+                break
+        else:
+            cnt+=1
+    return cnt
+```
