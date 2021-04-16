@@ -70,7 +70,7 @@ def check_VPS(data):
             else:
                 result.pop()
     
-    if len(result) == 0:
+    if not result:
         print('YES')
     else:
         print('NO')
