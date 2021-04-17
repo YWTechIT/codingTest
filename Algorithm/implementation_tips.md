@@ -65,9 +65,13 @@ print(arr or -1)
 이를 토대로 프로그래머스 문제 풀 때 잘 써먹을 수 있을 것 같다.
 
 ---
-
-## 📍 
-
+## 📍 정수의 각 자리수를 제곱하기
+```python
+def solution(n):
+    return sum([int(i) ** 2 for i in str(n)])
+print(solution(57))
+👉🏽 74
+```
 
 ---
 ## 📍 자릿수 만큼 0채우기
