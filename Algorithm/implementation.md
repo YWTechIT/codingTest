@@ -735,3 +735,95 @@ for j in range(n-1, 0, -1):
     print(('*'*j) + ' '*(n-j) + ' '*(n-j) + ('*'*j))
 ```
 
+---
+## 📍 백준 20053 - 최소, 최대 2
+
+<a href='https://www.acmicpc.net/problem/20053'>백준 20053 - 최소, 최대2</a>
+
+## ⚡️ 나의 풀이
+주어진 테스트 케이스만큼 `while`문을 사용하여 각 케이스마다 입력을 받아 최소, 최대 값을 출력하게 만들었다.
+
+```python
+import sys
+input = sys.stdin.readline
+T = int(input())
+
+while T:
+    N = int(input())
+    arr = list(map(int, input().split()))
+    print(min(arr), max(arr))
+    T -= 1
+```
+
+---
+## 📍 백준 5597 - 과제 안 내신 분..?
+
+<a href='https://www.acmicpc.net/problem/5597'>백준 5597 - 과제 안 내신 분..?</a>
+
+## ⚡️ 나의 풀이
+두 가지 방법으로 풀었는데
+1. 입력값을 `list`로 만들어 반복문을 선언하고 해당 i가 전체 범위인 `students`안에 있는지 확인하고 없는 값들을 출력하게 만들었다.
+2. 전체범위와 입력값을 모두 `set`형으로 선언한뒤 서로 빼주고 `sorted`했다. 
+
+문제를 자세히 보면 `제출하지 않은 학생의 출석번호 중 가장 작은 것`을 출력하라고 되어있는데, 문제 의도는 1번보다는 2번 코드에 더 가깝다고 볼 수 있다. 왜냐하면 `sorted`를 사용해서 작은 수부터 출력하기 때문이다.
+
+```python
+# case 1
+students = list(range(1, 31))
+report = [int(input()) for i in range(28)]
+print('\n'.join(map(str, [i for i in students if i not in report])))
+
+# case 2
+students = list(range(1, 31))
+report = sorted(int(input()) for i in range(28))
+result = set(students) - set(report)
+print('\n'.join(map(str, sorted(result))))
+```
+
+---
+## 📍 백준 20546 - 🐜 기적의 매매법 🐜
+
+<a href='https://www.acmicpc.net/problem/20546'>백준 20546 - 🐜 기적의 매매법 🐜</a>
+
+## ⚡️ 나의 풀이
+문제가 생각보다 긴데, 다른 알고리즘 개념은 필요하지 않고 `구현`에 집중한 문제다.
+`solved.ac`에서는 `브론즈 2`라고 나와있는데, 나의 구현 실력은 아직 🥉 인가보다.. 푸는데 꽤 시간이 걸렸다.
+구현문제를 많이 풀어보면서 감을 익혀야겠다.
+
+준현이와 성민이의 변수를 각각 선언했다. 준현이의 경우는 조금만 생각하면 금방 구할 수 있는데, 성민이의 경우 `3일 연속 전일 대비 상승, 하락` 부분이 힘들었다. 이 부분을 잘 구현하면 쉽게 풀 수 있는 문제다.
+
+각각의 계산 방법들을 알아보자.
+1. 준현: 주식을 살 수 있다면 즉시 매수하기 때문에 현재 `j_cash`가 `i`보다 큰지 확인하고 크다면 새로운 변수 `j_stock`에 `j_cash // i`값을 누적시킨다. 주식을 사고 남은 잔돈(나머지(%))은 이전에 갖고있던 `j_cash`에 누적시킨다.
+2. 성민: 인덱스 3개를 동시에 비교해서 전일대비상승과 전일대비하락을 나눈다. 전일대비상승이면 전량 매도하기 때문에 `현재 주식 가격 * 보유 주식 수`을 남은 현금에 누적시켜주고 반대로 전일대비하락이면 전량 매수하기 때문에 현재 보유 주식에 `남은 현금 // 현재 주식가격`을 해주고 남은 잔돈에 `주식을 구매한 나머지`를 누적시켜주면 된다.
+
+```python
+input_money = int(input())
+machine_duck = list(map(int, input().split()))
+
+j_cash, s_cash = input_money, input_money    # init current cash
+j_stock, s_stock = 0, 0    # init current stock
+
+for i in machine_duck:    # calculate joonhyun
+    if j_cash >= i:
+        j_stock += j_cash // i
+        j_cash %= i
+
+for i in range(len(machine_duck) - 3):    # calculate sungmin
+    if machine_duck[i] > machine_duck[i+1] > machine_duck[i+2]:    # Decreased compared to the previous day (All buy)
+        s_stock += s_cash // machine_duck[i+3]
+        s_cash %= machine_duck[i+3]
+
+    elif machine_duck[i] < machine_duck[i+1] < machine_duck[i+2]:    # Increased compared to the previous day (All sell)
+        s_cash += s_stock * machine_duck[i+3]
+        s_stock = 0
+
+j_asset = [j_cash + (machine_duck[-1] * j_stock)]    # joonhyun profit rate
+s_asset = [s_cash + (machine_duck[-1] * s_stock)]    # seongmin profit rate
+
+if j_asset > s_asset:
+    print('BNP')
+elif j_asset < s_asset:
+    print('TIMING')
+else:
+    print('SAMESAME')
+```
