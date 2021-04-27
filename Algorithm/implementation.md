@@ -1,3 +1,10 @@
+## difference of python 3.5 to 3.6
+1. f-strings : 새로운 종류의 문자열 리터럴 사용가능
+2. keep order dict: 딕셔너리 순서 유지 
+
+reference: <a href='https://docs.python.org/3/whatsnew/3.6.html'> python 공식문서 </a>
+
+---
 ## implementation(구현)
 머릿속으로는 잘 떠오르지만 막상 코드로 작성하면 잘 떠오르지 않는 문제들
 
