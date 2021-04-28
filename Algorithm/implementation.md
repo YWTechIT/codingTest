@@ -1,6 +1,7 @@
 ## difference of python 3.5 to 3.6
 1. f-strings : 새로운 종류의 문자열 리터럴 사용가능
 2. keep order dict: 딕셔너리 순서 유지 
+3. defaultdict: python 3.3부터 사용가능
 
 reference: <a href='https://docs.python.org/3/whatsnew/3.6.html'> python 공식문서 </a>
 
@@ -833,4 +834,102 @@ elif j_asset < s_asset:
     print('TIMING')
 else:
     print('SAMESAME')
+```
+
+---
+## 📍 백준 1453 - 피시방 알바
+
+<a href='https://www.acmicpc.net/problem/1453'>백준 1453 - 피시방 알바</a>
+
+## ⚡️ 나의 풀이
+`defaultdict(int)`를 선언하고 `arr`의 인덱스들을 하나씩 더해줬다. 그리고 마지막에 `lambda x: x-1`을 사용해서 전체 1씩 빼주고 `sum`을 사용했다.
+그런데, 다른 사람의 풀이를 보니까 이렇게 어렵게 구현하지 않아도 풀 수 있는 문제였다. 전체 범위를 `False`처리 해두고 해당 `index`가 들어오면 `True`처리, 이후에도 또 들어오면 `cnt+=1`을 해줬다.
+
+```python
+# 나의 풀이
+import sys
+from collections import defaultdict
+input = sys.stdin.readline
+
+n = int(input())
+arr = list(map(int, input().split()))
+computer = defaultdict(int)
+
+for i in range(len(arr)):
+    computer[arr[i]] += 1
+
+print(sum(map(lambda x: x-1, computer.values())))
+
+# 다른 사람의 풀이
+n = int(input())
+arr = list(map(int, input().split()))
+check = [False] * 101
+
+cnt = 0
+for i in arr:
+    if check[i]:
+        cnt +=1
+    else:
+        check[i] = True
+print(cnt)
+```
+
+---
+## 📍 백준 1924 - 2007
+
+<a href='https://www.acmicpc.net/problem/1924'>백준 1924 - 2007</a>
+
+## ⚡️ 나의 풀이
+날짜 맞추는 문제다. <a href='https://ywtechit.tistory.com/9'>저번에</a> 풀었는데 오랜만에 풀려니까 까먹었다.
+중간에 날짜를 7로 나눈 나머지를 구하는 것과 `array`에 전체 매 달을 넣고 구하는것까지는 기억이 났는데, 그 이후에는 기억이 나지 않았다.
+
+1. 구해야하는 달 이전 달(x-1)까지값을 더하고(sum) 구해야하는 일(y)을 더한다.
+2. 전체 값을 7로 나눠주고 나머지값을 `days`에 붙여준다.
+3. 문제에 1월 1일이 월요일이라고 나와있어 `days[1]`부터 `MON`을 작성했다.
+
+```python
+x, y = map(int, input().split())
+
+months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
+
+print(days[(sum(months[:x-1])+y) % 7])
+```
+
+
+---
+## 📍 백준 14467 - 소가 길을 건너간 이유1
+
+<a href='https://www.acmicpc.net/problem/14467'>백준 14467 - 소가 길을 건너간 이유1</a>
+
+## ⚡️ 나의 풀이
+이번에도 `defaultdict`를 이용해서 풀었다. 
+
+1. 1번부터 10번까지 빈 리스트를 선언한다.
+2. 소의 위치를 빈 리스트에 추가한다.
+3. `cnt`는 2번 이상 움직인 소부터 증가하기때문에 해당 값만 따로 빼냈다.
+4. `1에서 0`으로 이동한 소 혹은 `0에서 1`로 이동한 소만 `cnt`를 증가하게 설정했다. 예제입력을 보면 소가 `1 -> 0 -> 1` 이렇게 이동하지 않고 `1 -> 0 -> 0 -> 1` 혹은 `0 -> 1 -> 1 -> 0`으로 이동했기때문에 바로 다음칸의 원소를 확인하는 코드로 작성해도 오답판정이 안 나는것 같다.
+
+```python
+from collections import defaultdict
+
+n = int(input())
+cows = defaultdict(list)
+
+for i in range(1, 11):    # 1번부터 10번까지 빈 리스트 선언
+    cows[i] = []
+
+for i in range(n):
+    cows_num, cows_move = map(int, input().split())
+    cows[cows_num].append(cows_move)    # 소의 위치 추가
+
+cow_moves = [i for i in cows.values() if len(i) >= 2]    # 2번이상 움직인 소 꺼내기    
+
+cnt = 0
+for i in range(len(cow_moves)):
+    result = cow_moves[i]
+    for j in range(len(result) - 1):
+        if (not result[j] and result[j + 1]) or (result[j] and not result[j + 1]):    # 1 -> 0, 0 -> 1로 이동한 소만 cnt 증가
+            cnt += 1
+print(cnt)
 ```
