@@ -64,6 +64,15 @@ print(arr or -1)
 지금까지 단락평가에 대해서 짧게 배워봤다.
 이를 토대로 프로그래머스 문제 풀 때 잘 써먹을 수 있을 것 같다.
 
+
+---
+## 📍 가장 큰 value, 큰 value를 갖는 key찾기
+```python
+dic = {'a':0, 'b':1, 'c':2}
+print(max(dic.values()))
+print(max(dic.keys(), key=lambda x: a[x]))
+```
+
 ---
 ## 📍 2차원 행렬에서 90도 회전하기
 ```python
