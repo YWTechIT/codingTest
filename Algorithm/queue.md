@@ -55,3 +55,84 @@ while len(cards) > 1:
 
 print(''.join(map(str, cards)))
 ```
+
+---
+## 📌 백준 1158 - 요세푸스 문제
+<a href='https://www.acmicpc.net/problem/1158'>문제 설명</a>
+
+## 💡 나의 풀이
+요세푸스 문제는 `연결리스트(linkedList)`로 풀 수 있는 전형적인 문제이지만 `큐(queue)`를 사용해서도 풀 수 있다. 
+
+1. k번째의 사람들이 계속해서 제거되어야하므로 cnt를 0으로 초기화한다.
+2. `len(arr)`이 0이될때까지 제일 앞에있는 수가 제일 뒤로 이동하면서 순환한다.
+3. 한번 순환 할때마다 `cnt`가 1씩 누적된다.
+4. 만약, `cnt`가 `k-1`와 같다면 다음 사람이 제거되야하므로 해당 수를 `stack`에 추가한다.(인덱스는 0부터세므로 `k-1`로 선언했다.)
+5. `stack`으로 빠졌다면 다시 0부터 카운트한다.
+
+그럴싸한 로직이다. 하지만, 이대로 제출하면 실행시간이 비약적으로 높게나온다.
+
+그래서 다음 제거할 사람의 인덱스를 찾을 때 `(k-1) mod N번` 포인터를 누적하는 방법을 사용했다. 이 방법을 사용하면 실행시간이 단축된다.
+
+```python
+# 나의 코드(cnt)
+import sys
+from collections import deque
+input = sys.stdin.readline
+
+n, k = map(int, input().split())
+arr = deque(range(1, n + 1))
+stack = []
+cnt = 0
+
+while arr:
+    if cnt == k-1:
+        stack.append(arr.popleft())
+        cnt = 0
+    else:
+        arr.append(arr.popleft())
+        cnt += 1
+
+print(f"<{', '.join(map(str, stack))}>")
+```
+
+```python
+# 다른사람의 코드(k-1 mod N)
+import sys
+input = sys.stdin.readline
+
+n, k = map(int, input().split())
+arr = list(range(1, n + 1))
+stack = []
+cnt = 0
+
+while arr:
+    cnt = (cnt+(k-1)) % len(arr)
+    stack.append(arr.pop(cnt))
+
+print(f"<{', '.join(map(str, stack))}>")
+```
+
+---
+## 📌 백준 10773 - 제로
+<a href='https://www.acmicpc.net/problem/10773'>문제 설명</a>
+
+## 💡 나의 풀이
+1. 빈 리스트를 선언한다.
+2. 입력이 0이면 `pop`, 아니면 리스트에 추가한다.
+3. 남은 값들을 모두 더한다.
+
+```python
+import sys
+input = sys.stdin.readline
+
+n = int(input())
+stack = []
+
+for _ in range(n):
+    recent = int(input())
+    if not recent:
+        stack.pop()
+    else:
+        stack.append(recent)
+print(sum(stack))
+```
