@@ -80,3 +80,59 @@ for i in range(n):
     parenthesis = input()
     check_VPS(parenthesis)
 ```
+
+---
+
+## 📍 백준 10828 - 스택
+문제: <a href='https://www.acmicpc.net/problem/10828'>백준 10828 - 스택</a>
+
+## 💡 나의 풀이
+3개월 전 이 문제를 봤을 때는 못 풀었는데 지금은 풀게 된 문제다. 그때는 왜 기능별로 함수를 만드는지 몰랐었는데... ~~(추억 돋음)~~
+
+문제풀이는 다음과 같다.
+1. 각 기능별로 함수를 만든다.
+2. n만큼 입력을 받는데, 입력이 함수의 이름에 포함이되면 해당 함수를 실행시킨다.
+
+참고로 함수안에 `if, else`문을 사용해도 되는데 `else`를 빼고 `return`문을 집어넣었다. `if`문 지나 조건을 통과하지못한 기능만 남아 자연스럽게 `return`을 만나기 때문이다. 또, `push` 값은 `split()`으로 나눠 `[1]`번째를 사용하면 된다.
+
+```python
+import sys
+input = sys.stdin.readline
+
+n = int(input())
+
+stack = []
+def push(x):
+    stack.append(x)
+
+def pop():
+    if not stack:
+        return -1
+    return stack.pop()
+
+def size():
+    return len(stack)
+
+def empty():
+    if not stack:
+        return 1
+    return 0
+
+def top():
+    if not stack:
+        return -1
+    return stack[-1]
+
+for _ in range(n):
+    command = input().split()
+    if 'push' in command:
+        push(command[1])
+    elif 'top' in command:
+        print(top())
+    elif 'size' in command:
+        print(size())
+    elif 'empty' in command:
+        print(empty())
+    else:
+        print(pop())
+```
