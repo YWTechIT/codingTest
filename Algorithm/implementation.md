@@ -986,4 +986,26 @@ for i in range(T):
     arr = list(map(int, input().split()))
     arr.sort()
     print(arr[-3])
-````
+```
+
+---
+## 📍 백준 2167 - 2차원 행렬의 합
+
+<a href='https://www.acmicpc.net/problem/2693'>백준 2693 - N번째 큰 수</a>
+
+## ⚡️ 나의 풀이
+```python
+n, m = map(int, input().split())
+arr = [list(map(int, input().split())) for _ in range(n)]
+memo = [[0] * (m+1) for _ in range(n+1)]
+
+for i in range(1, n+1):
+    for j in range(1, m+1):
+        memo[i][j] = arr[i-1][j-1] + memo[i][j-1] + memo[i-1][j] - memo[i-1][j-1]
+
+k = int(input())
+
+for _ in range(k):
+    i, j, x, y = map(int, input().split())
+    print(memo[x][y] - memo[x][j-1] - memo[i-1][y] + memo[i-1][j-1])
+```
