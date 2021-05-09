@@ -1009,3 +1009,34 @@ for _ in range(k):
     i, j, x, y = map(int, input().split())
     print(memo[x][y] - memo[x][j-1] - memo[i-1][y] + memo[i-1][j-1])
 ```
+
+
+s = ['d', 'm', 'i', 'h']
+cursor = len(s) + 1
+
+for i in range(11):
+    command = input().split()
+    if 'L' in command:
+        cursor -= 2
+        if cursor <= -abs(len(s)):
+            cursor = -abs(len(s)-1)
+        print(cursor)
+    elif 'D' in command:
+        cursor += 2
+        if cursor > len(s)+1:
+            cursor = len(s)+1
+    elif 'B' in command:
+        s.remove(s[cursor-2])
+        cursor-=2
+        if cursor <= -abs(len(s)):
+            cursor = -abs(len(s)-1)
+        print(s)
+        print(cursor)
+    elif 'P' in command:
+        if cursor == -abs(len(s)-1):
+            s.insert(0, command[1])
+        else:
+            s.insert(cursor, command[1])
+
+        print(s)
+        print(cursor)
