@@ -379,9 +379,83 @@ for i in range(2, n):
 print(d[n - 1])
 ```
 
+## 📌 백준 2167 - 2차원 배열의 합
 
+[문제 설명](https://www.acmicpc.net/problem/2167)
 
+---
 
+## 💡 나의 풀이
 
+시간 복잡도를 줄여주는 `구간 합(prefix_sum)`으로 구하면 쉽게 풀 수 있는 문제인데, 지금까지 [1차원 배열의 구간합](https://ywtechit.tistory.com/78?category=930709)만 해봤어서 2차원 배열 일 때 어떻게 사용해야 하는지 방법을 잘 몰랐었다.
 
+1차원 배열에서 누적 합을 어떻게 구했었는지 한번 살펴보자. `누적 합` -> `구간 합` 순서로 살펴볼 것이다.
 
+1.  누적 합 구하기  
+    누적합을 구현하는 방법은 2가지가 있다. `append`방법과 `memoization`방법인데, 기억이 잘 안 난다면 다음 코드를 살펴보자. `arr = [10, 20, 30, 40, 50]`은 고정이다.
+
+```python
+arr = [10, 20, 30, 40, 50]
+
+# append
+value = 0
+append_sum = [0]
+
+for i in arr:
+    value += i
+    append_sum.append(value)
+
+print(append_sum)
+👉🏽 [0, 10, 30, 60, 100, 150]
+
+# memoization
+memo_sum = [0] * (len(arr)+1)
+
+for i in range(1, len(arr)+1):
+    memo_sum[i] = arr[i-1] + memo_sum[i-1]
+    
+print(memo_sum)
+👉🏽 [0, 10, 30, 60, 100, 150]
+```
+
+두 방식의 차이점은 누적합 배열 전체를 0으로 선언했는지 안 했는지 차이고, 나머지는 기존 `arr`의 값에 내가 구하려고하는 값 이전까지 누적합을 더하는 방식인데 다음 사진을 보면 이해가 될 것이다.
+
+![](https://images.velog.io/images/abcd8637/post/6dd69d08-b148-4fff-843e-b1c141d414c1/KakaoTalk_Photo_2021-05-10-11-32-50.jpeg)
+
+이제 2차원 배열에서의 누적합을 구해보자. 1차원 배열에서는 방금 같은 과정으로 데이터를 선형적인 방향으로 저장할 수 있지만, 2차원 배열은 행과 열 모두 생각해야 한다. 그래서 `memoization` 방법을 사용했다. 
+
+문제에서 제시된 2차원 배열 `3*4`형태인 `[[1, 2, 4], [8, 16, 32]]`를 기준으로 생각해보자. 1차원 배열 \[0\] 번째에 더미 데이터(dummy\_data) 0을 준 것처럼 2차원 배열에서도 첫 번째 행과 첫 번째 열에 더미 데이터인 0을 주자. 
+
+예를 들어 memo\[1\]\[1\]을 구하려면 `arr[0][0] - memo[0][1] - memo[1][0] + memo[0][0]`을 해주면 되고, memo\[2\]\[2\]를 구하려면 `arr[1][1] - memo[1][2] - memo[2][1] + memo[1][1]`을 해주면 된다.
+
+마지막에 `memo[1][1]`을 더해주는 이유는 앞에서 2번을 중복해서 뺐기 때문에 더해준 것이다. 
+
+![](https://images.velog.io/images/abcd8637/post/a49146b1-85d9-45de-a2e1-de4fb41d7924/KakaoTalk_Photo_2021-05-10-11-32-58.jpeg)
+
+2.  구간 합 구하기
+
+1차원배열에서 구간 합은 현재 구하려고 하는 값 - 이전까지의 값 중 구하려는 값을 제외한 부분으로 나타낼 수 있다. 그럼 2차원 배열에서는 어떻게 구할까? 1번에서 누적 합을 구한 것처럼 행과 열 모두 생각해줘야 하는데 다음 사진처럼 나타 낼 수 있다. 중요한 것은 중복되는 부분을 더해주는 것이다.
+
+![](https://images.velog.io/images/abcd8637/post/cc09f91d-b6b5-4074-a838-483c4ee266c2/KakaoTalk_Photo_2021-05-10-11-32-54.jpeg)
+
+1번과 2번과정을 통틀어 헷갈리지 말아야 하는점은 누적합은 중복된 부분을 빼주고 구간 합은 중복된 부분을 더하는 것이다.
+
+설명이 길었지만 코드는 단순하다.
+
+```python
+import sys
+input = sys.stdin.readline
+
+n, m = map(int, input().split())
+arr = [list(map(int, input().split())) for _ in range(n)]
+memo = [[0] * (m+1) for _ in range(n+1)]
+
+for i in range(1, n+1):
+    for j in range(1, m+1):
+        memo[i][j] = arr[i-1][j-1] + memo[i][j-1] + memo[i-1][j] - memo[i-1][j-1]
+
+k = int(input())
+for _ in range(k):
+    i, j, x, y = map(int, input().split())
+    print(memo[x][y] - memo[i-1][y] - memo[x][j-1] + memo[i-1][j-1])
+```
