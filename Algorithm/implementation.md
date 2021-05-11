@@ -1024,3 +1024,69 @@ days = ["Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Monday", "Tues
 D, M = map(int, input().split())
 print(days[(sum(months[:M-1]) + D) % 7])
 ```
+
+---
+## 📍 백준 5598 - 카이사르 암호
+
+<a href='https://www.acmicpc.net/problem/5598'>백준 5598 - 카이사르 암호</a>
+
+## ⚡️ 나의 풀이
+내가 풀었던 하드코딩 방식보다는 다른 사람이 푼 방식이 조금 더 괜찮아보였다.
+
+1. `key`에 1부터 26까지 `value`에 알파벳을 `dict`에 선언한다.
+2. 알파벳 문자를 3개씩 건너뛰는데 다른 문자는 상관없지만 `A`, `B`, `C`는 `index_error`가 발생한다.
+3. 따라서, 입력중에 `A`, `B`, `C`가 포함되어있으면 `X`, `Y`, `Z`로 출력한다.
+
+```python
+# 내가 작성한 코드
+s = input()
+x = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+alphabet = {}
+for i in range(1, 27):
+    alphabet[i] = x[i-1]
+
+temp = ''
+for i in s:
+    if i == 'A' or i == 'B' or i == 'C':
+        temp += alphabet[ord(i)-41]
+    else:
+        temp += alphabet[ord(i)-67]
+        
+print(temp)
+```
+
+## ⚡️ 다른사람의 풀이
+문자열 슬라이싱을 이용한 코드
+
+1. `index` 함수를 사용하여 `s`에서 입력문자가 몇번째에 위치해있는지 가르킨다.
+2. 해당값에 `-3`을 해준다. (알파벳 문자를 3개씩 건너뛴다는 규칙)
+3. 입력 중에 `A`, `B`, `C`가 나오면 음수가 되는데 슬라이싱에서 음수는 문자열 제일 뒤의 값을 출력하기 때문에 자연스럽게 `X`, `Y`, `Z`와 매칭된다.
+
+```python
+# .index를 사용한 코드
+s = input()
+x = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+temp = ''
+
+for i in s:
+    temp += x[x.index(i)-3]
+
+print(temp)
+```
+
+정석적인 풀이방법
+
+1. 알파벳을 `ASCII`코드로 변경하는 `ord()`에 `-68`을 빼준다.(65를 빼주면 1부터 매칭되지만 카이사르 암호는 `D`부터 시작하기 때문에 3을 더 빼줘서 1이 `D`부터 시작된다.)
+2. `A`, `B`, `C`는 음수 처리되기 때문에 알파벳 대문자의 총 개수 26으로 나눠준다.
+3. `A`, `B`, `C`는 `X`, `Y`, `Z`와 매칭되어야하므로 65를 더해준다.(`A: 88, B: 89, C: 90, D: 65...`)
+
+```python
+s = input()
+x = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+temp = ''
+for i in s:
+    temp += chr(((ord(i) - 68) % 26) + 65)
+
+print(temp)
+```
