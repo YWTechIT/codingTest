@@ -1010,33 +1010,17 @@ for _ in range(k):
     print(memo[x][y] - memo[x][j-1] - memo[i-1][y] + memo[i-1][j-1])
 ```
 
+---
+## 📍 백준 2948 - 2009년
 
-s = ['d', 'm', 'i', 'h']
-cursor = len(s) + 1
+<a href='https://www.acmicpc.net/problem/2948'>백준 2948 - 2009년</a>
 
-for i in range(11):
-    command = input().split()
-    if 'L' in command:
-        cursor -= 2
-        if cursor <= -abs(len(s)):
-            cursor = -abs(len(s)-1)
-        print(cursor)
-    elif 'D' in command:
-        cursor += 2
-        if cursor > len(s)+1:
-            cursor = len(s)+1
-    elif 'B' in command:
-        s.remove(s[cursor-2])
-        cursor-=2
-        if cursor <= -abs(len(s)):
-            cursor = -abs(len(s)-1)
-        print(s)
-        print(cursor)
-    elif 'P' in command:
-        if cursor == -abs(len(s)-1):
-            s.insert(0, command[1])
-        else:
-            s.insert(cursor, command[1])
+## ⚡️ 나의 풀이
+저번에 풀었던 <a href='https://ywtechit.tistory.com/84'> 2007년</a>과 동일한 유형이다. 다만, 문제에 윤년이라고 주어져있지 않기때문에 2월은 28일로 생각하고 풀면 된다.
 
-        print(s)
-        print(cursor)
+```python
+months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+days = ["Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Monday", "Tuesday"]
+D, M = map(int, input().split())
+print(days[(sum(months[:M-1]) + D) % 7])
+```
