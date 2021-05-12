@@ -117,4 +117,71 @@ for card in itertools.combinations(cards, 3):
         result = sum(card)
 print(result)
 ```
+
 ---
+## 📍 백준 2231 - 분해합
+
+<a href='https://www.acmicpc.net/problem/2231'>백준 2231 - 분해합</a>
+
+## ⚡️ 나의 풀이
+언젠가 백준의 단계별 문제풀이에서 이 문제를 봤었는데 그때는 이해가 안돼서 그냥 넘겨버렸다. 이번엔 집중해서 문제를 잡았더니 풀 수 있었는데 `시간단축`하는 방법은 끝내 찾지못했다. 브루트포스의 문제는 보통 범위가 `1,000,000`으로 주어진 경우가 많다. 코딩테스트 볼 때 범위가 `1,000,000`이라면 브루트포스를 의심해보자!
+
+총 3번에 걸쳐서 풀었고, 첫번째는 `시간 초과`, 두번째는 성공이지만 시간이 많이 걸렸다. 세번째는 다른사람의 코드 중 시간최적화했던 부분을 가져왔다.
+
+1. 입력을 받는다.
+2. `target`의 분해합을 구하기위해 해당 값을 `str`로 바꾸고 각 자리수를 모두 더해준 값을 `temp`에 넣어준다.
+3. 현재 i값과 `temp`를 더한 값을 `result`로 초기화시킨다.
+4. 만약 `result` 값이 `target`과 동일하다면? 해당 값은 생성자다. 
+5. 반복문을 모두 돌았는데도 생성자가 없다면 0을 출력한다. (for - else 구문)
+
+이렇게 정답판정을 받았는데 `1376 m/s`이 걸렸다. 실행시간이 생각보다 길어서 최적화가 필요해보였다. 반복문의 시작범위를 줄이면 될것같은데, 어떻게 줄여야할지 감이 오지 않았다.
+
+시간최적화하는 방법은 다음과 같다.
+1. 분해합은 `N과 N의 각 자리수의 합`이다.
+2. 반대로, 생성자를 구하려면 분해합을 구하는 과정 중 N은 놔두고 N의 각 자리수의 합만 빼주면 되는데, 어떤 수가 나올지 모르니까 각 자리수에 나올 수 있는 최대 수(0~9)인 9를 빼주면 된다.
+3. 그대로 적용하게 되면 `N이 0~9`가 나올때는 `음수`가 나온다. 따라서 절댓값(`abs`)을 씌워주자.
+
+![](https://images.velog.io/images/abcd8637/post/daf6d35b-bd9b-4aa9-afaf-4640400196d1/KakaoTalk_Photo_2021-05-12-11-39-07.jpeg)
+
+```python
+# 첫번째 시도: 시간 초과
+target = int(input())
+n, result = 0, 0
+
+while target != result:
+    n += 1
+    temp = sum(map(int, str(n))) 
+    result = n + temp
+print(n)
+```
+
+```python
+# 두번째 시도: 성공
+target = int(input())
+
+for i in range(target):
+    temp = sum(map(int, str(i)))
+    result = i + temp
+    if result == target:
+        print(i)
+        break
+else:
+    print(0)
+```
+
+```python
+# 다른사람의 코드: 시간 최적화
+target = int(input())
+min_target = abs(target - (len(str(target)) * 9))
+
+for i in range(min_target, target):
+    temp = sum(map(int, str(i)))
+    result = i + temp
+    if result == target:
+        print(i)
+        break
+else:
+    print(0)
+```
+
+![](https://images.velog.io/images/abcd8637/post/49c1636d-f501-408a-b305-0a7c43af735f/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202021-05-12%2010.17.10.png)
