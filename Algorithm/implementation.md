@@ -1090,3 +1090,37 @@ for i in s:
 
 print(temp)
 ```
+
+---
+## 📍 백준 3460 - 이진수
+
+<a href='https://www.acmicpc.net/problem/3460'>백준 3460 - 이진수</a>
+
+## ⚡️ 나의 풀이
+
+1의 위치를 찾으면 되는 문제이고 입력을 `bin` 함수로 변환했는데 중요한 점은, `bin`함수를 사용하게 되면 `ob1010`처럼 문자열로 출력한다. 따라서, 조건문을 사용할 때 `1` 대신 `'1'`을 사용하도록 하자. 그리고 다른 사람의 코드를 보다가 리스트를 거꾸로 사용해야하는 경우 `range(n-1, -1, -1)` 대신 출력부분에 `[-i-1]`를 사용했다. 일부로 뒤집을 필요없이 단순하게 출력만 바꾸면 되니까 잊지말고 <a href='https://ywtechit.tistory.com/108'>기록</a>해두고 써먹어야겠다.
+
+1. `bin` 함수를 이용하여 10진수 형태의 입력을 2진수 형태로 변경한다. `bin`함수로 변환하게되면 `ob1010`과 같은 값이 나오는데 숫자만 사용하기위해 슬라이싱으로 [2:] 잘라준다.
+2. 최하위 비트(least significant bit, lsb)의 위치가 0이므로, 리스트를 거꾸로 뒤집는다.
+3. `enumerate` 함수를 이용하여 `value`가 `'1'`인 경우 해당 `index`를 출력해준다.
+
+```python
+# 나의 풀이
+T = int(input())
+for _ in range(T):
+    n = bin(int(input()))[2:]
+    for idx, val in enumerate(n[::-1]):
+        if val == '1':
+            print(idx, end=' ')
+```
+
+```python
+# 다른사람의 풀이
+T = int(input())
+
+for _ in range(T):
+    n = bin(int(input()))[2:]
+    for i in range(len(n)):
+        if n[-i - 1] == '1':
+            print(i, end=' ')
+```
