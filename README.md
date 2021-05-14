@@ -20,3 +20,4 @@
   - <a href='https://www.youtube.com/playlist?list=PLHqxB9kMLLaPOp0jh591QhPvbz4H266SS'>파이썬으로 배우는 알고리즘 기초 - 주니온TV 아무거나연구소(Youtube)</a>
   - <a href='https://www.youtube.com/playlist?list=PLGPF8gvWLYyrkF85itdBHaOLSVbtdzBww'>미운코딩새끼 - 김왼손의 왼손코딩(Youtube)</a>
   - <a href='https://www.youtube.com/playlist?list=PL2P1Vm9k53HOEn-QYXAfblQWkR0OW9mKX'>널널한 교수의 기초 파이썬 - 널널한 교수(Youtube)</a>
+  - <a href='https://www.youtube.com/channel/UCKc_3V6lgh9xGlI9jVdxHOg'>황진경코딩영재컴퓨터학원 - 코딩영재컴퓨터학원(Youtube)</a>
