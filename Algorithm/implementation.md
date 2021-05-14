@@ -1172,4 +1172,31 @@ news_paper = list(map(int, input().split()))
 
 gap_news_paper = list(map(lambda x: x - (people*area), news_paper))
 print(' '.join(map(str, gap_news_paper)))
-``````
+```
+
+---
+## 📍 백준 10801 - 카드게임
+
+<a href='https://www.acmicpc.net/problem/10801'>백준 10801 - 카드게임</a>
+
+## ⚡️ 나의 풀이
+어제 풀었던 <a href='https://ywtechit.tistory.com/113'>백준 10214 - Baseball</a>문제와 입력형태를 제외하고 거의 흡사한 문제였다. 입력받은 `A`, `B` 각각의 위치를 대소비교하면 되는데 이럴때 가장 편하게 사용 할 수 있는 `zip`함수를 이용하자. 다만, `zip`함수는 서로 리스트의 길이가 다르면 사용 할 수 없다. 이 문제는 리스트의 길이가 서로 같으므로 `zip`함수를 사용 할 수 있다. 대소비교 이후 값을 누적하고 마지막에 조건에따라 출력해주면 된다.
+
+```python
+A = list(map(int, input().split()))
+B = list(map(int, input().split()))
+A_cnt, B_cnt = 0, 0
+
+for A_card, B_card in zip(A, B):
+    if A_card > B_card:
+        A_cnt += 1
+    elif A_card < B_card:
+        B_cnt += 1
+
+if A_cnt > B_cnt:
+    print('A')
+elif A_cnt < B_cnt:
+    print('B')
+else:
+    print('D')
+```
