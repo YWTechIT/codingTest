@@ -445,3 +445,32 @@ result = sum(i for i in range(1, 10+1))
 # 3.
 result = sum(range(1, 10+1))
 ```
+
+---
+## 📍 각 자리의 수 더하기
+```python
+n = 126
+
+# 1. 재귀 함수
+def sum_digit(n):
+    if n < 10:
+        return n
+    return n % 10 + sum_digit(n//10)
+
+print(sum_digit(n))
+👉🏽 9
+
+# 2. map 함수
+result = sum(map(int, str(n)))
+
+print(result)
+👉🏽 9
+
+# 3. 반복문
+temp = 0
+for i in str(n):
+    temp += int(i)
+    
+print(temp)
+👉🏽 9
+```
