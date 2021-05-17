@@ -1200,3 +1200,24 @@ elif A_cnt < B_cnt:
 else:
     print('D')
 ```
+
+---
+## 📍 백준 1101 - 더하기사이클
+
+<a href='https://www.acmicpc.net/problem/1101'>백준 1101 - 더하기사이클</a>
+
+```python
+n = int(input())
+check = n
+flag = True
+cnt = 0
+
+while flag:
+    temp = n // 10 + n % 10
+    new_n = str(n % 10) + str(temp % 10)
+    if int(new_n) == check:
+        flag = False
+    n = int(new_n)
+    cnt += 1
+print(cnt)
+```
