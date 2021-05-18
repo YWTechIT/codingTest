@@ -474,3 +474,34 @@ for i in str(n):
 print(temp)
 👉🏽 9
 ```
+
+---
+## 📍 if, elif 다중 조건
+`if`를 다중조건으로 사용하면 모든 `if`를 검사한다. 반면에, `if` + `elif`를 다중조건으로 사용하면 `if`에 조건이 걸리면 `elif`는 모두 지나친다.
+
+```python
+x, y, z = 10, 20, 30
+
+# if 다중조건
+if x == 10:
+    print(x)
+if y == 20:
+    print(y)
+if z == 30:
+    print(z)
+
+👉🏽 
+10
+20
+30
+
+# if + elif 다중 조건
+if x == 10:
+    print(x)
+elif y == 20:
+    print(y)
+elif z == 30:
+    print(z)
+
+👉🏽 10
+```
