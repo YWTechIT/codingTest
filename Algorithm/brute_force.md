@@ -185,3 +185,41 @@ else:
 ```
 
 ![](https://images.velog.io/images/abcd8637/post/49c1636d-f501-408a-b305-0a7c43af735f/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202021-05-12%2010.17.10.png)
+
+---
+## 📍 백준 7568 - 덩치
+
+<a href='https://www.acmicpc.net/problem/7568'>백준 7568 - 덩치</a>
+
+## ⚡️ 나의 풀이
+언젠가 `단계별 풀이`에서 한번 봤었는데, 어떻게 풀어야할지 몰라 넘겼었는데 이번엔 풀었다. 여기에서 가장 핵심 문장은 `각 사람의 덩치 등수는 자신보다 더 큰 덩치의 사람의 수로 정해진다.`이다. 이중 반복문의 범위는 `A-B, A-C, A-D, A-E` / `B-A, B-C, B-D, B-E` / `C-A, C-B, C-D, C-E` / `E-A, E-B, E-C, E-D` 처럼 모든 경우의 수를 비교 할 수 있게 선언해야한다. `A-B`나 `B-A`나 같은거아닌가?! 라고 생각 할 수도 있지만, 각각의 케이스에서 덩치 등수를 셀때 나를 제외한 모든 사람의 덩치를 비교해야하기 때문에 같지 않다. 
+
+1. 자신을 포함한 모든 경우의 수를 조사한다.(반복문의 범위 설정의 편의성 위해 자신도 포함시켰다. 자신끼리는 대소관계가 성립되지 않는다.)
+2. 1등보다 높은 등수(0등은 없다.)가 없으므로 등수(`prize`)의 초기값은 `1`이다.
+3. 현재 값과 다음값을 비교해서 자신보다 더 큰 사람이 있다면 `prize`를 `1` 증가시킨다.(순위가 내려간다는 의미)
+
+정답판정을 받았는데, 다른 사람의 코드에서는 나처럼 2중 반복문 중간에 `prize = 1`을 사용하지않고, `prize=[1]*n`으로 초기화를 해놓고나서 나중에 해당 인덱스만 1 증가하는 방법을 사용했다. 가독성이 괜찮은 코드였고, 인덱스마다 `cnt`를 증가하는 문제를 풀 때 사용하면 좋을것 같다.
+
+```python
+n = int(input())
+people = [tuple(map(int, input().split())) for _ in range(n)]
+result = []
+
+# 나의 코드
+for i in range(n):
+    prize = 1
+    for j in range(n):
+        if people[i][0] < people[j][0] and people[i][1] < people[j][1]:
+            prize += 1
+    result.append(prize)
+print(' '.join(map(str, result)))
+
+# 다른사람의 코드
+prize = [1] * n
+
+for i in range(n):
+    for j in range(n):
+        if people[i][0] < people[j][0] and people[i][1] < people[j][1]:
+            prize[i] += 1
+print(' '.join(map(str, result)))
+```
