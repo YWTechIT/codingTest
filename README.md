@@ -2,10 +2,10 @@
   - 처음부터 많은 알고리즘 문제를 푸는 것이 아닌, 꾸준히 하루에 한 문제씩 풀고싶어 이 레포지터리를 만들었습니다.
 
 ## ❏ 풀이 사이트
-  - <a href='https://codeup.kr/userinfo.php?user=abcd8637'>코드업 - abcd8637</a>
-  - <a href='https://www.acmicpc.net/user/abcd8637'>백준 - abcd8637</a>
-  - <a href='https://programmers.co.kr/learn/challenges'>프로그래머스 - abcd8637</a>
-  - (예정) <a href='https://leetcode.com/abcd8637/'>리트코드 - abcd8637</a>
+  - 코드업 - <a href='https://codeup.kr/userinfo.php?user=abcd8637'>abcd8637</a>
+  - 백준 - <a href='https://www.acmicpc.net/user/abcd8637'>abcd8637</a>
+  - 프로그래머스 - <a href='https://programmers.co.kr/learn/challenges'>abcd8637</a>
+  - 리트코드(예정) - <a href='https://leetcode.com/abcd8637/'>abcd8637</a>
 
 ## ❏ 참고문헌
   - 2020.12.22. ~ <a href='https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=247882118'>이것이 취업을 위한 코딩 테스트다 - 나동빈</a>
