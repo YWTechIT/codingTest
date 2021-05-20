@@ -1,5 +1,5 @@
 ## ❏ 목적
-  - 처음부터 많은 알고리즘 문제를 푸는 것이 아닌, 꾸준히 하루에 한 문제씩 풀고싶어서 만들었습니다.
+  - 처음부터 많은 알고리즘 문제를 푸는 것이 아닌, 꾸준히 하루에 한 문제씩 풀고싶어 이 레포지터리를 만들었습니다.
 
 ## ❏ 풀이 사이트
   - <a href='https://codeup.kr/userinfo.php?user=abcd8637'>코드업 - abcd8637</a>
@@ -8,9 +8,10 @@
   - (예정) <a href='https://leetcode.com/abcd8637/'>리트코드 - abcd8637</a>
 
 ## ❏ 참고문헌
-  - 2020.12.22 ~ <a href='https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=247882118'>이것이 취업을 위한 코딩 테스트다 - 나동빈</a>
-  - 2021.3.22 ~ <a href='https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=262452465'>파이썬 자료구조와 알고리즘 for Beginner - 우재남</a>
-  - 2021.3.30 ~ <a href='https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=245495826'>파이썬 알고리즘 인터뷰 - 박상길</a>
+  - 2020.12.22. ~ <a href='https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=247882118'>이것이 취업을 위한 코딩 테스트다 - 나동빈</a>
+  - 2021.3.22. ~ <a href='https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=262452465'>파이썬 자료구조와 알고리즘 for Beginner - 우재남</a>
+  - 2021.3.30. ~ <a href='https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=245495826'>파이썬 알고리즘 인터뷰 - 박상길</a>
+  - 2021.5.18. ~ <a href='https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=173294238'>파이썬 코딩 도장 - 남재윤</a>
 
 ## ❏ 참고강의 및 사이트
   - <a href='https://programmers.co.kr/learn/courses/4008'>파이썬을 파이썬답게 - 프로그래머스(홈페이지)</a>
