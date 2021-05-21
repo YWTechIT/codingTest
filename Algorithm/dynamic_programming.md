@@ -379,6 +379,7 @@ for i in range(2, n):
 print(d[n - 1])
 ```
 
+---
 ## 📌 백준 2167 - 2차원 배열의 합
 
 [문제 설명](https://www.acmicpc.net/problem/2167)
@@ -459,3 +460,53 @@ for _ in range(k):
     i, j, x, y = map(int, input().split())
     print(memo[x][y] - memo[i-1][y] - memo[x][j-1] + memo[i-1][j-1])
 ```
+
+---
+## 📌 백준 9625 - BABBA
+
+<a href='https://www.acmicpc.net/problem/9625'>백준 9625 - BABBA</a>
+
+## 💡 나의 풀이
+전형적인 `DP(Dynamic Programming)`문제였으나, 처음에 문제 그대로 `i`가 증가하면 바뀌는 문자열을 새로운 배열에 넣고 마지막에 총 몇 개인지 `count`를 사용하여 풀다가 시간초과 판정을 받았다.
+
+그래서 어떤 규칙이 있는지 살펴보니까 전체 `A, B` 총 개수를 구할 필요는 없고 `A`, `B`의 개수를 따로따로 구하면 된다. `a[i] = a[i-1] + a[i-2]`인 전형적인 `피보나치(Fibonacci)`수열 형태를 보였다.
+
+나는 `DP`를 사용할때 전체 `k`의 최대값를 선언했는데, 그럴 필요없이 `k+1`만큼만 줘서 그때그때 계산해도 된다. 또, 새롭게 배운점은 `a[0] = 1, a[1] = 0` 대신, 처음부터 `a=[1,0]`을 선언하고 `DP 반복문`에서 나온값을 `append`하는 방법을 사용해도 된다.
+
+```python
+# 나의 코드
+k = int(input())
+n = 46
+
+a = [0] * 46
+a[0] = 1
+a[1] = 0
+
+b = [0] * 46
+b[0] = 0
+b[1] = 1
+
+for i in range(2, n):
+    a[i] = a[i - 1] + a[i - 2]
+    b[i] = b[i - 1] + b[i - 2]
+print(a[k], b[k])
+```
+
+```python
+# 다른사람의 코드
+k = int(input())
+
+a = [1, 0]
+b = [0, 1]
+
+for i in range(2, k+1):
+    a_num = a[i-1] + a[i-2]
+    a.append(a_num)
+    b_num = b[i-1] + b[i-2]
+    b.append(b_num)
+
+print(a[k], b[k])
+```
+
+
+
