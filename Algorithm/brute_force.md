@@ -223,3 +223,51 @@ for i in range(n):
             prize[i] += 1
 print(' '.join(map(str, result)))
 ```
+
+---
+## 📍 백준 1436 - 영화감독 숌
+
+<a href='https://www.acmicpc.net/problem/1436'>백준 1436 - 영화감독 숌</a>
+
+## ⚡️ 나의 풀이
+전형적인 `브루트포스`문제다.
+
+1. `6`이 적어도 3개 이상 등장해야한다.
+2. `number+=1`씩 증가하면서 `666`이 있는지 확인한다.
+3. `number`가 있으면, `result`에 추가시킨다.
+
+코드를 작성하고 나니까 굳이 `result`에 추가시키지 않아도 된다는 생각을 했다. 그리고 `while`문 종료조건이 가독성이 떨어져보여서 직접 작성하지말고 `flag`로 대체해야겠다는 생각을 했다.
+
+```python
+# 나의 풀이
+n = int(input())
+number = 665
+result = []
+
+while not len(result) >= n:
+    if str(number).count('666') >= 1:
+        result.append(number)
+    number+=1
+
+print(result[n-1])
+```
+
+```python
+# 다른사람의 풀이
+n = int(input())
+number = 665
+flag = True
+cnt = 0
+
+while flag:
+    if '666' in str(number):
+        cnt += 1
+        print(cnt, number)
+
+    if n == cnt:
+        flag = False
+    else:
+        number+=1
+print(number)
+```
+
