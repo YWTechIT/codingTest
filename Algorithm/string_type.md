@@ -562,6 +562,28 @@ for _ in range(T):
         print(chr(97 + count_s.index(max(count_s))))
 ```
 
+---
+## 📍 백준 9093 - 단어 뒤집기
+문제: <a href='https://www.acmicpc.net/problem/9093'>백준 9093 - 단어 뒤집기</a>
+
+## 💡 나의 풀이
+입력 전체를 뒤집는 것이 아니고 공백을 기준으로 나누고 해당 단어만 뒤집어서 출력하는 문제다. 반복문을 선언하여 `i[::-1]`를 사용하는 방법과 `lambda` 를 사용해서 뒤집는 방법 총 2가지로 나누어서 풀었다.
+
+```python
+import sys
+input = sys.stdin.readline
+
+T = int(input())
+
+# 반복문 선언
+for _ in range(T):
+    result = ' '.join([i[::-1] for i in input().split()])
+    print(result)
+
+# 람다 함수 선언
+for _ in range(T):
+    print(' '.join(map(lambda x: x[::-1], input().split())))
+```
 
 
 
