@@ -371,3 +371,51 @@ for i in range(n-7):
 print(cnt)
 ```
 
+---
+## 📍 백준 2309 - 일곱 난쟁이
+
+<a href='https://www.acmicpc.net/problem/2309'>백준 2309 - 일곱 난쟁이</a>
+
+## ⚡️ 나의 풀이
+`브루트 포스(brute force)`유형 문제인데 핵심은 다음과 같다. 아홉 난쟁이의 키는 모두 다르지만 그 중 일곱 난쟁이의 크기의 합은 100이된다. 즉, `sum(arr) - (난쟁이1, 난쟁이2) == 100`과 같은 말이다. 그런데 몇 번 난쟁이가 들어가야할지 모르기때문에 모든 경우의 수를 찾아야한다.
+
+1. `sum(arr) - (arr[i] + arr[j]) == 100`이 되면 해당 난쟁이를 새로운 변수로 넣어두고 마지막에 `arr`에서 제거한다. 
+2. `sum(arr) - (arr[i] + arr[j]) == 100`이 되면 반복문을 한번 더 선언하고 해당 난쟁이를 제외하고 출력 후 `exit()`로 빠져나온다. `break`문을 사용하게되면 해당 반복문만 빠져나오고 다시 반복문을 돌기때문에 주의하자.
+
+```python
+# 1번째 방법 (temp, remove)
+
+n = 9
+temp1, temp2 = 0, 0
+arr = [int(input()) for _ in range(n)]
+
+for i in range(n):
+    for j in range(i+1, n):
+        if sum(arr) - (arr[i] + arr[j]) == 100:
+            temp1 = arr[i]
+            temp2 = arr[j]
+
+arr.remove(temp1)
+arr.remove(temp2)
+
+print('\n'.join(map(str, sorted(arr))))
+```
+
+```python
+# 2번째 방법 (continue, exit)
+
+n = 9
+arr = [int(input()) for _ in range(n)]
+arr.sort()
+
+for i in range(n):
+    for j in range(i+1, n):
+        if sum(arr) - (arr[i] + arr[j]) == 100:
+            for k in range(9):
+                if i == k or j == k:
+                    continue
+                print(arr[k])
+            exit()
+
+print('\n'.join(map(str, arr)))
+```
