@@ -17,8 +17,28 @@
 
 출처: <a href='https://www.acmicpc.net/board/view/855'>백준</a>
 
----
 
+---
+### 📍 범위가 큰 2차원 배열 / 문자열을 출력 할 때
+범위가 `3,000 x 3,000`까지 커질때 `print()`를 사용하면 문자열을 출력하는데 시간이 많이 걸린다. 그럴때는 `print` 대신 `sys.stdout.write(str)`을 사용하자. 시간이 훨씬 단축되는것을 알 수 있다. `print(sys.stdout.write('string')`을 사용하면 뒤에 이상한 숫자가 붙으므로 `print()`를 떼고 `sys.stdout.write(str)`만 사용하자.
+
+<a href='https://www.acmicpc.net/problem/10703'>boj_10703 유성</a>을 파이썬으로 풀면 왜 `stdout`를 써야하는지 알 수 있다.
+
+```python
+n = 3000
+arr = [[0] * n for _ in range(n)] 
+
+import sys
+
+for i in range(n):
+    for j in range(n):
+        sys.stdout.write(arr[i][j])
+    sys.stdout.write('\n')
+
+👉🏽 출력생략
+```
+
+---
 ### 📍 input()값을 한 문자씩 바꿀 때
 ```python
 array = input()
@@ -26,8 +46,8 @@ result=list(array)
 print(result)
 👉🏽 ['a', 'r', 'r', 'a', 'y']
 ```
----
 
+---
 ### 📍 한 줄, 여러 줄
 
 ```python
