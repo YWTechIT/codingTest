@@ -1411,3 +1411,151 @@ x.
 .*
 '''
 ```
+
+---
+## 📍 백준 20291 - 파일 정리
+
+<a href='https://www.acmicpc.net/problem/20291'>백준 20291 - 파일 정리</a>
+
+## ⚡️ 나의 풀이
+
+1. 확장자 뒤의 값만 담을 `defaultdict` 변수를 선언한다.
+2. 공백을 기준으로 분리(`split()`)한다.
+3. 동일한 확장자(`split()[1]`)가 입력으로 들어오면 `defaultdict`에 `1`씩 더한다.
+4. `dic.items()`를 `sorted`한다.
+5. `' '.join`을 사용하여 출력한다.
+
+```python
+from collections import defaultdict
+import sys
+input = sys.stdin.readline
+
+n = int(input())
+dic = defaultdict(int)
+
+for _ in range(n):
+    file = input().rstrip().split('.')[1]
+    dic[file] += 1
+
+for i in sorted(dic.items()):
+    print(' '.join(map(str, i)))
+```
+
+---
+## 📍 백준 10703 - 유성
+
+<a href='https://www.acmicpc.net/problem/10703'>백준 10703 - 유성</a>
+
+## ⚡️ 나의 풀이
+이 문제는 내가 구현력이 부족하여 3일동안 잡고 있었다. 정답판정을 받고 복습겸 글을 작성하면서 느끼는건 정답 코드를 볼땐 금방 풀 수 있을것 같은데 막상 풀때는 왜 그렇지 못할까?! 라는 생각이 든다.
+
+중간에 `move`를 계산하는 과정에 막혀 <a href='https://www.acmicpc.net/board/view/68931'>질문</a>을 올렸는데 고수분께서 답변을 해주셔서 너무 감사했다. 문제를 다 풀고 그분의 코드를 보니까 이렇게도 생각 할 수 있구나..! 대박인데?!라고 생각했다. 나도 언젠가 고수가 되어 모르는 분들이 올리는 질문을 자유자재로 답변해주는 수준까지 올라가리라..
+
+이번 문제를 풀며 배운점은 여러가지 있지만 중요하다고 생각하는 내용들을 가져왔다.
+1. 문자열 리스트를 입력받을 때 `[list(input())]` 대신 `[input()]`을 사용하자!! 단순히 `list`만 붙였는데도 실행시간이 2배가까이 차이가 났다.
+2. 범위가 큰 2차원 문자열 리스트를 출력할 때 `print()` 대신 `sys.stdout.write()`를 사용하자!! `print()`와 `sys.stdout.write()`는 `input()`과 `sys.stdin.readline`만큼 차이는 없지만 문자열을 하나하나 출력하는 경우에 `print()`는 엄청 느릴 수 밖에 없다. 
+3. 최대값을 갱신하려는 초기값은 `0`보다는 `음수`를 사용하자. 꼭 필요한건 아니지만 가독성면에서 차이가 난다.
+4. 2차원 배열을 하나하나씩 검사 할 때 꼭 좌측 상단에서부터 하라는 법은 없다. 배열 내의 움직임이 많은 문제라면 `좌측 하단`, 혹은 `우측 하단`의 경우도 고려해보자.
+
+![](https://images.velog.io/images/abcd8637/post/bb1e2e6a-4fe0-4d5c-a83e-cd6a3f622d19/KakaoTalk_Photo_2021-05-27-11-59-36.jpeg)
+
+이 문제의 핵심은 유성 좌표 중 가장 높은 행 좌표(좌표가 커야 땅과의 거리가 가깝다.)와 땅 좌표 중 가장 낮은 행 좌표(좌표가 작아야 유성과의 거리가 가깝다.)를 서로 빼야 땅과 부딪히지 않고 유성이 추락 할 수 있다. 그러면 반복문 마다 매 가장 낮은 좌표로 설정하면 되는것 아닌가?라고 할 수 있지만 유성이 없는경우에도 좌표는 최소가 설정 될 수 있기 때문에 `유성이 있으면서 좌표가 가장 낮은 값`을 고려해줘야한다. 그래서 `arr`을 가로가 아닌 세로로 확인하기 위해 `flag`를 설정해 유성이 있는 좌표에서 `True`로 바꿔 `move`를 계산했는데 쉽지 않았던 방식이었다.
+
+이보다 쉬운 방식인 `다른사람의 코드`처럼 `S`의 길이만큼 리스트를 초기화 해주고 현재 유성의 좌표 일 때 현재 `row`값과 초기값을 비교하여 최대 `row`를 갱신시키는 방법, 마찬가지로 현재 땅의 좌표가 일 때 최소 `row`을 갱신시키는 방법을 사용해 쉽게 풀었다. 어떻게 이런 생각을 했지?! 대단하다..
+
+이후에는 최종 `move`만큼 배열을 이동시켜주자. 
+
+잘 모르겠다면 하단의 <a href='https://www.acmicpc.net/board/view/2237'>테스트케이스</a>를 해보고 왜 안되는지 생각해보자. 그럼 금방 알 수 있다.
+
+```
+6 8
+...X....
+........
+.......#
+.......#
+.......#
+...#####
+ 
+result:
+........
+........
+.......#
+.......#
+...X...#
+...#####
+```
+
+`메모리초과`와 `시간초과`의 연속이었던 문제..
+
+![](https://images.velog.io/images/abcd8637/post/f0551b33-776b-4806-8deb-818fc20e165c/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202021-05-27%2011.15.19.png)
+
+```python
+# 나의 코드
+import sys
+input = sys.stdin.readline
+
+R, S = map(int, input().split())
+meteor = [input() for _ in range(R)]    # 유성 충돌 전
+arr = [['.'] * S for _ in range(R)]    # 유성 충돌 후
+
+move = 1 << 14    # 유성이 최종적으로 움직여야하는 거리
+
+for x in range(S):
+    temp_meteor = 0    # 가장 높은 유성 행 좌표 (좌표가 높아야 땅과의 거리가 가깝다.)
+    temp_ground = 9999    # 가장 낮은 땅 행 좌표 (좌표가 낮아야 유성과의 거리가 가깝다.)
+    flag = False    
+    for y in range(R):
+        if meteor[y][x] == 'X':
+            temp_meteor = max(temp_meteor, y)
+            flag = True    # 유성이 있는 좌표를 만나면 True
+        elif meteor[y][x] == '#':
+            temp_ground = min(temp_ground, y)
+    if flag:    # 유성이 있는 좌표에서 `move` 계산
+        move = min(abs(temp_meteor-temp_ground)-1, move)
+
+for x in range(R):
+    for y in range(S):
+        if meteor[x][y] == 'X':
+            arr[x+move][y] = 'X'    # 유성을 최종 move만큼 움직인다.
+        if meteor[x][y] == '#':
+            arr[x][y] = '#'
+
+for i in range(R):    # 결과 출력
+    for j in range(S):
+        sys.stdout.write(arr[i][j])
+    sys.stdout.write('\n')
+```
+
+```python
+# 다른사람의 코드
+import sys
+input = sys.stdin.readline
+
+R, S = map(int, input().split())
+meteor = [input() for _ in range(R)]    
+arr = [['.'] * S for _ in range(R)]    
+
+max_meteor = [-3333] * S    # 유성 좌표를 저장 할 리스트
+min_ground = [1 << 14] * S    # 땅 좌표를 저장 할 리스트
+
+for x in range(R):
+    for y in range(S):
+        if meteor[x][y] == 'X':
+            max_meteor[y] = max(max_meteor[y], x)    # 현재 유성의 y좌표(열)를 갱신함
+        elif meteor[x][y] == '#':
+            min_ground[y] = min(min_ground[y], x)    # 현재 땅의 y좌표(열)를 갱신함
+
+move = min((j-i for i, j in zip(max_meteor, min_ground))) - 1    # 최종적으로 가야 할 move 계산
+
+for x in range(R):
+    for y in range(S):
+        if meteor[x][y] == 'X':
+            arr[x+move][y] = 'X'    # 유성을 최종 move만큼 움직인다.
+        if meteor[x][y] == '#':
+            arr[x][y] = '#'
+
+for i in range(R):    # 결과 출력
+    for j in range(S):
+        sys.stdout.write(arr[i][j])
+    sys.stdout.write('\n')
+```
