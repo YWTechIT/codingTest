@@ -1685,3 +1685,28 @@ for target in range(25):
                     exit()
 ```
 
+
+---
+## 📍 백준 1110 - 하얀 칸
+
+<a href='https://www.acmicpc.net/problem/1110'>백준 1110 - 하얀 칸</a>
+
+## ⚡️ 나의 풀이
+문제 중 `번갈아가며 색칠 되어있다.`라는 힌트에서 규칙을 찾을 수 있다.  저번에 풀었던 <a href='https://ywtechit.tistory.com/129'>boj_1018 체스판 다시 칠하기</a>에서 규칙을 볼 수 있다. 또, 이 문제를 풀고 `boj_1018 체스판 다시 칠하기`문제를 풀어보는것을 추천한다. 
+
+1. 입력을 받는다.
+2. 8 * 8 배열에서 가장 왼쪽 위칸이 흰색이므로 짝수인 자리와 동시에 말(`F`)인 값을 찾는다.
+3. `cnt`를 누적시킨다.
+
+```python
+chess = [input() for _ in range(8)]
+
+cnt = 0
+for i in range(8):
+    for j in range(8):
+        if not (i+j) % 2 and chess[i][j] == 'F':
+            cnt += 1
+print(cnt)
+````
+
+
