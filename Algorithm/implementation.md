@@ -1559,3 +1559,129 @@ for i in range(R):    # 결과 출력
         sys.stdout.write(arr[i][j])
     sys.stdout.write('\n')
 ```
+
+---
+## 📍 백준 2578 - 빙고
+
+<a href='https://www.acmicpc.net/problem/2578'>백준 2578 - 빙고</a>
+
+## ⚡️ 나의 풀이
+구현력을 묻는 문제였는데, `21.5.17.`부터 풀기 시작하다 중간에 막혀 <a href='https://ywtechit.tistory.com/134'>boj_10703 유성</a>문제를 풀고 다시 풀어봤는데 감이 잡혀서 정답판정을 받은 문제다.
+
+이 문제의 핵심 부분은 다음과 같다.
+1. 사회자가 부르는 수를 차례로 지워가면서 `check` 한다.(수가 불리면 `0`으로 초기화시킨다.)
+2. `check` 할 때 가로, 세로, 대각선 각각 `check`한다. 이때, 한 줄 혹은 한 열 혹은 한 대각선에서 0이 5개가 나오면 `bingo+=1`을 한다.
+3. `bingo >= 3`이면 해당 숫자가 몇 번째 `cnt`된 숫자인지 출력한다.
+
+다음으로 가로, 세로, 대각선에서 `bingo`를 판단하는 방법을 살펴보자.
+1. 가로(row): `count.('[0, 0, 0, 0, 0]')`이 되면 `+1`을 해주었다. 주의 할 점은 판별하려는 값을 `str`형으로 변환한다음 `count`를 사용하자.
+2. 세로(column): `arr`을 세로로 돌려야하는데 `lambda` 함수를 사용해서 열로 만들어주고 `count` 함수를 사용했다.
+3. 대각선(diagonal): 대각선 전체의 값이 0이 되는지를 확인했다. 정 대각선 방향, 역 대각선 방향 두 가지의 경우를 판단해야한다.
+
+처음에는 `정 대각선`, `역 대각선` 판단 변수를 각각 따로 설정했는데, 그럴 필요가 없이 두 경우를 합쳐서 `index`를 2개줘도 됐었다. 
+
+또, 문제를 풀다보면 느끼겠지만 이미 `bingo`가 되었던 값을 또 누적시키는 상황이 생긴다. (이 문제를 푸는데 오래 걸린 이유도 여기서 막혔기 때문이다.) 결론은 간단하지만 결론까지오기에 많은 시간이 걸렸다. 결론적으로 `check_row`, `check_column`, `check_diagonal` 변수를 사용해서 `bingo`가 되는 행, 열, 대각선 `index`는 `True`로 바꿔놓고 다음 `bingo`를 판단하는 조건은 `bingo`이면서 행, 열, 대각선 `index`가 `False`인 값만 통과하게 설정했더니 이전 `bingo`가 누적이 되는 일은 없었다. `bingo`가 3개 이상되면 `break` 대신 `exit`를 선언해서 전체 반복문을 끝내버렸다.
+
+정답판정을 받고 다른사람의 코드를 보다가 처음 4중 반복문을 3중 반복문으로 끊어놓은 사람도 있었다. 그 점을 참고해서 살짝 수정했는데, `MC`의 리스트를 2차원이 아닌 1차원으로 선언하고 처음 반복문의 범위를 `25`까지 설정해놓은 다음에 순서대로 `index`를 가져오는 방법이었다. 사회자는 차례대로 숫자를 부르기때문에 굳이 2차원배열을 선언 할 필요가 없었다. (어떻게 이런 생각을.. ㄷㄷ 🥶 🥶)
+
+```python
+# 나의 코드
+n = 5
+arr = [list(map(int, input().split())) for _ in range(n)]
+MC = [list(map(int, input().split())) for _ in range(n)]
+
+bingo, order = 0, 0
+check_row, check_column, check_diagonal = [False] * n, [False] * n, [False] * 2
+
+def check(arr):
+    global bingo, check_diagonal
+    temp_right, temp_reverse = 0, 0
+
+    for i in range(n):
+        if str(arr[i]).count('[0, 0, 0, 0, 0]') and not check_row[i]:  # check row
+            bingo += 1
+            check_row[i] = True
+
+        temp_column = list(map(lambda x: x[i], arr))  # check column
+        if str(temp_column).count('[0, 0, 0, 0, 0]') and not check_column[i]:
+            bingo += 1
+            check_column[i] = True
+
+        temp_right += arr[i][i]    # check diagonal
+        temp_reverse += arr[i][n - i - 1]
+
+    if not temp_right and not check_diagonal[0]:
+        check_diagonal[0] = True
+        bingo += 1
+
+    if not temp_reverse and not check_diagonal[1]:
+        check_diagonal[1] = True
+        bingo += 1
+
+    return bingo
+
+for numbers in MC:
+    for target in numbers:
+        for i in range(n):
+            for j in range(n):
+                if target == arr[i][j]:
+                    arr[i][j] = 0
+                    check(arr)
+                    order += 1
+                    if bingo >= 3:
+                        print(order)
+                        exit()
+
+```
+
+```python
+# 내 코드 + 다른사람의 코드
+n = 5
+arr = [list(map(int, input().split())) for _ in range(n)]
+
+MC = []
+for _ in range(5):
+    MC += list(map(int, input().split()))
+
+bingo, order = 0, 0
+check_row, check_column, check_diagonal = [False] * n, [False] * n, [False] * 2
+
+def check(arr):
+    global bingo, check_diagonal
+    temp_right, temp_reverse = 0, 0
+
+    for i in range(n):
+        if str(arr[i]).count('[0, 0, 0, 0, 0]') and not check_row[i]:  # check row
+            bingo += 1
+            check_row[i] = True
+
+        temp_column = list(map(lambda x: x[i], arr))  # check column
+        if str(temp_column).count('[0, 0, 0, 0, 0]') and not check_column[i]:
+            bingo += 1
+            check_column[i] = True
+
+        temp_right += arr[i][i]    # check diagonal
+        temp_reverse += arr[i][n - i - 1]
+
+    if not temp_right and not check_diagonal[0]:
+        check_diagonal[0] = True
+        bingo += 1
+
+    if not temp_reverse and not check_diagonal[1]:
+        check_diagonal[1] = True
+        bingo += 1
+
+    return bingo
+
+for target in range(25):
+    for i in range(5):
+        for j in range(5):
+            if MC[target] == arr[i][j]:
+                arr[i][j] = 0
+                check(arr)
+                order += 1
+                if bingo >= 3:
+                    print(order)
+                    exit()
+```
+
