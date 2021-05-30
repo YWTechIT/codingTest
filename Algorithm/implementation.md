@@ -1685,7 +1685,6 @@ for target in range(25):
                     exit()
 ```
 
-
 ---
 ## 📍 백준 1110 - 하얀 칸
 
@@ -1707,6 +1706,64 @@ for i in range(8):
         if not (i+j) % 2 and chess[i][j] == 'F':
             cnt += 1
 print(cnt)
-````
+```
 
+---
+## 📍 백준 3009 - 네 번째 점
 
+<a href='https://www.acmicpc.net/problem/3009'>백준 3009 - 네 번째 점</a>
+
+## ⚡️ 나의 풀이 
+수학적으로 어떻게 풀어야할지 많은 고민을 했는데 결론적으로 각각의 입력 중에서 입력[0]을 `column`, 입력[1]을 `row`라고 했을 때, 세 개의 입력[0] 중 두 개의 입력[0]이 같은 값이면 나머지 두개도 같은 값이 되어야한다. 내가 풀었던 방법은 다음과 같다.
+
+1. `defaultdict`를 선언한다.
+2. `입력[0]`번만 모아놓은 `column` 리스트와 `입력[1]`번만 모아놓은 `row` 리스트를 선언한다.
+3. `value`만큼 `+=1` 을 해준다.
+4. `index`가 1개인 `column_dict`와 `row_dict`를 각각 `a`와 `b`로 선언해준다.
+
+다른사람의 코드를 보면 굳이 `defaultdict`를 사용하지 않더라도 `count`함수를 사용해서 1개인 값을 출력해 `a`와 `b`에 손쉽게 대입해도 됐었다.
+
+```python
+# 나의 코드
+from collections import defaultdict
+column, row = [], []
+a, b = -3333, -3333
+column_dic, row_dic = defaultdict(int), defaultdict(int)
+
+for _ in range(3):
+    x, y = map(int, input().split())
+    column.append(x)
+    row.append(y)
+
+for i in range(3):
+    column_dic[column[i]] += 1
+    row_dic[row[i]] += 1
+
+for key, index in column_dic.items():
+    if index == 1:
+        a = key
+
+for key, index in row_dic.items():
+    if index == 1:
+        b = key
+print(a, b)
+```
+
+```python
+# 다른사람의 코드
+n = 3
+column, row = [], []
+a, b = -3333, -3333
+
+for _ in range(3):
+    x, y = map(int, input().split())
+    column.append(x)
+    row.append(y)
+
+for i in range(n):
+    if column.count(column[i]) == 1:
+        a = column[i]
+    if row.count(row[i]) == 1:
+        b = row[i]
+print(a, b)
+```
