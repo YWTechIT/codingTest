@@ -1767,3 +1767,83 @@ for i in range(n):
         b = row[i]
 print(a, b)
 ```
+
+---
+## 📍 백준 2490 - 윷놀이
+
+<a href='https://www.acmicpc.net/problem/2490'>백준 2490 - 윷놀이</a>
+
+## ⚡️ 나의 풀이 
+윷짝들의 상태를 보고 `도(A)`, `개(B)`, `걸(C)`, `윷(D)`, `모(E)`를 판별하는 문제다. 윷짝들을 구성하는 값은 0 또는 1임을 알 수있다. 하지만 윷짝들이 주어질 때 0과 1의 순서가 뒤바뀔 수 있음을 인지하자. 나는 총 2가지 방법으로 풀었는데
+
+1. 주어지는 각각의 줄마다 `합(sum)`을 구해 출력을 구분했다.
+2. 0과 1의 개수를 파악하도록 `count`함수를 사용했다.
+
+정답판정을 받고 다른 사람의 코드를 봤는데 1번의 `sum`은 입력을 받을 때 한번에 선언해줘도 됐고, 2번의 `count`는 0과 1 둘 다 할 필요없이 둘 중에 하나만 해줘도 구분이 가능했다. 
+
+```python
+# sum
+yut = [list(map(int, input().split())) for _ in range(3)]
+
+for i in yut:
+    if sum(i) == 3:
+        print('A')
+    elif sum(i) == 2:
+        print('B')
+    elif sum(i) == 1:
+        print('C')
+    elif not sum(i):
+        print('D')
+    elif sum(i) == 4:
+        print('E')
+```
+
+```python
+# count
+yut = [list(map(int, input().split())) for _ in range(3)]
+
+for i in yut:
+    if i.count(0) == 1 and i.count(1) == 3:
+        print('A')
+    elif i.count(0) == 2 and i.count(1) == 2:
+        print('B')
+    elif i.count(0) == 3 and i.count(1) == 1:
+        print('C')
+    elif i.count(0) == 4:
+        print('D')
+    elif i.count(1) == 4:
+        print('E')
+```
+
+```python
+# 다른 사람의 코드
+# sum
+yut = [sum(map(int, input().split())) for _ in range(3)]
+
+for i in yut:
+    if i == 3:
+        print('A')
+    elif i == 2:
+        print('B')
+    elif i == 1:
+        print('C')
+    elif not i:
+        print('D')
+    elif i == 4:
+        print('E')
+
+# count
+yut = [list(map(int, input().split())) for _ in range(3)]
+
+for i in yut:
+    if i.count(0) == 1:
+        print('A')
+    elif i.count(0) == 2:
+        print('B')
+    elif i.count(0) == 3:
+        print('C')
+    elif i.count(0) == 4:
+        print('D')
+    elif i.count(1) == 4:
+        print('E')
+```
