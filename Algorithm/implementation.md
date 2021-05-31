@@ -1847,3 +1847,115 @@ for i in yut:
     elif i.count(1) == 4:
         print('E')
 ```
+
+---
+## 📍 백준 1244 - 스위치 켜고 끄기
+
+<a href='https://www.acmicpc.net/problem/1244'>백준 1244 - 스위치 켜고 끄기</a>
+
+## ⚡️ 나의 풀이 
+문제가 조금 길었지만, 핵심 포인트는 다음과 같다.
+
+1. 남학생: 자기가 받은 수의 배수인 스위치 번호의 상태를 바꾼다.
+2. 여학생: 자기가 받은 수와 같은 번호인 스위치 번호를 중심으로 좌우가 대칭이면서 가장 많은 스위치를 포함하는 구간의 상태를 모두 변경한다.
+
+그리고 처음에 `index`를 편하게 보기위해 `arr[0]`에 이 문제와 관련없는 값인 `-3333`을 넣었다.
+
+남학생의 경우에서 `index`가 `배수`인 경우를 찾을 때 `if not i % target`과 같은 방법을 사용했는데 그럴 필요없이 시작점을 `target`으로 하여 `for i in range(target, n+1, target)`을 선언하면 배수의 `index`만 출력 할 수 있다. 그리고 스위치의 상태를 바꿀 때 `0 -> 1` `1 -> 0` 밖에 없으므로 `1`을 더한 값에 `2`로 나누면 코드를 더욱 간결하게 작성 할 수 있다.
+
+여학생의 경우는 `try, except` 구문을 사용했는데, `target`을 중심으로 `left_index`, `right_index`를 선언한 다음 `left`와 `right`가 같은지 비교하고 같다면 `left`와 `right` 범위를 넓히고 다르다면 종료 시키는 `flag`문을 적용했다. 범위는 무한정으로 늘어날 수 없으므로 `arr[index]`가 벗어나면 `error`가 발생하는데, 이때 `try-except`문을 작성하면 `indexError` 에 걸리지 않는다. 이후 넓혀진 범위 만큼 스위치의 상태를 바꿔야하는데 스위치는 `0 -> 1` `1 -> 0` 밖에 없으므로 `1`을 더한 값에 `2`로 나누면 코드를 더욱 간결하게 작성 할 수 있다.
+
+마지막으로 출력은 한 줄에 `20`개씩 끊어서 출력하는데 이때 `index`를 1부터 시작하여 `i`가 20과 나누어 떨어진다면 줄바꿈해주는 코드인 `print()`를 주면된다.
+
+```python
+# 나의 코드
+n = int(input())
+arr = [-3333] + list(map(int, input().split()))    # append useless index arr[0] 
+
+def male(switch, target):    # male case
+    for i in range(1, n + 1):    # change switch state
+        if not i % target:
+            if not switch[i]:
+                switch[i] = 1
+            else:
+                switch[i] = 0
+    return switch
+
+def female(switch, target):    # female case
+    left, right = target - 1, target + 1
+    flag = True
+
+    try:    # prevent indexError
+        while flag:
+            if switch[left] == switch[right]:
+                left -= 1
+                right += 1
+            else:
+                flag = False
+    except:
+        pass
+
+    for i in range(left + 1, right):    # change switch state
+        if not switch[i]:
+            switch[i] = 1
+        else:
+            switch[i] = 0
+    return switch
+
+student = int(input())
+for _ in range(student):
+    sex, number = map(int, input().split())
+    if sex == 1:
+        male(arr, number)
+    else:
+        female(arr, number)
+    print(arr)
+
+for i in range(1, len(arr)):    # print each 20 index
+    print(arr[i], end=' ')
+    if not i % 20:
+        print()
+```
+
+```python
+# 간결한 코드
+n = int(input())
+arr = [-3333] + list(map(int, input().split()))    # append useless index arr[0] 
+
+def male(switch, target):    # male case
+    for i in range(target, n + 1, target):    # change switch state
+        switch[i] = (switch[i] + 1) % 2
+    return switch
+
+def female(switch, target):    # female case
+    left, right = target - 1, target + 1
+    flag = True
+
+    try:    # prevent indexError
+        while flag:
+            if switch[left] == switch[right]:
+                left -= 1
+                right += 1
+            else:
+                flag = False
+    except:
+        pass
+
+    for i in range(left + 1, right):    # change switch state
+        switch[i] = (switch[i] + 1) % 2
+    return switch
+
+student = int(input())
+for _ in range(student):
+    sex, number = map(int, input().split())
+    if sex == 1:
+        male(arr, number)
+    else:
+        female(arr, number)
+
+for i in range(1, len(arr)):    # print each 20 index
+    print(arr[i], end=' ')
+    if not i % 20:
+        print()
+```
+
