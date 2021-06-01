@@ -1959,3 +1959,56 @@ for i in range(1, len(arr)):    # print each 20 index
         print()
 ```
 
+---
+## 📍 백준 20436 - ZOAC 3
+
+<a href='https://www.acmicpc.net/problem/20436'>백준 20436 - ZOAC 3</a>
+
+## ⚡️ 나의 풀이 
+없는 것을 짜낼려니까(?) 조금 힘들었던 문제였다. 
+
+처음에 2차원 리스트로 문자 하나하나씩 끊어서 `keyboard = [['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'], ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'], ['z', 'x', 'c', 'v', 'b', 'n', 'm']]`로 선언했는데, 이것보다 하단에 있는 코드처럼 하나의 리스트로 감싸고 문자열에 `'str'`처리를 해주면 결과는 동일하지만 코드는 더욱 간결해지는 모습을 볼 수 있다.
+
+이 문제에서 핵심적으로 판단해야하는 부분은 다음과 같다. 
+
+1. 문자를 키보드의 좌표로 변환한다.
+`check_coordinate`함수를 선언해서 해당 `key`의 `column`과 `index`의 위치를 반환했다.
+
+2. 현재 문자가 키보드의 한글 자음인지 한글 모음인지 구분한다. 잘 모르겠다면 다음 사진을 보자.
+
+![](https://images.velog.io/images/abcd8637/post/9febecf8-9155-43dd-9cd7-a7faff38f248/KakaoTalk_Photo_2021-06-01-11-16-08.jpeg)
+
+3. 해당 문자열을 출력하는데 걸리는시간을 구한다. 
+`문자열의 전체 길이`(각 키를 누르는데 걸리는 시간) + 이전 `key`에서 다음 `key`로 넘어가는 시간 택시거리를 통해 다음 `key`로 넘어가는 시간을 구했는데, 여기서 주의할 점은 입력은 정확히 2글자가 아니기 때문에 기존에 계산한 값을 갱신시켜줘야 한다는 점이다. 
+
+
+```python
+import sys
+keyboard = ['qwertyuiop', 'asdfghjkl', 'zxcvbnm']    # keyboard position
+
+def check_coordinate(key):    # find coordinate, index key
+    for i in range(3):
+        if key in keyboard[i]:
+            return i, keyboard[i].index(key)
+
+sl, sr = input().split()
+st = sys.stdin.readline().strip()
+time, distance = len(st), 0    # 문자열의 전체 길이
+  
+cur_sl_column, cur_sl_row = check_coordinate(sl)    # 처음 주어지는 sl의 좌표
+cur_sr_column, cur_sr_row = check_coordinate(sr)    # 처음 주어지는 sr의 좌표
+
+for i in st:
+    column, row = check_coordinate(i)
+    if (column <= 1 and row <= 4) or (column == 2 and row <= 3):    # 자음 자판을 입력하는 경우
+        distance += abs(cur_sl_column - column) + abs(cur_sl_row - row)    # 택시 거리
+        cur_sl_column = column    # cur_column 값 갱신
+        cur_sl_row = row    # cur_row 값 갱신
+    else:    # 모음 자판을 입력하는 경우
+        distance += abs(cur_sr_column - column) + abs(cur_sr_row - row)    
+        cur_sr_column = column
+        cur_sr_row = row
+
+time += distance    # 문자열의 전체 길이 + `key`가 움직인 총 거리
+print(time)
+```
