@@ -2012,3 +2012,25 @@ for i in st:
 time += distance    # 문자열의 전체 길이 + `key`가 움직인 총 거리
 print(time)
 ```
+
+---
+## 📍 백준 2902 - KMP는 왜 KMP일까?
+
+<a href='https://www.acmicpc.net/problem/2902'>백준 2902 - KMP는 왜 KMP일까?</a>
+
+## ⚡️ 나의 풀이 
+
+이름의 첫번째 글자, 하이픈 뒤는 항상 대문자기 때문에 대문자로 따로 바꿔주는 코드가 따로 필요없다.
+
+1. 하이픈을 기준으로 입력을 나눈다.
+2. `names`를 반복문을 돌려 `i[0]`만 출력한다. 사람의 성의 첫 글자만 따서 부르기 때문이다.
+
+```python
+import sys
+input = sys.stdin.readline
+
+names = input().split('-')
+
+for i in names:
+    print(i[0], end='')
+```
