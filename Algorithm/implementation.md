@@ -2034,3 +2034,85 @@ names = input().split('-')
 for i in names:
     print(i[0], end='')
 ```
+
+---
+## 📍 백준 2615 - 오목
+
+<a href='https://www.acmicpc.net/problem/2615'>백준 2615 - 오목</a>
+
+## ⚡️ 나의 풀이 
+
+`IndexError`와 `단락연산자`의 중요성을 매우 매우 잘 배운 문제였다..(그만큼 많이 시도했다..) 까먹지 않게 정답판정을 받고 바로 글을 작성하는 중이다.
+
+![](https://images.velog.io/images/abcd8637/post/b2b7a710-cd0c-412a-8a7e-2470420a3a1f/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202021-06-03%2009.36.32.png)
+
+제일 어려웠던 부분은 `IndexError(범위설정)`, `육목판정` 이고 그 다음은 `가장 왼쪽에 있는 바둑알` 이었다. 내가 작성하면서 코드를 정확히 분석했어야 했는데 미흡해서 아쉬웠다.
+
+큰 흐름은 다음과 같다.
+1. 19 * 19 입력을 받는다.
+2. 바둑알이 있는 값`(arr[x][y]:)`이 있는지 확인한다.
+3. `하`, `우하`, `우`, `우상` 순서로 탐색한다.
+4. 현재값과 다음값이 연속으로 있는지 `while`문으로 확인한다.
+5. 육목판정 1, 2를 진행한다.
+6. 육목판정의 조건을 지났는데도 `cnt == 5`면 오목으로 판단하고 `return` 한다.
+7. 승부가 나지 않으면 0을 `return` 한다.
+
+## 🤔 Trial and Error 
+1️⃣  `IndexError`
+31번 코드를 `while 0 <= nx + dx[i] < n and 0 <= ny + dy[i] < n and arr[x][y] == arr[nx][ny]:`처럼 작성했다. 물론 `IndexError`가 발생했는데, 만약 현재 `cnt = 4`이고 다음 `cnt`를 셀 차례인데, 여기서 `+ dx[i], + dy[i]` 칸 만큼 더 가면 `n`의 범위를 벗어나기 때문에 오류가 발생한다.
+
+2️⃣  `단락연산자`
+처음에 35번과 37번 각각 코드 순서를 앞뒤로 바꾸어서 작성했었다.(35번: `if arr[nx][ny] == arr[nx + dx[i]][ny + dy[i]] and 0 <= nx + dx[i] < n and 0 <= ny + dy[i] < n:`, 37번: `if arr[x][y] == arr[x - dx[i]][y - dy[i]] and 0 <= x - dx[i] < n and 0 <= y - dy[i] < n:`) 이렇게 작성하니까 역시 `IndexError`가 발생했는데, 만약 현재좌표 `arr[x][y]`가 `index` 마지막 위치(`arr[n][n]`)에 있다고 가정하면, 다음 비교 할 좌표인 `arr[nx + dx[i]][ny + dy[i]]`는 `n`의 범위를 벗어났기 때문에 비교 할 수 없다. 따라서 오류가 발생한다. 이때 앞 뒤 순서를 바꾸면 앞 조건인 `0 <= nx + dx[i] < n and 0 <= ny + dy[i] < n:`에 먼저 걸리게 되고 이후 단락평가에 의해 뒤 조건은 비교하지 않고 곧바로 `False` 처리한다. 37번 코드도 마찬가지이다.
+
+단락평가를 잘 모르겠다면 <a href='https://ywtechit.tistory.com/26'>이전 글</a>을 보자!
+
+3️⃣ `육목 평가`
+연속된 바둑알이 육목인지 판별하는 방법은 2가지가 있다. 첫 번째는 연속된 바둑알의 제일 마지막 좌표와 해당 좌표에서 한 칸(`+ dx[i], + dy[i]`) 더 이동한 좌표가 같은지 살펴보고, 두 번째는 제일 처음 좌표와 해당 좌표에서 한 칸(`- dx[i], - dy[i]`) 덜 이동한 좌표가 같은지 살펴보는 것이다. 말로 복잡해서 아래 사진같이 직접 표로 그려봤다.
+
+![](https://images.velog.io/images/abcd8637/post/9c619cc8-6faa-43a3-819f-b97140ba0a67/KakaoTalk_Photo_2021-06-03-10-25-08.jpeg)
+
+4️⃣ `return 인자 개수`
+승부가 났을 때 `return`하는 인자의 개수와 승부가 나지 않았을 때 `return`하는 인자의 개수가 달랐다. 그래서 `return`과 `print()`를 각각 사용하려다가 코드가 깔끔하지 않은 것 같아서 고민하다가 하나만 `return`하는 인자에 임의로 `-1, -1`을 붙여 3개로 맞췄고, 0을 `return`한 값에는 `0`만 출력하게 작성했다. 기발한 발상이었다.
+
+이 문제를 풀기 위해 총 3일이 걸렸는데, 오늘 배웠던 내용들을 언젠간 써먹을 수 있게 잊지 말아야겠다.
+
+```python
+n = 19
+arr = [list(map(int, input().split())) for _ in range(n)]
+
+dx = [1, 1, 0, -1]    # 하(↓), 우하(⬊), 우(➞), 우상(⬈)
+dy = [0, 1, 1, 1]    
+
+def omok():
+    for x in range(n):
+        for y in range(n):
+            if arr[x][y]:
+                for i in range(4):
+                    nx = x + dx[i]
+                    ny = y + dy[i]
+                    cnt = 1
+
+                    if nx < 0 or ny < 0 or nx >= n or ny >= n:
+                        continue
+
+                    while 0 <= nx < n and 0 <= ny < n and arr[x][y] == arr[nx][ny]:
+                        cnt += 1
+
+                        if cnt == 5:
+                            if 0 <= nx + dx[i] < n and 0 <= ny + dy[i] < n and arr[nx][ny] == arr[nx + dx[i]][ny + dy[i]]:    # 육목 판정 1
+                                break
+                            if 0 <= x - dx[i] < n and 0 <= y - dy[i] < n and arr[x][y] == arr[x - dx[i]][y - dy[i]]:    # 육목 판정 2
+                                break
+                            return arr[x][y], x+1, y+1    # 육목이 아닌 오목이면 return
+
+                        nx += dx[i]
+                        ny += dy[i]
+    return 0, -1, -1    # 승부가 나지 않을 때
+
+color, x, y = omok()
+if not color:
+    print(color)
+else:
+    print(color)
+    print(x, y)
+```
