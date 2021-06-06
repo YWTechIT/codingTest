@@ -2135,3 +2135,62 @@ else:
     print(color)
     print(x, y)
 ```
+
+---
+## 📍 백준 11586 - 지영 공주님의 마법 거울
+
+<a href='https://www.acmicpc.net/problem/11586'>백준 11586 - 지영 공주님의 마법 거울</a>
+
+## ⚡️ 나의 풀이
+2차원 행렬을 좌우, 상하 반전을 할 수 있느냐 없느냐를 묻는 문제였다. 나는 함수를 선언해서 하나하나씩 출력하는 방법을 사용했다. 이번에는 출력에 `sys.stdout`을 사용했는데, 저번에 <a href ='https://ywtechit.tistory.com/134'>유성</a>문제를 푼 이후에 문자열을 `print()`할 때는 뭔가 써야 할것같은 느낌이었다. 그러나 최대 입력이 `10,000`이어서 사용하지 않아도 됐었다. 다음번에 문제 풀 때는 최대 `10,000,000`까지면 `sys.stdout`을 사용해봐야지
+
+정답판정을 받고 다른사람의 코드를 보니까 `*(Asterisk, unpacking)`을 사용해서 코드를 상당히 간결하게 구현했다. 머리속에 번뜩 저런 코드가 떠오르면 얼마나 좋을까?! 번뜩 떠오르는것이 쉽지 않으니 일단 머릿속에 넣자. 😂 😂
+
+```python
+# 나의 풀이
+import sys
+input = sys.stdin.readline
+
+n = int(input())
+arr = [input().strip() for _ in range(n)]
+K = int(input())
+
+def original():
+    for i in range(n):
+        for j in range(n):
+            sys.stdout.write(arr[i][j])
+        sys.stdout.write('\n')
+
+def reverse_row():
+    for i in range(n):
+        for j in range(n-1, -1, -1):
+            sys.stdout.write(arr[i][j])
+        sys.stdout.write('\n')
+
+def reverse_column():
+    for i in range(n-1, -1, -1):
+        for j in range(n):
+            sys.stdout.write(arr[i][j])
+        sys.stdout.write('\n')
+
+if K == 1:
+    original()
+elif K == 2:
+    reverse_row()
+else:
+    reverse_column()
+```
+
+```python
+# 다른 사람의 풀이
+n = int(input())
+mirror = [input() for _ in range(n)]
+k = int(input())
+
+if k == 1:    # 원본 출력
+    print(*mirror, sep='\n')
+elif k == 2:    # 좌우 반전
+    print(*[i[::-1] for i in mirror], sep='\n')
+else:    # 상하 반전
+    print(*mirror[::-1], sep='\n')
+```
