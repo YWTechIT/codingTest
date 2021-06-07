@@ -2220,3 +2220,62 @@ for _ in range(T):
     else:
         print(result)
 ```
+
+여담으로 `x ** y`, `pow(x, y)`, `math.pow(x, y)` 함수 중 제일 빠른 함수는 `math.pow(x, y)`인데, 다음 코드를 한번 실행하면 곧장 알 수 있다.
+
+```python
+import timeit
+
+def show_timeit(command, setup):
+    print(setup + '; ' + command + ':')
+    print(timeit.timeit(command, setup))
+    print()
+
+# Comparing small integers
+show_timeit('a ** b', 'a = 3; b = 4')
+show_timeit('pow(a, b)', 'a = 3; b = 4')
+show_timeit('math.pow(a, b)', 'import math; a = 3; b = 4')
+
+# Compare large integers to demonstrate non-constant complexity
+show_timeit('a ** b', 'a = 3; b = 400')
+show_timeit('pow(a, b)', 'a = 3; b = 400')
+show_timeit('math.pow(a, b)', 'import math; a = 3; b = 400')
+
+# Compare floating point to demonstrate O(1) throughout
+show_timeit('a ** b', 'a = 3.; b = 400.')
+show_timeit('pow(a, b)', 'a = 3.; b = 400.')
+show_timeit('math.pow(a, b)', 'import math; a = 3.; b = 400.')
+```
+
+---
+## 📍 백준 1076 - 저항
+
+<a href='https://www.acmicpc.net/problem/1076'>백준 1076 - 저항</a>
+
+## ⚡️ 나의 풀이
+저항 문제의 핵심은 첫번째와 두번째 색은 더해주고 마지막 색은 곱해주는 방법인데, 무작정 `str`형으로 바꿔 더해주는 방법만 생각했다. 그것보다 첫번째 색에 `10`을 곱하고 두번째 색은 그대로 더해주는게 가독성이 더 좋았다. 그리고 `10`의 거듭제곱을 이용하면 쉽게 계산 할 수 있는데 규칙을 파악하지 못해 `resisters[color][2]`에 무작정 `10`의 거듭제곱을 넣었다. 다른 사람의 코드를 보니까 규칙의 중요성을 한번 더 느꼈다.
+
+```python
+# 나의 코드
+colors = [input() for _ in range(3)]
+resisters = {'black': [0, 1], 'brown': [1, 10], 'red': [2, 100], 'orange': [3, 1000],
+             'yellow': [4, 10000], 'green': [5, 100000], 'blue': [6, 1000000], 'violet': [7, 10000000],
+             'grey': [8, 100000000], 'white': [9, 1000000000]}
+
+value = str(resisters[colors[0]][0]) + str(resisters[colors[1]][0])
+result = int(value) * resisters[colors[2]][1]
+
+print(result)
+```
+
+```python
+# 다른 사람의 코드
+a = input()
+b = input()
+c = input()
+resisters = {'black': 0, 'brown': 1, 'red': 2, 'orange': 3,
+             'yellow': 4, 'green': 5, 'blue': 6, 'violet': 7,
+             'grey': 8, 'white': 9}
+
+print((resisters[a] * 10 + resisters[b]) * (10 ** resisters[c]))
+```
