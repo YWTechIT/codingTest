@@ -915,6 +915,31 @@ else:
     print(c, d)
 ```
 
+---
+## 📍 나머지(%) 사용 할 때 조건 추가하기
+<a href='https://ywtechit.tistory.com/152?category=930542'>저번</a>에 풀었던 <a href='https://www.acmicpc.net/problem/1009'>boj 1009 - 분산처리</a> 문제와 이것과 비슷했던<a href='https://ywtechit.tistory.com/91'>문제</a>인 <a href='https://www.acmicpc.net/problem/10250'> boj 10250 - ACM 호텔</a> 역시 동일하게 나머지(%)를 사용하면 나머지 조건을 추가해줘야 한다.
 
+예를 들어, `arr = [-3333, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ...]` 처럼 표현하고 싶다면 (`arr[1]`부터 세기위해 `arr[0]`에 `-3333`을 넣었다.) 해당 패턴은 `index`의 값은 `10`으로 나눈 나머지가 될 것이다. 하지만 단순하게 나머지 값만 추가하면 `arr[10]`은 10이 아니라 0이 된다. 이 때문에 나머지를 사용해서 수를 셀 때는 나머지 조건을 붙여줘야한다. 다음 코드처럼 말이다.
+
+```python
+index = 20
+arr = [0] * 50
+calculate = index % 10
+
+# 나머지가 0인 조건을 고려하지 않은 코드
+arr[index] = calculate
+
+print(arr[index])
+👉🏽 0
+
+# 나머지가 0인 조건을 고려한 코드
+if not calculate:
+    arr[index] = calculate + 10
+else:
+    arr[index] = calculate
+
+print(arr[index])
+👉🏽 10
+```
 
 
