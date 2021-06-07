@@ -2194,3 +2194,29 @@ elif k == 2:    # 좌우 반전
 else:    # 상하 반전
     print(*mirror[::-1], sep='\n')
 ```
+
+---
+## 📍 백준 1009 - 분산처리
+
+<a href='https://www.acmicpc.net/problem/1009'>백준 1009 - 분산처리</a>
+
+## ⚡️ 나의 풀이
+문제 자체는 어렵지 않았다. 단순하게 `a ** b % 10`을 구하면 되는 문제였는데, 2가지를 신경쓰지 못했다.
+1. 정수 `b`의 범위: `1 <= b < 1,000,000`인데, 거듭제곱형태라서 나중에 값이 무한정으로 커지게 된다.
+2. `a ** b % 10`: 만약, `a ** b`가 10이 나오면 0이 출력되기 때문에 따로 조건을 넣어줘야한다.
+
+1번은 `**` 대신 `pow` 내장함수를 이용했는데 결론적으로 `x ** y`의 시간복잡도는 `O(N)`이고, `pow(x, y)`의 시간복잡도는 `O(1)`이다. 왜 그런지는 <a href='https://stackoverflow.com/questions/48839772/why-is-time-complexity-o1-for-powx-y-while-it-is-on-for-xy'>스택오버플로우 질문</a>을 참고하자. 그리고 `pow`함수에서 세번째인자까지 넘겨 줄 수 있는데 `pow(base, -exp, mod)` 세번째 인자는 `mod`연산을 할 수 있다.
+
+2번은 `x % 10`를 할 때 `10 % 10`이면 0이 되므로 `0`일 때는 10을 더해주는 조건을 추가했다.
+
+```python
+T = int(input())
+
+for _ in range(T):
+    a, b = map(int, input().split())
+    result = pow(a, b, 10)
+    if not result:
+        print(result+10)
+    else:
+        print(result)
+```
