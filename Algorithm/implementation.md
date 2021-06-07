@@ -2279,3 +2279,42 @@ resisters = {'black': 0, 'brown': 1, 'red': 2, 'orange': 3,
 
 print((resisters[a] * 10 + resisters[b]) * (10 ** resisters[c]))
 ```
+
+---
+## 📍 백준 3047 - ABC
+
+<a href='https://www.acmicpc.net/problem/3047'>백준 3047 - ABC</a>
+
+## ⚡️ 나의 풀이
+문제 따라 대소관계를 비교하면 `C > B > A`가 된다. 그런데, 입력에서 주어진 순서대로 출력해야하므로 `반복문 + 조건문`을 사용하여 출력했다.
+
+```python
+# 나의 코드
+arr = list(map(int, input().split()))
+arr.sort()
+A, B, C = arr
+
+for i in input():
+    if i == 'A':
+        print(A, end=' ')
+    elif i == 'B':
+        print(B, end=' ')
+    else:
+        print(C, end=' ')
+
+# 나의 다른 코드
+arr = list(map(int, input().split()))
+A = min(arr)
+C = max(arr)
+arr.remove(A)
+arr.remove(C)
+B = int(*arr)
+
+for i in input():
+    if i == 'A':
+        print(A, end=' ')
+    elif i == 'B':
+        print(B, end=' ')
+    else:
+        print(C, end=' ')
+```
