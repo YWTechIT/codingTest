@@ -102,3 +102,50 @@ for _ in range(n):
 
 print(total_plug-(n-1))
 ```
+
+---
+## 📍 백준 2480 - 주사위 세개
+<a href='https://www.acmicpc.net/problem/2480'>백준 2480 - 주사위 세개</a>
+
+## 💡 나의 풀이
+이 문제의 핵심은 `같은 눈`이 몇개가 나왔는지 분류를 하는 방법이다.
+
+내가 풀었던 방법은 `set`의 특징 중 `중복 제거`를 이용했는데 주사위를 더 많이 던질때 사용하면 괜찮은 방법인것 같다. 다시 본론으로 돌아가 `len(set(arr)) == 1`이면 모든 수가 같은 수이기 때문에 1개로 줄어들은 것이다. 따라서 같은 눈이 3개라고 할 수 있다. 반대로 `len(set(arr)) == 3`이면 모두 다르기때문에 중복제거가 일어나지 않았다. 이제 나머지 조건인 같은 눈이 2개만 나오는 경우를 찾으면 되는데 `set`으로 찾을 방법이 떠오르지 않아 `반복문 + count + index`를 이용했고 `count`가 2개 이상인 `index`를 찾아 `arr[index]`를 반환시켰다.
+
+다른 사람의 코드는 `3개가 동일한 경우`, `2개가 동일한 경우`, `모두 다른 경우`를 각각 조건식으로 작성하여 논리연산자로 비교하는 방법을 사용했다. 다음에 문제를 풀 때 3개의 조건만 나온다면 논리연산자로 비교하는 방법을 사용하는 것이 가독성이 더 좋아 보였다.
+
+```python
+# 나의 코드
+arr = list(map(int, input().split()))
+temp = 0
+
+if len(set(arr)) == 1:   # 3개가 동일한 경우
+    print((10**4) + (arr[0] * 1000))
+
+elif len(set(arr)) == 3:    # 모두 다른 경우
+    print(max(arr) * 100)
+
+else:    # 2개가 동일한 경우
+    for i in range(3):
+        if arr.count(arr[i]) == 2:
+            temp = arr[arr.index(arr[i])]
+    print(1000 + (temp * 100))
+```
+
+```python
+# 다른 사람의 코드
+a, b, c = map(int, input().split())
+
+if a == b and b == c:    # 3개가 동일한 경우
+    print(10000 + (a * 1000))
+
+elif a == b or b == c:    # 2개가 동일한 경우
+    print(1000 + (b * 100))
+
+elif a == c:    # 2개가 동일한 경우
+    print(1000 + (a * 100))
+
+else:    # 모두 다른 경우
+    print(max(a, b, c)*100)
+```
+
