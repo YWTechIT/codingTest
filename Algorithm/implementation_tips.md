@@ -942,4 +942,25 @@ print(arr[index])
 👉🏽 10
 ```
 
+---
+## 📍 3개의 주사위를 던져 n개의 동일한 값 찾기
+제목을 어렵게 지었지만 간단하게 말하면 3개의 값을 비교했을 때 `3개가 동일한 경우`, `2개가 동일한 경우`, `모두 다른 경우`를 찾는 조건문을 작성하는 방법이다.
+<a href='https://www.acmicpc.net/problem/2480'>boj_2480 - 주사위 세개</a>를 풀면 이를 활용한 문제라는 것을 알 수 있다.
+
+```python
+a, b, c = map(int, input().split())
+
+if a == b and b == c:    
+    print('3개가 동일한 경우')
+
+elif a == b or b == c:
+    print('2개가 동일한 경우')
+
+elif a == c:
+    print('2개가 동일한 경우')
+
+else:
+    print('모두 다른 경우')
+```
+
 
