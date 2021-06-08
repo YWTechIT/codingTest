@@ -60,7 +60,6 @@ while True:
 ```
 
 ---
-
 ## 📍 백준 1085 - 직사각형에서 탈출
 <a href='https://www.acmicpc.net/problem/1085'>백준 1085 - 직사각형에서 탈출</a>
 
@@ -77,4 +76,29 @@ print(min(a, b))
 # 다른사람의 코드
 x, y, w, h = map(int, input().split())
 print(min([x, y, w-x, h-y]))
+```
+
+---
+## 📍 백준 2010 - 플러그
+<a href='https://www.acmicpc.net/problem/2010'>백준 2010 - 플러그</a>
+
+## 💡 나의 풀이
+처음 문제 풀 때 각각 멀티탭을 꽂을 수 있는 개수만큼 `max`값만 갱신하면 되는거아냐? 라고 생각했는데 그게 아니었다. 멀티탭에 또 멀티탭을 꽂을 수 있다는 사실을 잊었다. 나처럼 잘 이해가 안되는 사람들을 위해 그림을 하나 그려봤다. (발(🦶🏾)그림 주의)
+
+예를 들어 입력이 `4 4 3 2 1` 이라고 가정해보자. 벽단자는 그림의 이해를 위해서 그린것이고 멀티탭만 보면된다. 이미 꽂혀 있는 멀티탭을 제외하고 남은 멀티탭에서 최대 개수를 구할 때 규칙을 찾아보면 무조건 하나씩은 꽂혀있기 때문에 `총 멀티탭에서 꽂을 수 있는 구멍 - (멀티탭의 수 - 1)`가 된다. 그래도 이해가 잘 안되면 그림을 다시 한번 살펴보자.
+
+![](https://images.velog.io/images/abcd8637/post/6250b8f9-95ff-43d2-ad3b-007ffd5a0187/KakaoTalk_Photo_2021-06-08-11-31-05.jpeg)
+
+```python
+import sys
+input = sys.stdin.readline
+
+n = int(input())
+total_plug = 0
+
+for _ in range(n):
+    plug = int(input())
+    total_plug += plug
+
+print(total_plug-(n-1))
 ```
