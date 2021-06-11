@@ -10,19 +10,25 @@
 ```python
 n = 5
 data = [10, 20, 30, 40, 50]
-
-value_sum = 0
 prefix_sum = [0]
 
+# 1번 방법
+value_sum = 0
 for i in data:
     value_sum = value_sum + i
     prefix_sum.append(value_sum)
+
+# 2번 방법
+for i in range(1, n):
+    data[i] += data[i-1]
+prefix_sum += data
 
 left = 3
 right = 4
 result = prefix_sum[right] - prefix_sum[left - 1]
 print(result)
 👉🏽 70
+
 ```
 
 ---
