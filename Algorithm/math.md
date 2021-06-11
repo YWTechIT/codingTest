@@ -250,3 +250,20 @@ pi = 3.141592653589793
 print('{0:0.6f}'.format(r*r*pi))
 print('{0:0.6f}'.format(r*r*2))
 ```
+
+---
+## 📍 백준 10833 - 사과
+<a href='https://www.acmicpc.net/problem/10833'>백준 10833 - 사과</a>
+
+각 `학교의 사과 개수 % 학생 수`를 누적시켜주면 된다.
+
+## 💡 나의 풀이
+```python
+n = int(input())
+rest = 0
+
+for _ in range(n):
+    student, apple = map(int, input().split())
+    rest += (apple % student)
+print(rest)
+```
