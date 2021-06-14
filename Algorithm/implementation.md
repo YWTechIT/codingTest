@@ -2318,3 +2318,23 @@ for i in input():
     else:
         print(C, end=' ')
 ```
+
+---
+## 📍 백준 7567 - 그릇
+
+<a href='https://www.acmicpc.net/problem/7567'>백준 7567 - 그릇</a>
+
+## ⚡️ 나의 풀이
+단순 구현문제인데, 그릇을 포갤때의 방향이 일치하는지 아닌지 판별하면된다. 맨 처음 그릇은 이전 그릇과 비교 할 수 없기때문에 맨 처음 그릇의 점수 10점을 선언해준상태에서 반복문의 범위를 `index`가 1인 지점부터 len(bowl)까지 확인한다. 반복문내부에서 `이전 그릇과 같으면 5점을 누적`시키고, `다르면 10점을 누적`시킨다.
+
+```python
+bowl = input()
+score = 10
+
+for i in range(1, len(bowl)):
+    if bowl[i-1] == bowl[i]:
+        score += 5
+    else:
+        score += 10
+print(score)
+```
