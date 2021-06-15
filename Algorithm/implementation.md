@@ -2338,3 +2338,114 @@ for i in range(1, len(bowl)):
         score += 10
 print(score)
 ```
+
+---
+## 📍 백준 16935 - 배열 돌리기 3
+
+<a href='https://www.acmicpc.net/problem/16935'>백준 16935 - 배열 돌리기 3</a>
+
+## ⚡️ 나의 풀이
+2차원배열을 `상하`, `좌우`, `시계 방향으로 90도 회전`, `반시계 방향으로 90도 회전`, `부분 배열 시계방향 회전`, `부분 배열 반시계방향 회전` 하는 문제다. 이 문제를 풀 때 `indexError`를 조심하자.
+
+3번, 4번 연산에서는 반복문의 범위를 `n`, `m`을 서로 바꿔주었는데, `n != m` 일때 범위가 달라지기 때문이다. 그래서 `temp` 선언도 서로 자리를 바꿔주었다. 주의할점은 마지막에 `oper`를 실행시킬 때 `n, m = m, n`을 선언해줘서 가로, 세로가 바뀌지 않게 선언하자. 
+
+5번, 6번 연산은 조금 어려울 수 있는데 규칙을 알면 어렵지 않다.(규칙을 찾는 과정이 어렵긴하지만..😅) 다음 사진을 보자.
+
+![](https://images.velog.io/images/abcd8637/post/9d376d99-9fb5-4ab7-8d2b-182e0d5b18c5/KakaoTalk_Photo_2021-06-15-11-25-26.jpeg)
+
+1. `arr`과 범위는 같지만 값은 0인 `temp`를 선언한다.
+2. `a`를 `2`로 옮겨야하므로 `arr`의 `a` 좌표를 가져올 반복문을 선언한다.
+3. `a`의 첫번째 좌표부터 시작해서 `b`의 첫번째 좌표와 하나씩 넣을 수 있게 설정한다.
+4. 나머지 `b`, `c`, `d`좌표도 동일한 과정을 거친다.
+   
+```python
+def calc_1():
+    temp = [[0] * m for _ in range(n)]
+    for i in range(n):
+        temp[i] = arr[n-1-i]
+    return temp
+
+def calc_2():
+    temp = [[0] * m for _ in range(n)]
+    for i in range(n):
+        for j in range(m):
+            temp[i][j] = arr[i][m-1-j]
+    return temp
+
+def calc_3(arr, n, m):
+    temp = [[0] * n for _ in range(m)]
+    for i in range(m):
+        for j in range(n):
+            temp[i][j] = arr[n-1-j][i]
+    return temp
+
+def calc_4(arr, n, m):
+    temp = [[0] * n for _ in range(m)]
+    for i in range(m):
+        for j in range(n):
+            temp[i][j] = arr[j][m - 1 - i]
+    return temp
+
+def calc_5():
+    temp = [[0] * m for _ in range(n)]
+    for i in range(n // 2):    # move position: 1 -> 2
+        for j in range(m // 2):
+            temp[i][j + m // 2] = arr[i][j]
+
+    for i in range(n // 2):    # move position: 2 -> 3
+        for j in range(m // 2, m):
+            temp[i + n // 2][j] = arr[i][j]
+
+    for i in range(n // 2, n):    # move position: 3 -> 4
+        for j in range(m // 2, m):
+            temp[i][j - m // 2] = arr[i][j]
+
+    for i in range(n // 2, n):    # move position: 4 -> 1
+        for j in range(m // 2):
+            temp[i - n // 2][j] = arr[i][j]
+
+    return temp
+
+def calc_6():
+    temp = [[0] * m for _ in range(n)]
+    for i in range(n // 2):    # move position: 1 -> 4
+        for j in range(m // 2):
+            temp[i + n // 2][j] = arr[i][j]
+
+    for i in range(n // 2, n):    # move position: 4 -> 3
+        for j in range(m // 2):
+            temp[i][j + m // 2] = arr[i][j]
+
+    for i in range(n // 2, n):    # move position: 3 -> 2
+        for j in range(m // 2, m):
+            temp[i - n // 2][j] = arr[i][j]
+
+    for i in range(n // 2):    # move position: 2 -> 1
+        for j in range(m // 2, m):
+            temp[i][j - m // 2] = arr[i][j]
+
+    return temp
+
+n, m, r = map(int, input().split())
+arr = [list(map(int, input().split())) for _ in range(n)]
+operation = list(map(int, input().split()))
+
+for oper in operation:
+    if oper == 1:
+        arr = calc_1()
+    elif oper == 2:
+        arr = calc_2()
+    elif oper == 3:
+        arr = calc_3(arr, n, m)
+        n, m = m, n
+    elif oper == 4:
+        arr = calc_4(arr, n, m)
+        n, m = m, n
+    elif oper == 5:
+        arr = calc_5()
+    else:
+        arr = calc_6()
+
+for i in arr:
+    print(*i)
+```
