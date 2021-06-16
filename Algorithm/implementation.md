@@ -2449,3 +2449,59 @@ for oper in operation:
 for i in arr:
     print(*i)
 ```
+
+---
+## 📍 백준 11723 - 집합
+
+<a href='https://www.acmicpc.net/problem/11723'>백준 11723 - 집합</a>
+
+## ⚡️ 나의 풀이
+`add`와 `remove`에서 중복된 경우는 무시한다는 조건을 보아 `set`자료형을 사용했다. 그런데, 정답을 제출하니까 `keyError`가 떴었다 뭐때문인지 찾아보다가 `remove` 함수 때문이었는데, 값이 없는 경우에 `remove`를 사용하게 되면 `keyError`가 난다. 이럴 때는 `discard`함수를 사용하자. 값이 없는 상태에서 `discard`를 사용해도 에러가 나지 않는다. 또 `empty`는 빈 집합으로 바꿔야하는데 그냥 `set()`으로 초기화해줘도 되지만 `clear` 함수를 사용해줘도 된다. 시간복잡도는 크게 차이가 없었다.
+
+
+```python
+import sys
+input = sys.stdin.readline
+
+empty_set = set()
+
+def add(x):
+    empty_set.add(x)
+
+def remove(x):
+    empty_set.discard(x)
+
+def check(x):
+    if x in empty_set:
+        return 1
+    return 0
+
+def toggle(x):
+    if x in empty_set:
+        empty_set.discard(x)
+    else:
+        empty_set.add(x)
+
+def set_all():
+    global empty_set
+    empty_set = {i for i in range(1, 21)}
+
+def empty():
+    empty_set.clear()
+
+for _ in range(int(input())):
+    command = input().split()
+    if command[0] == 'add':
+        add(int(command[1]))
+    elif command[0] == 'remove':
+        remove(int(command[1]))
+    elif command[0] == 'check':
+        print(check(int(command[1])))
+    elif command[0] == 'toggle':
+        toggle(int(command[1]))
+    elif command[0] == 'all':
+        set_all()
+    else:
+        empty()
+```
+
