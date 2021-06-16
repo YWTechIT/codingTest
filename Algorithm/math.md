@@ -279,3 +279,56 @@ print(rest)
 time = sum([int(input()) for _ in range(4)])
 print('\n'.join(map(str, divmod(time, 60))))
 ```
+
+---
+## 📍 백준 5086 - 배수와 약수
+
+<a href='https://www.acmicpc.net/problem/5086'>백준 5086 - 배수와 약수</a>
+
+## ⚡️ 나의 풀이
+배수와 약수의 관계를 파악하는 문제다. 기준을 너무 첫번째 숫자로만 잡아서 생각이 고착되어있던것 같다. 나의 풀이는 다음과 같다.
+
+1. 두 수를 대소비교한다.
+2. `a < b`일 때는 `b`를 기준으로 약수를 구하고 `a`가 `b`의 약수와 같다면 `약수(factor)`이고 반복문을 다 돌았는데도 찾지 못하면 `neither`이다.
+3. `a > b`일 때는 `a`를 기준으로 약수를 구하고 `b`가 `a`의 약수와 같다면 `배수(multiple)`이고 반복문을 다 돌았는데도 찾지 못하면 `neither`이다.
+4. `a == b`인 경우는 없다.
+
+이렇게 안해도 다른 사람은 더욱 쉽게 구현했다.
+1. `a % b == 0`이면 `a >= b`이고 (이때, `a != b`), `a`는 `b`의 `배수(multiple)`다.
+2. `b % a == 0`이면 `b >= a`이고 (이때, `a != b`), `a`는 `b`의 `약수(factor)`다.
+
+```python
+# 나의 코드 
+def check(a, b):
+    if a < b:
+        for i in range(1, b//2 + 1):
+            if not b % i and a == i:
+                return 'factor'
+        return 'neither'
+    else:
+        for i in range(1, a//2 + 1):
+            if not a % i and i == b:
+                return 'multiple'
+        return 'neither'
+
+
+while True:
+    a, b = map(int, input().split())
+    if a == 0 and b == 0:
+        break
+    print(check(a, b))
+```
+
+```python
+# 다른 사람의 코드
+while True:
+    a, b = map(int, input().split())
+    if not a and not b:
+        break
+    if not a % b:
+        print('multiple')
+    elif not b % a:
+        print('factor')
+    else:
+        print('neither')
+```
