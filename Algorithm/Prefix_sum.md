@@ -29,6 +29,9 @@ result = prefix_sum[right] - prefix_sum[left - 1]
 print(result)
 👉🏽 70
 
+# 3번 방법, prefix를 구하지 않고 원래 data 값에서 계산
+print(sum(data[left-1:right]))
+👉🏽 70
 ```
 
 ---
