@@ -2505,3 +2505,34 @@ for _ in range(int(input())):
         empty()
 ```
 
+---
+## 📍 백준 10820 - 문자열 분석
+
+<a href='https://www.acmicpc.net/problem/10820'>백준 10820 - 문자열 분석</a>
+
+## ⚡️ 나의 풀이
+
+1. 문자열 `n`개가 몇 번째까지인지 모르기 때문에 `try except`를 사용했다.(`except EOFError`)
+2. 소문자: `islower()`, 대문자: `isupper()`, 숫자: `isdigit()`, 공백: `else`
+3. 각 `count`누적
+
+```python
+while True:
+    try:
+        lower_case, upper_case, number, blank = 0, 0, 0, 0
+
+        for i in input():
+            if i.islower():
+                lower_case += 1
+            elif i.isupper():
+                upper_case += 1
+            elif i.isdigit():
+                number += 1
+            else:
+                blank += 1
+        print(lower_case, upper_case, number, blank)
+
+    except EOFError:
+        break
+
+```
