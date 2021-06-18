@@ -1058,3 +1058,17 @@ arr = list(map(list, zip(*arr))[::-1]
 2 8 14 20
 1 7 13 19
 ```
+
+---
+## 📍 계차수열
+`6`의 배수씩 증가하는 계차수열을 구할 때는 다음과 같이 작성하자. `temp`은 종료조건을 넣기위해 넣었다.
+```python
+temp = 100
+difference = 1
+i = 1
+
+while temp > difference:
+    difference = difference + ( 6 * i )
+    i += 1
+print(difference)
+```
