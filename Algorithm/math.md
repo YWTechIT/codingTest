@@ -332,3 +332,43 @@ while True:
     else:
         print('neither')
 ```
+
+---
+## 📍 백준 2292 - 벌집
+
+<a href='https://www.acmicpc.net/problem/2292'>백준 2292 - 벌집</a>
+
+## ⚡️ 나의 풀이
+`계차수열`을 수학적으로 구현 할 수 있는지 묻는 문제이다. 규칙을 자세히보면 `1, 7, 19, 37, 81...`인데 여기서 계차는 `6의 배수만큼 증가`한다.
+즉, `equation = equation + (6 * i)`에서 결과값에 `+1`씩 더한 값이 된다. 하지만 반복문 안에서 `+1`을 넣으면 `+1`이 들어간채로 누적되기때문에 조건절에서 `+1`을 넣고 `n`과 비교했다.
+
+다른 사람의 풀이를 봤는데 `while`문으로 간단하게 풀었다. 놀랐다. `cnt`를 따로 쓸 생각을 하지 않고 `i`값으로 출력 할수도 있구나라는 생각을 했다. 그리고 왜 `1`일때의 조건은 따로 안넣어줬는지 의문이 생겼는데, `1`일때는 `while`문에 걸리지 않기때문에 생략했다. 왜 그 생각을 하지 못했을 까? (입틀막 🤭 🤭)
+
+```python
+# 나의 풀이
+n = int(input())
+equation = 0
+cnt = 1
+
+if n == 1:
+    print(1)
+else:
+    for i in range(1, 100000):
+        equation = equation + (6 * i)
+        cnt += 1
+        if n <= equation + 1:
+            print(cnt)
+            break
+```
+
+```python
+# 다른 사람의 풀이
+n = int(input())
+room = 1
+cnt = 1
+
+while n > room:
+    room = room + (6 * cnt)
+    cnt += 1
+print(cnt)
+```
