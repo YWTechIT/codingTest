@@ -1069,8 +1069,11 @@ arr = list(map(list, zip(*arr))[::-1]
 ```
 
 ---
-## 📍 계차수열
+## 📍 삼각수(계차수열) 나타내기
+삼각수의 정의: <a href='https://ko.wikipedia.org/wiki/%EC%82%BC%EA%B0%81%EC%88%98'>위키백과</a>
+
 `6`의 배수씩 증가하는 계차수열을 구할 때는 다음과 같이 작성하자. `temp`은 종료조건을 넣기위해 넣었다.
+
 ```python
 temp = 100
 difference = 1
