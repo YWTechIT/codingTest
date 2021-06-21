@@ -1010,3 +1010,97 @@ def solution(nums):
             cnt+=1
     return cnt
 ```
+
+---
+### 📌 키패드 누르기
+<a href='https://programmers.co.kr/learn/courses/30/lessons/67256'>문제 설명</a>
+
+### 💡 나의 풀이
+<a href='https://ywtechit.tistory.com/147'>저번</a>에 풀었던 <a href='https://www.acmicpc.net/problem/20436'>백준 - ZOAC 3</a> 문제와 비슷하다는 것을 느꼈다. 다만, 
+`ZOAC 3`는 택시거리를 구했고, `키패드 누르기` 문제는 같은 거리 일때 더 가까운 손가락은 어떤 손가락인가?를 구해야했다.
+
+이 문제의 큰 흐름은 다음과 같다.
+1. 맨 처음 왼손 좌표는 `*(3, 0)`, 오른손 좌표는 `#(3, 2)`로 초기화 시킨다.
+2. `numbers`가 반목문을 돌면서 거리를 구해야한다.
+3. `numbers`의 열에 따라 왼손 좌표, 오른손 좌표를 각각 `update`시킨다. 만약, `numbers`의 `column`좌표가 `0`이면 왼손 좌표를 `update`시키고, `column`좌표가 `1`이면 왼손과 오른손 중 더 가까운 손 좌표를 `update`, 마지막으로 `column`좌표가 `1`이면 오른손 좌표를 `update` 시킨다.
+
+더 자세한 흐름을 살펴보자.
+1. `numbers`가 `keypad` 좌표 중 어디에있는지 반환해주는 함수를 만들어야 한다.
+2. `column`좌표가 `1`이고, 두 엄지손가락 중 어떤 손가락의 거리가 더 가까운지 찾고(`bfs`), 만약 두 거리가 같다면 오른손잡이인지 왼손잡이인지에 따라 `update`해야한다.
+
+처음에는 오답판정을 받았는데 `bfs` 함수 내에서 `상, 하, 좌, 우` 좌표를 탐색하는 `20`번째 코드 이후에 `return`문을 작성했는데 `numbers`가 똑같은 값이 들어올 때 정답이 일정하게 나오지 않았다. 예를 들어 `numbers=[0, 0, 0, 0], hand = 'right'`일 때 정답은 `RRRR`이어야 하지만 `RLRR`와 출력이 반환됐다. `상, 하, 좌, 우` 반목문이 들어가기 전인 `16`번째에 `return`문을 작성했더니 정답 판정을 받았다. 또, `result`를 반환 할 때 리스트에 `append -> ''.join(result)` 하는 것 보다 문자열이기 때문에 `+=`를 사용하는게 가독성이 더 좋아보인다. `R`, `L` 판정 이후 현재 좌표를 `갱신`시키는 것 또한 잊지말자. 하단에 `bfs`를 돌 때 `visited` 변화를 보여주는 그림을 그려봤다. 마지막으로 중요한 것은 `bfs` 함수를 사용한다면 `visited`를 한번 돌 때마다 초기화하는 작업을 ⭐️ 꼭 ⭐️ 시켜주자!! 그렇지 않으면 방문표시를 하는 코드가 의미없어지고 `bfs`가 정상적으로 작동하지 않는다!!
+
+![](https://images.velog.io/images/abcd8637/post/3e466f69-cea9-4a9c-b1f5-92fc4fe7db9e/KakaoTalk_Photo_2021-06-21-13-41-28.jpeg)
+
+```python
+from collections import deque
+
+def find_row_column(key):    # number의 행과 열을 찾는 함수
+    for i in range(4):
+        if key in keypad[i]:
+            return i, keypad[i].index(key)
+
+def bfs(x, y, target):    # 두 엄지손가락의 거리 중 더 가까운 거리 찾기
+    visited = [[0] * m for _ in range(n)]    # 매번 visited 변수 초기화
+    queue = deque()
+    queue.append((x, y))
+    visited[x][y] = 1    
+
+    while queue:
+        x, y = queue.popleft()
+
+        if keypad[x][y] == target:
+            return visited[x][y] - 1
+
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+
+            if nx < 0 or ny < 0 or nx >= n or ny >= m:
+                continue
+
+            if not visited[nx][ny]:
+                visited[nx][ny] = visited[x][y] + 1
+                queue.append((nx, ny))
+
+def solution(numbers, hand):
+    result = ''
+    cur_left_hand = (3, 0)  # 초기 왼손 좌표 '*'
+    cur_right_hand = (3, 2)  # 초기 오른손 좌표 '#'
+
+    for number in numbers:
+        row, column = find_row_column(str(number))
+
+        if not column:  # number가 [1, 4, 7] 중 한 개 일 때
+            result += 'L'
+            cur_left_hand = (row, column)
+
+        elif column == 2:  # number가 [3, 6, 9] 중 한 개 일 때
+            result += 'R'
+            cur_right_hand = (row, column)
+
+        else:  # number가 [2, 5, 8] 중 한 개 일 때
+            temp_left = bfs(cur_left_hand[0], cur_left_hand[1], str(number))
+            temp_right = bfs(cur_right_hand[0], cur_right_hand[1], str(number))
+            
+            if temp_left < temp_right:
+                result += 'L'
+                cur_left_hand = (row, column)
+            elif temp_left > temp_right:
+                result += 'R'
+                cur_right_hand = (row, column)
+            else:
+                if hand == 'right':
+                    result += 'R'
+                    cur_right_hand = row, column
+                else:
+                    result += 'L'
+                    cur_left_hand = row, column
+    return result
+
+
+keypad = ['123', '456', '789', '*0#']
+n, m = 4, 3  # keypad row, column
+dx = [-1, 0, 1, 0]  # U, R, D, L
+dy = [0, 1, 0, -1]
+```
