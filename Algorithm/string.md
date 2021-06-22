@@ -585,6 +585,22 @@ for _ in range(T):
     print(' '.join(map(lambda x: x[::-1], input().split())))
 ```
 
+---
+## 📍 백준 4458 - 첫 글자를 대문자로
+<a href='https://www.acmicpc.net/problem/4458'>백준 4458 - 첫 글자를 대문자로</a>
+
+## ⚡️ 나의 풀이
+제일 첫 글자를 `upper()` 함수를 이용해 대문자로 바꾸고 나머지 `index`는 그대로 더해준다.
+
+```python
+n = int(input())
+
+for _ in range(n):
+    s = input()
+    temp = s[0].upper()
+    ans = temp + s[1:]
+    print(ans)
+```
 
 
 
