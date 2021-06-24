@@ -195,3 +195,45 @@ for _ in range(n):
     else:
         print(pop())
 ```
+
+---
+## 📍 백준 1966 - 프린터 큐
+
+<a href='https://www.acmicpc.net/problem/1966'>백준 1966 - 프린터 큐</a>
+
+## ⚡️ 나의 풀이
+문제가 잘 이해가 되지 않아 4 ~ 5번정도 다시 봤다. 결론적으로 현재 `index`와 동일한 `우선순위`값이 제일 클 때 `cnt+=1`을 해주면 된다. 다른 테스트케이스는 괜찮았는데 중복된 우선순위가 있는 문서를 처리 할 때 고민을 많이 했다. `예제 입력 1 - 테스트케이스` 중 제일 마지막 `1, 1, 9, 1, 1, 1`을 예로 들어보자. ~~(글씨 양해 부탁드립읍니다.)~~
+
+![](https://images.velog.io/images/abcd8637/post/4a78b8ed-0acd-4fc5-bfc7-2f905052079f/KakaoTalk_Photo_2021-06-24-09-21-43.jpeg)
+
+1. 자신보다 높은 우선순위가 없을 때까지 회전한다.(이때는 `cnt`가 올라가지 않는다. why? 인쇄를 하지 않았기 때문)
+2. `pop` 할 위치(가장 첫번째 index)에 위치 했을 때 해당 값의 우선순위가 제일 높다면 `pop`처리하고 `cnt+=1` 해준다.
+3. 2번과정에서 만약, `pop` 값이 내가 찾고 있는 `target`이면, 해당 `cnt`를 출력하고 반복문을 종료(`break`)한다.
+
+여담으로 `python - import PriorityQueue` 방법으로 접근했는데 풀지 못했는데 이유는 다음과 같다.
+
+1. `PriorityQueue` 라이브러리는 가장 낮은 값부터 출력한다. (이는 `우선순위 * -1`으로 해결했다.)
+2. `PriorityQueue` 라이브러리는 우선순위가 동일할 때 삽입순서에 따라 요소가 반환된다.(이 부분을 해결하지 못했는데, 프린터 큐 문제는 `index`가 동일할 때 `삽입순서`가 아닌 현재 `queue` 에 들어있는 값 그대로 출력을 해야한다. 여기서 더 좋은 접근법이 있다면 댓글로 알려주시면 감사하겠습니다. 😀 😀)
+
+```python
+T = int(input())
+
+for _ in range(T):
+    n, m = map(int, input().split())
+    priority = list(map(int, input().split()))
+    index = [i for i in range(n)]
+    index[m] = 'target'    # 내가 찾고 싶은 index
+    cnt = 0
+
+    while priority:
+        if priority[0] == max(priority):    # 나머지 문서들보다 중요도가 더 높은 문서가 없다면
+            cnt += 1
+            if index[0] == 'target':
+                print(cnt)
+                break
+            priority.pop(0)
+            index.pop(0)
+        else:
+            priority.append(priority.pop(0))
+            index.append(index.pop(0))
+```
