@@ -162,3 +162,85 @@ for i in range(m):
 print(''.join(stack_L + list(reversed(stack_R))))
 ```
 
+---
+## 📌 백준 1021 - 회전하는 큐
+<a href='https://www.acmicpc.net/problem/1021'>백준 1021 - 회전하는 큐</a>
+
+## 💡 나의 풀이
+처음에는 한번에 2번연산 혹은 3번연산을 따로따로 진행하고 둘 중 작은 값을 출력하는건 줄 알았는데, `arr`을 보고 더 가까운 쪽에 2번연산, 3번연산을 판단해서 풀어야하는 문제였다.
+
+머리로는 이해했는데 막상 구현하려니까 잘 떠오르지 않았다. 함수를 선언하여 풀었지만 왠지 코드가 많아 보였다. 
+
+1. 현재 `arr`을 보고 `target`값이 몇번째 인덱스에 있는지 앞 / 뒤에서 판단하고 `return`한다.`(compare_min_length)`
+2. 앞쪽이 더 가까우면 `2번 연산`을 진행한다.`(front_rotate)`
+3. 뒤쪽이 더 가까우면 `3번 연산`을 진행한다.`(back_rotate)`
+
+다른 사람의 코드를 보니까 `2, 3번 연산`은 기능을 구현하지 않아도 `python - deque`라이브러리에는 `rotate` <a href='https://docs.python.org/3/library/collections.html?highlight=deque#collections.deque'>내장 함수</a>가 구현되어있었다. 다음번에 꼭 써먹으리라..
+
+그리고 다른사람은 `for`문 안에 `while`문을 넣어 작성했는데 코드도 짧고 가독성이 좋아보였다. 새로 배운점은 `arr`의 길이를 기준으로 `target_index`가 앞쪽에서 가까운지 뒤쪽에서 더 가까운지 판단하는 15번 코드인데 간결해보였다. 또, `rotate(-1)`은 2번 연산이고 `rotate(1)`은 3번 연산이다.
+
+```python
+# 나의 코드
+from collections import deque
+n, m = map(int, input().split())
+target_indexes = list(map(int, input().split()))
+cnt = 0
+arr = deque([i for i in range(1, n+1)])
+
+def compare_min_length(target):
+    global arr
+    for i in range(len(arr)):
+        if arr[i] == target:
+            return i, len(arr)-i-1
+
+def front_rotate(target, cnt):    # 왼쪽으로 이동
+    global arr
+    while True:
+        if arr[0] == target:
+            arr.popleft()
+            return cnt
+        arr.append(arr.popleft())
+        cnt += 1
+
+def back_rotate(target, cnt):    # 오른쪽으로 이동
+    global arr
+    while True:
+        if arr[0] == target:
+            arr.popleft()
+            return cnt
+        arr.appendleft(arr.pop())
+        cnt += 1
+
+for target in target_indexes:
+    front, back = compare_min_length(target)
+    if front <= back:
+        temp_cnt = front_rotate(target, cnt)
+    else:
+        temp_cnt = back_rotate(target, cnt)
+    cnt = temp_cnt
+print(cnt)
+```
+
+```python
+# 다른사람의 코드
+from collections import deque
+
+n, m = map(int, input().split())
+target_indexes = list(map(int, input().split()))
+cnt = 0
+arr = deque([i for i in range(1, n+1)])
+
+for target in target_indexes:
+    while True:
+        if arr[0] == target:
+            arr.popleft()
+            break
+        else:
+            if arr.index(target) <= len(arr) // 2:
+                arr.rotate(-1)
+            else:
+                arr.rotate(1)
+            cnt += 1
+print(cnt)
+```
+
