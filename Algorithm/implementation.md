@@ -2695,3 +2695,68 @@ for i in range(100):
 
 print(cnt)
 ```
+
+---
+## 📍 백준 13335 - 트럭
+
+<a href='https://www.acmicpc.net/problem/13335'>백준 13335 - 트럭</a>
+
+## ⚡️ 나의 풀이
+문제 분류는 시뮬레이션이었는데 실제로 일어날 수 있는 일을 코드로 구현 하니까 흥미로웠다.
+또, 실버 1임에도 불구하고 문제가 어려웠는데 구현 조건이 생각보다 까다로웠기 때문이다. 
+
+문제흐름은 다음과 같다.
+1. 현재 다리(bridge)무게 + 넘어 올 트럭의 무게가 다리 하중보다 작으면 넘어 올 수 있고 그렇지 않으면 넘어 올 수 없다.
+2. 다리길이를 지난 트럭은 다리를 벗어난다.(pop) 이때, 현재 다리무게는 방금 다리를 벗어난 트럭의 무게를 빼줘야 한다.
+3. 다리에 트럭이 없을 때까지 반복한다.
+
+![](https://images.velog.io/images/abcd8637/post/2e5ac36e-8b43-4350-8608-25e99cd9b122/KakaoTalk_Photo_2021-06-25-11-37-42.jpeg)
+
+`1번 조건`은 잘 생각했는데 `2번 조건`에서 트럭이 다리를 건너가고 나서 트럭의 무게만큼 현재 `weight`를 빼줄 생각을 못해서 오답판정을 받았다. 또한 `if trucks:` 조건을 걸어놔야 `bridge`가 없을 때까지 반복하는데 해당 조건문을 넣어주지 않아 `index`오류가 자꾸 났다. 
+
+다른사람의 코드를보니까 내가 처음 시도한 방식으로 풀었는데, 답이 자꾸 안나온 이유가 간단한 조건문을 추가해주지 않아서였다. 조건을 더 따져볼 수 있는 능력을 길러야겠다.
+
+```python
+# 나의 코드
+n, w, l = map(int, input().split())
+trucks = list(map(int, input().split()))
+
+bridge = [0] * w    # w만큼 다리 길이 선언
+weight, time = 0, 0    # 현재 다리위의 무게, 시간 선언
+
+while True:
+    out = bridge.pop(0)    # 방금 다리를 건넌 트럭은 다리에서 제거해야한다.
+    weight -= out    # 방금 다리 다리를 건넌 트럭의 무게를 weight에서 빼줘야 다음 트럭이 넘어 올 수 있다.
+
+    if trucks:    # 넘어 올 트럭이 남아있을 때 
+        if weight + trucks[0] <= l:    # 다리 하중을 견딜 수 있으면
+            bridge.append(trucks[0])    # 다리를 건너려는 트럭
+            weight += trucks[0]    # weight에 현재 다리를 건너려는 트럭 무게 추가
+            trucks.pop(0)  
+        else:    # 다리 하중을 견딜 수 없으면
+            bridge.append(0)    # 0을 추가하여 다리위에 있는 트럭을 먼저 보낸다.
+    time += 1    # 조건과 상관없이 시간은 흘러간다.
+
+    if not bridge:    # 다리위에 트럭이 다 지나가면 반복문 종료
+        break    
+print(time)
+```
+
+```python
+# 다른 사람의 코드
+n, w, l = map(int, input().split())
+trucks = list(map(int, input().split()))
+
+bridge = [0] * w
+time = 0
+
+while bridge:
+    time += 1
+    bridge.pop(0)
+    if bridge:
+        if sum(bridge) + trucks[0] <= l:
+            bridge.append(trucks.pop(0))
+        else:
+            bridge.append(0)
+print(time)
+```
