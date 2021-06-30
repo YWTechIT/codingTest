@@ -136,3 +136,129 @@ for _ in range(n):
     else:
         print(pop())
 ```
+
+---
+
+## 📍 백준 17608 - 막대기
+문제: <a href='https://www.acmicpc.net/problem/17608'>백준 17608 - 막대기</a>
+
+## 💡 나의 풀이
+일렬로 세워진 막대기를 `오른쪽`에서 봐야하기 때문에 막대기의 입력을 모두 받아 리스트로 만들고 문제를 풀었다. 처음에는 오답판정을 받았는데 최대 높이의 막대기를 갱신해주지 않아서 그랬다.
+
+첫번째 방법은 반복문을 작성해 `sticks`를 거꾸로 보면서 최대의 막대기를 갱신한 방법이고 두번째 방법은 `sticks`를 `pop()`으로 하나씩 뽑아 최대값을 갱신하는 방법을 사용했다. `pop()`을 사용한 방법의 실행시간이 약 `30m/s`정도 빨랐다.
+
+![](https://images.velog.io/images/abcd8637/post/e032db29-0b28-4f90-bba5-b0339767cfb3/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202021-06-28%2011.44.27.png)
+
+(사진에서 첫번째 방법은 하단, 두번째 방법은 상단)
+
+```python
+# 나의 코드
+import sys
+input = sys.stdin.readline
+
+n = int(input())
+sticks = [int(input()) for _ in range(n)]
+max_height = sticks[-1]
+cnt = 1
+
+for i in range(n):
+    if max_height < sticks[n-i-1]:
+        cnt += 1
+        max_height = sticks[n-i-1]
+print(cnt)
+```
+
+```python
+# 나의 다른 코드
+import sys
+input = sys.stdin.readline
+
+n = int(input())
+sticks = [int(input()) for _ in range(n)]
+max_height = sticks[-1]
+cnt = 1
+
+for i in range(n):
+    temp = sticks.pop()
+    if max_height < temp:
+        cnt += 1
+        max_height = temp
+print(cnt)
+```
+
+---
+
+## 📍 백준 1874 - 스택 수열
+문제: <a href='https://www.acmicpc.net/problem/1874'>백준 1874 - 스택 수열</a>
+
+## 💡 나의 풀이
+나에겐 난이도가 있던 문제였다. 문제의 길이는 짧았지만서도 이해하기까지 시간이 오래 걸렸다. 
+
+중요한 포인트는 `스택에 push하는 순서는 반드시 오름차순을 유지한다.`라는 문장인데, 이를 다시말하면 `push 순서`는 현재 만들어야 할 수열보다 작아 질 수 없고 오직 `current = target` 혹은 `current > target` 할때만 성립한다는 의미다. 이를 이해하기까지는 꽤 오랜시간이 걸렸다. 그럼 `current`는 어떻게 구현해야하지를 고민했는데 `1~n`까지 선언한 다음 여기서 뽑지 않은 값 중 가장 작은 값들을 가져와야하는 건가? 생각했는데 결론적으로 `current += 1씩` 증가하면서 값을 넣으면 된다. 
+
+1. `current`가 `target`보다 작거나 같을 때 까지 `current`를 `stack`에 넣어준다. (push 연산)
+2. 만약, `stack[-1]`이 `target`과 같다면 `pop` 연산을 수행한다.
+3. 연산이 끝났을 때 `stack`에 아무것도 남아있지 않다면 `push, pop` 연산을 출력한다.
+4. 연산이 끝났는데도 `stack`이 남아있거나 `current > target`이면 `NO`를 출력한다.
+
+![](https://images.velog.io/images/abcd8637/post/c55e5dc9-d451-4fc7-9f7f-6816f123b017/KakaoTalk_Photo_2021-06-30-10-17-19.jpeg)
+
+```python
+# 나의 풀이
+import sys
+input = sys.stdin.readline
+
+n = int(input())
+targets = [int(input()) for _ in range(n)]
+
+flag = True
+stack, answer, current = [], [], 0
+
+for target in targets:
+    while True:
+        if stack and stack[-1] == target:    # stack: 을 작성한 이유는 맨 처음 stack은 아무것도 없기 때문
+            answer.append('-')
+            stack.pop()
+            break
+
+        elif current > target:
+            flag = False
+
+        else:
+            current += 1
+            stack.append(current)
+            answer.append('+')
+
+        if not flag:
+            print('NO')
+            exit()
+
+if flag:
+    print('\n'.join(answer))
+```
+
+```python
+# 다른 사람의 풀이
+import sys
+input = sys.stdin.readline
+
+n = int(input())
+targets = [int(input()) for _ in range(n)]
+current = 1
+stack, answer = [], []
+
+for target in targets:
+    while current <= target:
+        stack.append(current)
+        answer.append('+')
+        current += 1
+
+    if stack[-1] == target:
+        answer.append('-')
+        stack.pop()
+
+if not stack:
+    print('\n'.join(answer))
+else:
+    print('No')
+```
