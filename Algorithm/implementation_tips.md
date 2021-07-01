@@ -1108,3 +1108,54 @@ else:
 
 👉🏽 front가 더 가깝습니다. 앞쪽과의 거리 = 3, 뒤쪽과의 거리 = 7, 앞 / 뒤를 나누는 기준 = 5
 ```
+
+---
+## 📍 python에서 음의 정수를 floor 해보기
+
+<a href='https://programmers.co.kr/learn/courses/30/lessons/42586'>프로그래머스 - 기능개발</a> 문제에서 전처리 과정 중 `100 - progress[x] // speeds[x]`을 해야하는 과정이 있었는데 나는 나머지가 `있는 / 없는` 조건을 사용하여 해결했으나 `math.floor` 혹은 `//`를 사용하여 해결한 다른 사람의 코드를 봤다.
+
+바로 음수 `floor`를 사용한것인데, 지금까지 양수 `floor`만 사용해봤어서 음수는 어떤 원리로 계산되는지 궁금했다. 
+
+먼저 `floor`의 <a href='https://docs.python.org/3/library/math.html?highlight=floor#math.floor'>정의(공식문서)</a>는 다음과 같다.
+`the largest integer less than or equal to x` 직역하면 `x보다 작거나 같은 가장 큰 정수`를 뜻하는데, 말로만 설명해서는 이해가 잘 되지 않을 수 있으니까 예시를 살펴보자. (하단 코드 참고)
+
+```python
+from math import floor
+
+# 양수 floor
+print(floor(2))
+print(floor(2.00001))
+print(floor(2.99999))
+👉🏽 2
+
+# 음수 floor
+print(floor(-2.0001))
+print(floor(-2.9999))
+print(floor(-3))
+👉🏽 -3
+```
+
+양수일때는 `현재 값보다 작거나 같은 가장 큰 정수`는 2인것을 알 수 있다. 같은 값인데도 불구하고 음수의 경우에는 왜 `-2` 대신 `-3`이 나올까?? 예를들어 `-7 // 2`연산을 해보자. 한번에 `floor`처리를 하면 헷갈릴 수 있으므로 다음의 순서를 생각하며 계산하면 쉽다.
+
+1. `-7 / 2 = -3.5` 
+2. `floor`처리(`x보다 작거나 같은 가장 큰 정수`)를 한다.
+3. `- 7 // 2 = -4`가 된다.
+
+더 자세한 설명은 <a href='https://stackoverflow.com/questions/37283786/floor-division-with-negative-number'>스택오버플로우1</a>, <a href='https://stackoverflow.com/questions/19517868/integer-division-by-negative-number'>스택오버플로우2</a>를 참고하자.
+
+번외로, 각 언어마다 정수 나누기를 수행할 때 `양의 무한대` 혹은 `음의 무한대`로 반올림하는 경우가 다르다. `c`는 양의 무한대로 반올림되는 반면, `python`과 `ruby`에서는 음의 무한대로 반올림된다.
+
+다음은 각 언어별 음의 정수 나누기 결과표이다.
+
+| Language| Code | Result |
+|:---:|:---:|:---:|
+| ruby      | -1 / 5         |     -1 |
+| python    | -1 / 5         |     -1 |
+| c         | -1 / 5         |      0 |
+| clojure   | (int (/ -1 5)) |      0 |
+| emacslisp | (/ -1 5)       |      0 |
+| bash      | expr -1 / 5    |      0 |
+
+출처: <a href='https://stackoverflow.com/questions/19517868/integer-division-by-negative-number'>스택오버플로우</a>
+
+결론: `python`에서 `음의 정수의 나눗셈`은 `음의 무한대`로 반올림한다.
