@@ -1104,3 +1104,69 @@ n, m = 4, 3  # keypad row, column
 dx = [-1, 0, 1, 0]  # U, R, D, L
 dy = [0, 1, 0, -1]
 ```
+
+---
+### 📌 기능개발
+<a href='https://programmers.co.kr/learn/courses/30/lessons/42586'>문제 설명</a>
+
+### 💡 나의 풀이
+처음으로 2단계 문제를 풀어봤다. 앞으로 2단계 문제를 꾸준히 풀어야하는데 괜찮을까.. 한번 도전해보자!
+
+(문제의 이해도를 높이기 위해 나중에 `progress` 변수명 대신 `queue`를 사용했다.)
+
+1. 완성되기까지 남은 진도율에서 현재 속도만큼 일했을 때 며칠만에 완성 할 수 있는지 구하기. (이 경우를 식으로 변환 할 때 나머지가 없으면 몫을 그냥 `append` 시키고 나머지가 있으면 `몫 + 1` 해준 다음 `append`했다.)
+2. 이중 `while`문을 선언했는데 그 이유는 내 다음 순서가 나보다 값이 작더라도 내가 먼저 나가야 같이 나갈 수 있고 만약, 연속으로 나가야 할 일이 생길때를 대비해서 이중 `while`문으로 작성했다. (`break` 해주는것도 잊지말자.)
+3. `queue`가 있다는 조건 하 `day`가 1씩 증가하면서 먼저 배포되어야 하는 순서(0번째)가 `day`와 같거나 크다면 `pop`시키고 그렇지 않으면 반복문을 종료시켰다. (나중에 `queue`가 없는데 비교하면 오류가 생기므로 `queue`가 있을 때라는 조건을 걸어줘야한다.) 
+4. 두번째 `while`문 종료 후에 빠져 나간 기능이 있으면 몇개인지 체크하여 `result`로 옮기고 `stack`은 원 위치시킨다.
+
+정답판정을 맞고 다른 사람의 코드를 보니까 1번 과정을 조금 더 짧게 표현한 코드가 있었다. `lambda`함수로 `range`를 더하여 구현했는데 내가 딱 구현하고 싶었던 기능이었다. 그리고 나머지의 유무를 보는 대신 음수의 나눗셈을 사용하여 구현했는데 음수는 써본적이 없었는데 `ceil`라이브러리를 쓰는 것보다 편해보여서 좋았다. (참고로, `python`에서 `음수 나눗셈(ex: -3 / 2 = -1.5, -3 // 2 = -2)`은 음의 무한대로 반올림되는데 왜 그런지 잘 모르겠다면 <a href='https://ywtechit.tistory.com/195'>다음</a> 글을 살펴보자.)
+
+```python
+# 나의 코드
+def solution(progress, speeds):
+    rest_progress = list(map(lambda x: 100 - x, progress))
+    day = 1
+    queue, stack, result = [], [], []
+
+    for divisor, dividend in zip(speeds, rest_progress):
+        if not dividend % divisor:
+            queue.append(dividend // divisor)
+        else:
+            queue.append((dividend // divisor) + 1)
+
+    while queue:
+        while True:
+            if queue and queue[0] <= day:
+                stack.append(queue.pop(0))
+            else:
+                day += 1
+                break
+
+        if stack:
+            result.append(len(stack))
+            stack = []
+
+    return result
+```
+
+```python
+# 나의 수정코드
+def solution(progress, speeds):
+    day = 1
+    stack, result = [], []
+    queue = list(map(lambda x: -((progress[x] - 100) // speeds[x]), range(len(progress))))
+
+    while queue:
+        while True:
+            if queue and queue[0] <= day:
+                stack.append(queue.pop(0))
+            else:
+                day += 1
+                break
+
+        if stack:
+            result.append(len(stack))
+            stack = []
+
+    return result
+```
