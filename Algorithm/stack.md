@@ -296,3 +296,85 @@ for i in range(len(s)):
             stack.pop()
 print(cnt)
 ```
+
+---
+## 📍 백준 4949 - 균형잡힌 세상
+문제: <a href='https://www.acmicpc.net/problem/4949'>백준 4949 - 균형잡힌 세상</a>
+
+## 💡 나의 풀이
+문제의 조건을 잘 따져야 하는데 마지막 조건(`짝을 이루는 두 괄호가 있을 때, 그 사이에 있는 문자열도 균형이 잡혀야 한다.`)은 문자열 공백을 똑같이 줘야하는건가?라는 생각이 들면서 조금 헷갈렸다. 하지만 그건 문제에 주어져있지 않기때문에 고려하지 않아도 된다.
+
+`올바른괄호`를 찾는 문제는 여러가지 `T.C`를 넣어가면서 에러가 걸리지 않게 로직을 짜는것이 중요한것 같다. 그리고 `while True`와 `while 1`의 차이를 물어보는 질문들이 꽤 있었는데, 결론부터 말하자면 두 개의 코드의 시간차이는 없다. 정확히 말하면 `python 2`에서는 `while 1`이 더 약 `3 ~ 4초` 가량 더 빠른데 왜 그러냐면 `python 2`에서는 `True` 키워드가 정의되어있지 않기 때문이다. 하지만 `python 3`에서는 `True` 키워드가 정의되어있기 때문에 인터프리터가 빠르게 읽어올 수 있고 `while 1`, `while True`의 실행시간은 동일하다. (<a href='https://stackoverflow.com/questions/3815359/while-1-vs-whiletrue-why-is-there-a-difference-in-python-2-bytecode'>stack_over_flow</a>)
+
+1. 여는 괄호(`(`, `[`)는 `stack`에 넣는다.
+2. `stack`이 있으면서 닫힌 괄호가 나올 때 `stack[-1]`과 짝이 맞는 괄호면 `pop`을 시키고 그렇지 않으면 flag를 `False`로 바꾼다.
+3. `stack`이 없으면서 닫힌괄호가 나오면 정상적으로 짝이 맞지 않으므로 마찬가지로 flag를 `False`로 바꾼다.
+4. `flag == True`이면서(정상적인 괄호) `not stack`이면 올바른 괄호열이고 반대의 경우는 올바르지 않은 괄호열이다.
+
+```python
+# 나의 코드
+
+import sys
+input = sys.stdin.readline
+
+while True:
+    s = input().rstrip()
+    if s == '.':    # 종료 조건
+        break
+
+    stack = []
+    flag = True    # 짝을 이루지 않는 경우
+
+    for i in range(len(s)):
+        if s[i] == '(' or s[i] == '[':
+            stack.append(s[i])
+
+        elif stack and (s[i] == ')' or s[i] == ']'):  # stack은 있지만 닫힌 괄호가 나오는 경우
+            if s[i] == ')' and stack[-1] == '(':
+                stack.pop()
+            elif s[i] == ']' and stack[-1] == '[':
+                stack.pop()
+            else:    # (])
+                flag = False
+
+        elif not stack and (s[i] == ')' or s[i] == ']'):  # stack이 없으면서 닫힌 괄호가 나오는 경우, )(
+            flag = False
+
+    if flag and not stack:
+        print('yes')
+    else:
+        print('no')
+```
+
+```python
+# 다른 사람의 코드
+
+import sys
+input = sys.stdin.readline
+
+while 1:
+    string = input().rstrip()
+    stack = []
+    true_flag = 1
+    
+    for cha in string:
+        if cha == '(' or cha == '[':
+            stack.append(cha)
+        elif cha == ')':
+            if stack and stack[-1] == '(':
+                stack.pop()
+            else:
+                true_flag = 0
+                break
+        elif cha == ']':
+            if stack and stack[-1] == '[':
+                stack.pop()
+            else:
+                true_flag = 0
+                break
+
+    if string == '.':
+        break
+
+    print("yes" if true_flag and not stack else "no")
+```
