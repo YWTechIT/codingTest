@@ -25,7 +25,6 @@ print(stack[::-1])
 ```
 
 ---
-
 ### 📍 [ 문제 1 ] 백준 9012 - 괄호
 문제: <a href='https://www.acmicpc.net/problem/9012'>백준 9012 - 괄호</a>
 
@@ -82,7 +81,6 @@ for i in range(n):
 ```
 
 ---
-
 ## 📍 백준 10828 - 스택
 문제: <a href='https://www.acmicpc.net/problem/10828'>백준 10828 - 스택</a>
 
@@ -138,7 +136,6 @@ for _ in range(n):
 ```
 
 ---
-
 ## 📍 백준 17608 - 막대기
 문제: <a href='https://www.acmicpc.net/problem/17608'>백준 17608 - 막대기</a>
 
@@ -187,7 +184,6 @@ print(cnt)
 ```
 
 ---
-
 ## 📍 백준 1874 - 스택 수열
 문제: <a href='https://www.acmicpc.net/problem/1874'>백준 1874 - 스택 수열</a>
 
@@ -261,4 +257,42 @@ if not stack:
     print('\n'.join(answer))
 else:
     print('No')
+```
+
+---
+## 📍 백준 10799 - 쇠 막대기
+문제: <a href='https://www.acmicpc.net/problem/10799'>백준 10799 - 쇠 막대기</a>
+
+## 💡 나의 풀이
+
+`stack`으로 해결 할 수있는 문제이나, 나에게는 어려웠던 문제다. 이 문제를 풀 때 예제는 `올바른(짝이 맞는) 괄호`만 주어진다는 점을 알고 풀면 접근하기 쉬울 것이다. 깨알 팁은 입력범위가 `100,000`이라서 `import sys`를 써야 `시간초과`가 나지 않는다.
+
+1. 여는 괄호(`(`)는 `stack`에 집어넣는다 
+2. 닫는 괄호(`)`)가 나올 때 `쇠 막대기`인지 `레이저`인지 구분해야하는데, 우선 레이저는 인접한 쌍(즉, `현재 index가 )` 이면 무조건 `이전 index는 (`)이다. 그럼 나머지의 경우는 모두 쇠 막대기로 판단 할 수 있다.
+3. 레이저의 경우는 현재까지 들어있는 `len(stack)`을 구하면 된다.(참고로 `stack`에 여는 괄호만 들어있다.)
+4. 레이저가 아닌 경우(쇠 막대기인 경우)은 누적 `cnt` 값에 +1을 더해주면 된다.
+
+이 문제의 관건은 `pop()`의 시점인데, 레이저의 경우 `stack[-1]`값을 `pop`해주고 `len(stack)`을 해주고, 쇠 막대기의 경우 `cnt += 1` 이후 `pop`을 해주는것이 전체 흐름을 파악하기에 적절하다.(물론 19, 20번째 코드를 뒤바꿔 제출해도 정답이다.)
+
+```python
+import sys
+input = sys.stdin.readline
+
+s = input().rstrip()
+stack = []
+cnt = 0
+
+for i in range(len(s)):
+    if s[i] == '(':
+        stack.append('(')
+
+    else:    # ')'
+        if s[i-1] == '(':    # Razor
+            stack.pop()
+            cnt = cnt + len(stack)
+
+        else:    # ')', ironBar
+            cnt += 1
+            stack.pop()
+print(cnt)
 ```
