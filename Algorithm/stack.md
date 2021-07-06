@@ -378,3 +378,67 @@ while 1:
 
     print("yes" if true_flag and not stack else "no")
 ```
+
+---
+## 📍 백준 3986 - 좋은 단어
+문제: <a href='https://www.acmicpc.net/problem/3986'>백준 3986 - 좋은 단어</a>
+
+## 💡 나의 풀이
+어떤 방식으로 풀어야할지 고민하다 `stack`으로 풀었는데 정답판정을 받았다.
+
+문제에서 아치형 곡선으로 만나야 한다고 나와있는데 `괄호 쌍`맞추는 문제처럼 `stack`으로 들어오는 현재 값과 이전에 있던 `stack[-1]`과 비교해서 같으면 `pop()` 다르면 새로운 값 추가 하는 방식으로 풀면 된다.
+
+처음에 `stack`이 없을 때 값을 어떻게 넣지??라고 생각하다 `stack`에 값이 있을 때, 없을 때로 나눠서 조건을 작성했다. 여기서 나의코드와 다른사람 코드의 차이점은 `13 ~ 19번` 인데, `stack` 조건을 `and`로 합치고 아닌경우에는 `append`를 줘도 같은 결과가 나왔길래 가져왔다.
+
+다음 사진은 예제 입력1을 손으로 그리면서 푼 사진이다.(~~글씨 주의~~)
+
+![](https://images.velog.io/images/abcd8637/post/4bf0c724-700e-48cd-aa51-b3eadcb8c781/KakaoTalk_Photo_2021-07-06-11-32-30.jpeg)
+
+```python
+# 나의 코드
+import sys
+input = sys.stdin.readline
+
+n = int(input())
+cnt = 0
+
+for _ in range(n):
+    s = input().rstrip()
+    stack = []
+
+    for i in range(len(s)):
+        if stack:
+            if s[i] == stack[-1]:
+                stack.pop()
+            else:
+                stack.append(s[i])
+        else:
+            stack.append(s[i])
+
+    if not stack:
+        cnt += 1
+print(cnt)
+```
+
+```python
+# 다른 사람 코드
+import sys
+input = sys.stdin.readline
+
+n = int(input())
+cnt = 0
+
+for _ in range(n):
+    s = input().rstrip()
+    stack = []
+
+    for i in range(len(s)):
+        if stack and s[i] == stack[-1]:
+            stack.pop()
+        else:
+            stack.append(s[i])
+
+    if not stack:
+        cnt += 1
+print(cnt)
+```
