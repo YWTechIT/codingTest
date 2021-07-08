@@ -237,3 +237,50 @@ for _ in range(T):
             priority.append(priority.pop(0))
             index.append(index.pop(0))
 ```
+
+---
+## 📍 백준 12789 - 도키도키 간식드리미
+
+<a href='https://www.acmicpc.net/problem/12789'>백준 12789 - 도키도키 간식드리미</a>
+
+## ⚡️ 나의 풀이
+언뜻 쉬워보였으나 막상 풀어보니까 조금 어려웠다. 맨 앞의 사람만 이동이 가능하다는 지문을 보아 `현재 줄 서있는 곳`은 `queue`의 자료구조이고, 가운데 공간에 들어갈 순 있지만 제일 앞이 벽으로 막혔기 때문에 맨 뒤부터 사람이 나와야한다. 따라서 `한 명씩만 설 수 있는 공간`은 `stack`으로 생각하면 쉽다. 
+
+보니까 `queue`와 `stack` 문제는 지문의 의미를 잘 해석해야 어떤 자료형을 사용해야할지 감이 오는것 같다. 그 감을 찾기위해 많은 문제를 풀어봐야겠다.
+
+처음에는 `queue`에 있는 사람이 다 빠지고 `stack`을 생각하면 될 줄 알았는데 `queue` 보다 `stack`에 더 작은 값이 있으면 `stack`에 있는 사람을 먼저 빼줘야 하기때문에 동시에 고려해야한다.
+
+예를들어 입력이 `3 2 1 4 5` 인 경우를 살펴보자. 4번째 줄에서 볼 수 있듯이 `standing`보다 `stack`에서 더 작은 값을 먼저 빼줘야 하는 경우를 살펴 볼 수 있다. 추가로 line 14번 코드에 `while stack`으로 작성했는데, 다음으로 빠른 번호표가 `stack`에 있기 때문에 `while`문으로 작성했다.
+
+![](https://images.velog.io/images/abcd8637/post/2993d4ce-51d1-4724-8262-91b369a376f8/KakaoTalk_Photo_2021-06-30-10-34-34.jpeg)
+
+```python
+# 나의 코드
+n = int(input())
+standing = list(map(int, input().split()))
+stack = []
+target = 1
+
+while standing:
+    if standing[0] == target:
+        standing.pop(0)
+        target += 1
+    else:
+        stack.append(standing.pop(0))
+
+    while stack:
+        if stack[-1] == target:
+            stack.pop()
+            target += 1
+        else:
+            break
+
+if not stack: 
+    print('Nice')
+else:
+    print('No')
+
+# 혹은 이렇게 작성해도 된다.
+print('Nice' if not stack else 'No')
+```
+
