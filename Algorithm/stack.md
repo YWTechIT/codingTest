@@ -547,7 +547,7 @@ else:
 
 이해가 잘 안되면 다음 사진을 보자.
 
-![](https://images.velog.io/images/abcd8637/post/631a4375-8093-4d36-acd2-9db65313df11/KakaoTalk_Photo_2021-07-09-11-43-35.jpeg)
+![](https://images.velog.io/images/abcd8637/post/368257d4-df64-43dc-b015-26f5c6cd1682/KakaoTalk_Photo_2021-07-09-11-43-35.jpeg)
 
 ```python
 # 성공 코드
