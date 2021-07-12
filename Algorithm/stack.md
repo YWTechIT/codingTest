@@ -601,3 +601,32 @@ for i in range(1, n):
 
 print(' '.join(map(str, index)))
 ```
+
+---
+## 📍 백준 20001 - 고무오리 디버깅 
+문제: <a href='https://www.acmicpc.net/problem/20001'>백준 20001 - 고무오리 디버깅 </a>
+
+## 💡 나의 풀이
+`고무오리`를 이용해서 푸는 귀여운 문제다. 그런데 입력이 숫자가 아닌 `문자`여서 입력 횟수가 많으면 어쩌지(?)라는 생각을 잠깐 했으나 `python`으로 실행시간이 `72m/s`인것으로 보아 많지 않은것 같다.(문제에 입력 범위는 따로 명시되어있지 않았다.) 주의할 점은 `stack`이 없는 경우에 `고무오리`가 들어오면 두 문제를 추가해야한다.
+
+```python
+stack = []
+
+while True:
+    s = input()
+    if s == '문제':
+        stack.append(1)
+    elif s == '고무오리':
+        if not stack:
+            stack.append(1)
+            stack.append(1)
+        else:
+            stack.pop()
+    elif s == '고무오리 디버깅 끝':
+        break
+
+if not stack:
+    print('고무오리야 사랑해')
+else:
+    print('힝구')
+```
