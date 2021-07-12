@@ -630,3 +630,87 @@ if not stack:
 else:
     print('힝구')
 ```
+
+---
+## 📍 백준 17952 - 과제는 끝나지 않아! 
+문제: <a href='https://www.acmicpc.net/problem/17952'>백준 17952 - 과제는 끝나지 않아! </a>
+
+## 💡 나의 풀이
+
+1. `flag[0]`이 `0`인 경우와 `1`인 경우로 나누어 작성했다.
+2. `flag[0]`가 0일 때 `stack`이 존재하면 맨 뒤에부터 시간을 확인하여 0인경우에는 `score`에 추가하고 0이 아닌경우에는 시간이 흐르게 ` -= 1`을 해준다.
+3. `flag[0]`가 1이면, 과제를 받자마자 시작하기 때문에 `-1`을 해준 상태로 넣는다.
+
+그런데 이런 방법으로 풀지 않더라도 다른 코드를 보니까 코드를 반절로 줄일 수 있었다. 바로 시간과 점수 변수를 각각 선언하고 계산하는 방식이다.
+
+1. `flag[0]`이 `1`인 경우만 고려한다
+2. 만약, `flag[0]`이 `1`이라면 `score`와 `time`에 각각 해당 값을 넣는다.
+3. `time`에 값이 남으면 `time -= 1`을 하고 `time`의 값이 0이면 해당 `score`를 `result`에 넣는다.
+4. `time`과 `score`를 `pop` 한다.
+
+두번째 풀이방법을 그림으로 그려봤다. 이해가 잘 안된다면 참고하자.
+
+![](https://images.velog.io/images/abcd8637/post/09551167-e795-48b8-a31b-5477f62b8efc/KakaoTalk_Photo_2021-07-12-11-48-51.jpeg)
+
+```python
+# 첫번째 풀이방법
+import sys
+input = sys.stdin.readline
+
+n = int(input())
+stack = []
+total_score = 0
+
+for _ in range(n):
+    flag = list(map(int, input().split()))
+
+    if not flag[0]:  # 0
+        if stack:    
+            if not stack[-1][1]:    # `stack[-1]` 시간이 0이면
+                total_score += stack[-1][0]    # 점수 추가
+                stack.pop()    
+
+            else:    # `stack[-1]` 시간이 남아 있으면
+                stack[-1][1] -= 1    # 시간이 흐른다.
+                if not stack[-1][1]:    # 시간이 흐르고 나서 0이면
+                    total_score += stack[-1][0]    # 점수 추가
+                    stack.pop()
+
+    else:  # 1 ? ?
+        score = flag[1]
+        time = flag[2]
+        project = [score, time - 1]
+        stack.append(project)
+
+        if stack:
+            if not stack[-1][1]:
+                total_score += stack[-1][0]
+                stack.pop()
+
+print(total_score)
+```
+
+```python
+# 두번째 풀이방법
+import sys
+input = sys.stdin.readline
+
+n = int(input())
+score, time = [], []
+result = []
+
+for _ in range(n):
+    flag = list(map(int, input().split()))
+
+    if flag[0]:    # 입력이 1 ? ? 인 경우
+        score.append(flag[1])
+        time.append(flag[2])
+
+    if time:
+        time[-1] -= 1
+        if not time[-1]:
+            result.append(score.pop())
+            time.pop()
+
+print(sum(result))
+```
