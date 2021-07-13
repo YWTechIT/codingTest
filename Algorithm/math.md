@@ -372,3 +372,52 @@ while n > room:
     cnt += 1
 print(cnt)
 ```
+
+---
+## 📍 백준 18110 - solved.ac
+<a href='https://www.acmicpc.net/problem/18110'>백준 18110 - solved.ac</a>
+
+## 💡 나의 풀이
+단순 round 함수로만 풀었더니 오답판정이 나온 문제였다. 난이도가 딱히 어렵지 않은데 왜 `실버 4`인가 했더니 부동소수점을 이해하고 있어야만 문제를 풀 수 있어서였다. 절사평균과 반올림에 관해 작성한 <a href='https://ywtechit.tistory.com/209'>이전</a>글을 보면 조금이나마 이해 할 수 있다.
+
+1. 의견이 없는 경우와 있는 경우로 나누어 푼다. 
+2. 없는 경우는 `print(0)`을 출력한다.
+3. 있는 경우는 `절사평균 -> 정렬 -> 슬라이싱`의 과정을 거친다.
+4. 이때, `round` 함수는 사사오입 반올림이 적용되게 만든다.
+
+```python
+# 나의 코드
+import sys
+input = sys.stdin.readline
+
+def round2(num):
+    return int(num) + (1 if num - int(num) >= 0.5 else 0)
+
+n = int(input())
+if not n:
+    print(0)
+else:
+    score = [int(input()) for _ in range(n)]
+    trunc = round2(n * 0.15)
+    apply_trunc = sorted(score)[trunc: n - trunc]
+    average = round2(sum(apply_trunc) / len(apply_trunc))
+    print(average)
+```
+
+```python
+# 다른 사람의 코드
+import sys
+
+def my_round(val):
+    return int(val) + 1 if val - int(val) >= 0.5 else int(val)
+
+input = sys.stdin.readline
+n = int(input())
+if n:
+    arr = [int(input()) for _ in range(n)]
+    arr.sort()
+    nn = my_round(n * 0.15)
+    print(my_round(sum(arr[nn:-nn] if nn else arr) / (n - 2 * nn)))
+else:
+    print(0)
+```
