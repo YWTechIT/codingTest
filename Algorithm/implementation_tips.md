@@ -1209,15 +1209,33 @@ print(round2(2.5))    # 3
 print(round2(3.5))    # 4
 print(round2(4.5))    # 5
 print(round2(5.5))    # 6
-```
 
-```python
 # decimal 라이브러리 사용
 from decimal import Decimal
 value = Decimal('0.1') * Decimal('0.1')
 
 print(value)
 👉🏽 0.01
+```
+
+여담이지만, 두 실수가 같은지 판단하려면 `==` 대신 `math.isclose` 혹은 `sys`를 이용해서 확인 할 수 있다. 참고로 `sys.float_info.epsilon`에 저장된 값은 머신 앱실론(machine epsilon)이라고 부르는데, 어떤 실수를 가장 가까운 부동소수점 실수로 반올림 했을 때 상대 오차는 항상 머신 앱실론 이하다. 그래서 두 값이 같은지 다른지를 비교하려면 비교대상을 머신 앱실론으로 정하고 이보다 작거나 같으면 `True` 처리가 된다.
+
+또, `python 3.5` 이상부터는 `math_isclose` 함수를 사용하여 비교 할 수도 있다.
+
+```python
+# epsilon 사용
+import math, sys
+
+x = 0.1 + 0.2
+print(math.fabs(x - 0.3) <= sys.float_info.epsilon)
+👉🏽 True
+
+print(sys.float_info.epsilon)
+👉🏽 2.220446049250313e-16    # epsilon 값
+
+# math.isclose 사용
+print(math.isclose(0.1 + 0.2, 0.3))
+👉🏽 True
 ```
 
 >reference: 
