@@ -1210,4 +1210,6 @@ print(round2(4.5))    # 5
 print(round2(5.5))    # 6
 ```
 
->reference: <a href='https://m.blog.naver.com/PostView.nhn?blogId=herbdoc95&logNo=221574077380&proxyReferer=http:%2F%2Fblog.naver.com%2FPostView.nhn%3FblogId%3Dherbdoc95%26logNo%3D221574077380'>naver-blog</a>
+>reference: 
+1. <a href='https://m.blog.naver.com/PostView.nhn?blogId=herbdoc95&logNo=221574077380&proxyReferer=http:%2F%2Fblog.naver.com%2FPostView.nhn%3FblogId%3Dherbdoc95%26logNo%3D221574077380'>naver-blog</a>
+2. <a href='https://docs.python.org/ko/3/library/decimal.html'>python - decimal 라이브러리</a>
