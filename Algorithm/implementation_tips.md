@@ -1196,9 +1196,10 @@ print(round(4.5))    # 4
 print(round(5.5))    # 6
 ```
 
-결론적으로 부동소수점을 반올림을 할 때 우리가 평소에 사용하는 십진법으로 계산하고 싶다면 `직접 함수를 만들거나`, `decimal` 라이브러리를 이용해야하는데 간단하게 만들어봤다.
+결론적으로 부동소수점을 반올림을 할 때 우리가 평소에 사용하는 십진법으로 계산하고 싶다면 `직접 함수를 만들거나`, `decimal` 라이브러리를 이용해야하는데 다음과 같이 사용하자.
 
 ```python
+# 함수 만들기
 def round2(num):
     return int(num) + (1 if num - int(num) >= 0.5 else 0)
 
@@ -1210,6 +1211,16 @@ print(round2(4.5))    # 5
 print(round2(5.5))    # 6
 ```
 
+```python
+# decimal 라이브러리 사용
+from decimal import Decimal
+value = Decimal('0.1') * Decimal('0.1')
+
+print(value)
+👉🏽 0.01
+```
+
 >reference: 
 1. <a href='https://m.blog.naver.com/PostView.nhn?blogId=herbdoc95&logNo=221574077380&proxyReferer=http:%2F%2Fblog.naver.com%2FPostView.nhn%3FblogId%3Dherbdoc95%26logNo%3D221574077380'>naver-blog</a>
 2. <a href='https://docs.python.org/ko/3/library/decimal.html'>python - decimal 라이브러리</a>
+3. <a href='https://dojang.io/mod/page/view.php?id=2466'>코딩도장</a>
