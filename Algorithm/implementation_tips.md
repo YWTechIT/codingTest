@@ -1159,3 +1159,55 @@ print(floor(-3))
 출처: <a href='https://stackoverflow.com/questions/19517868/integer-division-by-negative-number'>스택오버플로우</a>
 
 결론: `python`에서 `음의 정수의 나눗셈`은 `음의 무한대`로 반올림한다.
+
+---
+## 📍 절사평균과 round(반올림) 함수
+<a href='https://ko.wikipedia.org/wiki/%EC%A0%88%EC%82%AC%ED%8F%89%EA%B7%A0'>절사평균 - 위키피디아</a> 란, 편차가 큰 자료의 경우 산술평균이 적합하지 않으므로 자료의 총 개수에서 일정비율만큼 가장 큰 부분과 가장 작은부분을 제거 후 평균을 산출한다. 
+
+예를들어, `15%의 절사평균`을 구한다고 하면 전체 값의 상위 `5 * 0.15 = 0.75`, 하위 `5 * 0.15 = 0.75`개 만큼 제외 후 평균을 구한다는 뜻이다. (문제에 따라 소수점으로 나오게 되면 반올림을 하거나 하지 않는경우가 있기 때문에 반올림하지 않고 소수점으로 놔뒀다.)
+
+주어진 표본집단 `arr`에서 `15% 절사평균`을 구한다고 가정하면 (소수점일때 반올림한다.) `python`에서 다음과 같이 작성 할 수 있다. 이때 `slicing`을 2가지 방법으로 구현했다.
+
+```python
+n = 5
+arr = [10, 20, 30, 40, 50]
+
+trunc = round(n * 0.15)    # 1, 앞 뒤로 1개씩 제외시키기
+
+print(arr[trunc: -trunc])    # arr[1:-1]
+👉🏽 [20, 30, 40] 
+
+print(arr[trunc: n-trunc])    # arr[1:4]
+👉🏽 [20, 30, 40]
+```
+
+여담으로, 알고리즘 문제(예: <a href='https://www.acmicpc.net/problem/18110'>boj_18110 - solved.ac</a>)에서 위와 같은 로직으로 제출하면 오답판정을 받는데 왜냐하면 `python`에서 `round` 함수를 사용할 때 우리가 알고있는 반올림 형태인 4사 5입(`4` 이하는 버리고 `5` 이상부터 반올림)이 아니라 5사 5입(`ROUND_HALF_EVEN` or `round_to_nearest_even`: 앞자리가 홀수면 올리고 앞자리가 짝수면 버리는 방법)을 기반으로 실행되기 때문이다. 
+
+공학이나 자연과학에서 `5사 5입` 방법을 많이 사용하는데 맨 뒷자리가 필연적으로 손실되는 계산 특성상 오사오입으로 처리하는 것이 오차가 가장 적기 때문이다. 추가적인 내용이 궁금하다면 <a href='https://docs.python.org/ko/3.6/tutorial/floatingpoint.html'>부동 소수점의 문제점과 한계(python.org)</a>를 살펴보자.
+
+5사 5입(`ROUND_HALF_EVEN` or `round_to_nearest_even`)의 예시는 다음과 같다. 
+
+```python
+print(round(0.5))    # 0
+print(round(1.5))    # 2
+print(round(2.5))    # 2
+print(round(3.5))    # 4
+print(round(4.5))    # 4
+print(round(5.5))    # 6
+```
+
+결론적으로 부동소수점을 반올림을 할 때 우리가 평소에 사용하는 십진법으로 계산하고 싶다면 `직접 함수를 만들거나`, `decimal` 라이브러리를 이용해야하는데 간단하게 만들어봤다.
+
+```python
+def round2(num):
+    return int(num) + (1 if num - int(num) >= 0.5 else 0)
+
+print(round2(0.5))    # 1
+print(round2(1.5))    # 2
+print(round2(2.5))    # 3
+print(round2(3.5))    # 4
+print(round2(4.5))    # 5
+print(round2(5.5))    # 6
+```
+
+>reference: <a href='https://m.blog.naver.com/PostView.nhn?blogId=herbdoc95&logNo=221574077380&proxyReferer=http:%2F%2Fblog.naver.com%2FPostView.nhn%3FblogId%3Dherbdoc95%26logNo%3D221574077380'>naver-blog</a>
