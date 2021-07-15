@@ -1242,3 +1242,66 @@ print(math.isclose(0.1 + 0.2, 0.3))
 1. <a href='https://m.blog.naver.com/PostView.nhn?blogId=herbdoc95&logNo=221574077380&proxyReferer=http:%2F%2Fblog.naver.com%2FPostView.nhn%3FblogId%3Dherbdoc95%26logNo%3D221574077380'>naver-blog</a>
 2. <a href='https://docs.python.org/ko/3/library/decimal.html'>python - decimal 라이브러리</a>
 3. <a href='https://dojang.io/mod/page/view.php?id=2466'>코딩도장</a>
+
+---
+## 📍 2차원 행렬 시계방향으로 회전하기
+
+카카오 코딩테스트를 보다가 2차원 행렬을 시계방향으로 회전하라길래 <a href='https://ywtechit.tistory.com/169'>저번</a>에 <a href='https://www.acmicpc.net/problem/16935'>배열돌리기 3</a> 문제를 풀어본 경험이 있어 풀 수 있을것 같았는데 못 풀었다. 😂 😂 눈물을 머금으며 다음엔 꼭 풀겠다는 취지로 글을 남긴다.
+
+이번에는 `90도` 회전이 아닌 `시계방향` 혹은 `반시계방향`으로 한칸씩 이동하는 방법을 배워보려고 한다. 이때 전체 범위를 회전하지 말고 주어진 범위 내에서 테두리의 값만 이동하자. 다음과 같이 `5*5`행렬이 있을 때 파란색 빗금 친 범위만 시계방향으로 바꾸려고 한다.
+
+![](https://images.velog.io/images/abcd8637/post/a5ea5486-01c1-4fcc-97f5-69b3967723e6/KakaoTalk_Photo_2021-07-15-09-53-27.jpeg)
+
+처음 로직을 구현할 때 `dx`, `dy`를 이용해서 옮길 좌표를 우측으로 한 칸 혹은 아래쪽으로 한 칸 이렇게 짜는 줄 알았더니 `dx`, `dy`는 사용하지 않고, 범위를 설정해서 `row+1` 혹은 `column+1` 을 해주는 방법을 사용해야한다.
+
+![](https://images.velog.io/images/abcd8637/post/a8459017-0f51-43d9-aac2-62d9be85f4b1/%E1%84%83%E1%85%A1%E1%84%8B%E1%85%AE%E1%86%AB%E1%84%85%E1%85%A9%E1%84%83%E1%85%B3.jpeg)
+
+순서는 다음과 같다.
+1. 우리가 퍼즐을 맞출 때 한 칸을 따로 빼두고 진행하는것처럼 배열에서 `temp`에 저장 할 값 1개를 빼둔다. (그래야 빼둔칸으로 한 칸씩 밀어 올릴 수 있다. 나는 `temp`를 `7`로 정했다.)
+2. 시계방향으로 움직인다고 해서 `temp`를 기준으로 시계방향으로 이동하는 것이 아니라 우리는 반 시계방향으로 값을 하나씩 이동시켜준다. 여기서 중요한 포인트는 한 반복문에서 값을 이동시킬 때 맨 마지막 값은 그대로 남아있다는것이다. (이 포인트를 생각하지못해서 감을 못 잡았었다.)
+3. 반복문의 범위는 이동시키려고 하는 값의 반대 방향으로 선언해야한다. (1번과 2번은 `linear`, 3번과 4번은 `reverse`)
+4. 하단 그림의 4번까지 끝내고나서 `temp`는 맨 처음 `temp` 위치에서 `column + 1` 값에 넣어준다. (반시계방향이면 `row-1`이겠지??)
+
+![](https://images.velog.io/images/abcd8637/post/fa782f40-c580-4881-9989-253450aafe9a/KakaoTalk_Photo_2021-07-15-10-05-36.jpeg)
+
+```python
+row, column = 5, 5
+queries = [[2, 2, 4, 4]]    # x1, y1, x2, y2 (x1, y1 부터 x2, y2 범위)
+
+arr = [[0] * column for _ in range(row)]
+cnt = 0
+
+for i in range(row):
+    for j in range(column):
+        cnt += 1
+        arr[i][j] = cnt
+
+for t, l, b, r in queries:
+    top, left, bottom, right = t - 1, l - 1, b - 1, r - 1    # index 계산을 편하게 하기 위해서 빼준다.
+    temp = arr[top][left]
+
+    for k in range(top, bottom):    # 1번
+        arr[k][left] = arr[k + 1][left]
+ 
+    for k in range(left, right):    # 2번
+        arr[bottom][k] = arr[bottom][k + 1]
+
+    for k in range(bottom, top, -1):    # 3번
+        arr[k][right] = arr[k - 1][right]
+
+    for k in range(right, left, -1):    # 4번
+        arr[top][k] = arr[top][k - 1]
+
+    arr[top][left + 1] = temp    # temp 넣기
+
+    for i in arr:
+        print(*i, end=' ')
+        print()
+
+👉🏽
+1 2 3 4 5 
+6 12 7 8 10 
+11 17 13 9 15 
+16 18 19 14 20 
+21 22 23 24 25 
+```
