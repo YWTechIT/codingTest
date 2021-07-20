@@ -113,6 +113,7 @@ print(' '.join(map(str, arr[1:])))
 ```
 
 ---
+## 📍 백준 10813 - 공 바꾸기
 
 <a href='https://www.acmicpc.net/problem/10813'>백준 10813 - 공 바꾸기</a>
 
