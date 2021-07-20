@@ -111,3 +111,22 @@ for _ in range(10):
 
 print(' '.join(map(str, arr[1:])))
 ```
+
+---
+
+<a href='https://www.acmicpc.net/problem/10813'>백준 10813 - 공 바꾸기</a>
+
+## ⚡️ 나의 풀이
+
+입력으로 들어온 값을 `baskets`의 `index`를 바꿔주면 된다. 팁은 `lambda` 함수를 통해 입력으로 들어올 때 공통으로 원하는 값을 빼줄 수 있다. (<a href='https://ywtechit.tistory.com/215'>참고</a>)
+ 
+```python
+n, m = map(int, input().split())
+baskets = [i for i in range(1, n+1)]
+
+for _ in range(m):
+    a, b = map(lambda x: int(x)-1, input().split())
+    baskets[a], baskets[b] = baskets[b], baskets[a]
+
+print(*baskets)
+```
