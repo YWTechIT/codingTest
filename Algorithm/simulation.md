@@ -131,3 +131,98 @@ for _ in range(m):
 
 print(*baskets)
 ```
+
+---
+## 📍 백준 10709 - 기상캐스터
+
+<a href='https://www.acmicpc.net/problem/10709'>백준 10709 - 기상캐스터</a>
+
+## ⚡️ 나의 풀이
+시뮬레이션 문제였는데, 구름이 움직일때의 로직을 어떻게 짜는냐가 중요한 문제였다. 내가 작성한 코드는 다른 코드에 비해 길이도 많았고, 실행시간도 `100m/s`정도 차이가 났다. 다시보니까 반복문을 많이 사용해서 그런것 같다.
+
+나의 풀이방법은 다음과 같다.
+1. 입력에 구름이 있는지 없는지를 판단하여 `boolean`값을 리턴한다.
+2. 구름이 한개라도 존재하는 경우 현재 `sky`좌표가 `c`이고 다음 칸을 방문하지 않았다면 `cnt`를 하나씩 증가시킨다. (종료조건: `cnt`가 `W`보다 커질 때)
+
+다른사람의 풀이순서는 입력의 각 `row`를 기준으로 풀었는데, 생각해보면 문제에서 `열`끼리는 고려하지 않고 `행`을 기준으로만 풀기때문에 여기서 코드를 간단하게 사용 할 수 있는것 같다.
+
+1. 각 `row`를 기준으로 `cnt`와 `cloud`를 초기화 시킨다.
+2. 현재 좌표가 `.`인데 `not cloud`면 `-1`을 넣는다. (이전까지 구름이 없으므로)
+3. 현재 좌표가 `c`면 `0`을 넣는다. (구름이 현재 떠있는 상태이므로)
+4. 현재 좌표가 `.`인데 `cloud`면 이전까지 누적한 `cnt`를 넣는다. (구름이 `cnt`분 뒤에 오기 때문에)
+
+주의 할 점은 다음 사진처럼 이전에 다른 구름이 있더라도 현재 좌표기준으로 제일 가까운 구름만 신경써야한다. 왜냐하면 제일 처음으로 하늘에 구름이 도착하는 시간을 구해야 하기 때문이다.(문제 참고) 따라서 두번째 코드 `15`번 라인에서 `cnt`를 다시 `1`로 초기화 시켜야한다. (이 부분에서 조금 막혔다.)
+
+![](https://images.velog.io/images/abcd8637/post/0142228f-f667-49cd-85af-4fcf0b1e8029/KakaoTalk_Photo_2021-07-21-11-34-56.jpeg)
+
+```python
+# 나의 코드
+H, W = map(int, input().split())
+sky = [input() for _ in range(H)]
+result_sky = [[-1] * W for _ in range(H)]
+visited = [[False] * W for _ in range(H)]
+cnt = 1
+
+def check_cloud():    # 구름이 있는지 없는지 판단하는 함수
+    for i in sky:
+        if 'c' in i:
+            return True
+    return False
+
+def print_arr(arr):    # arr을 출력하는 함수
+    for i in arr:
+        print(*i, end=' ')
+        print()
+
+def visited_cloud():    # 구름의 초기값을 visited하는 함수
+    for i in range(H):
+        for j in range(W):
+            if sky[i][j] == 'c':
+                visited[i][j] = True
+                result_sky[i][j] = 0
+
+if not check_cloud():    # 구름이 하나도 없는 경우
+    print_arr(result_sky)    
+
+else:    # 구름이 하나라도 있는 경우
+    visited_cloud()
+
+    while cnt < W:    # 구름이 움직이는 최대 횟수는 W
+        temp_arr = [[-1] * W for _ in range(H)]
+
+        for i in range(H):
+            for j in range(W-1):
+                if sky[i][j] == 'c' and not visited[i][j+1]:
+                    temp_arr[i][j+1] = 'c'
+                    result_sky[i][j+1] = cnt
+
+        sky = temp_arr
+        cnt += 1
+    print_arr(result_sky)
+```
+
+```python
+# 다른 사람의 코드
+H, W = map(int, input().split())
+sky = [input() for _ in range(H)]
+answer = [[0] * W for _ in range(H)]
+
+for i in range(H):
+    cnt = 1
+    cloud = False
+    for j in range(W):
+        if not cloud and sky[i][j] == '.':
+            answer[i][j] = -1
+        elif sky[i][j] == 'c':
+            cloud = True
+            answer[i][j] = 0
+            cnt = 1
+        elif cloud and sky[i][j] == '.':
+            answer[i][j] = cnt
+            cnt += 1
+
+for i in answer:
+    print(*i, end=' ')
+    print()
+
+```
