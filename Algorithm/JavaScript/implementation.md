@@ -93,3 +93,27 @@ function solution(s) {
     }
 }
 ```
+
+---
+## 📍 프로그래머스 1단계 - 짝수와 홀수
+<a href='https://programmers.co.kr/learn/courses/30/lessons/12937'>프로그래머스 1단계 - 짝수와 홀수</a>
+
+### ⚡️ 나의 풀이
+
+조건문을 이용해 `if-else`로 나타낼 수 있지만, 삼항연산자를 이용해 더욱 간단하게 작성 할 수도 있다.
+
+```javascript
+// 삼항연산자
+function solution(num) {
+    return (num % 2) ? "Odd" : "Even"
+}
+
+// 조건문
+function solution(num) {
+    if (num % 2 == 1){
+        return "Odd"
+    }else{
+        return "Even"
+    }
+}
+```
