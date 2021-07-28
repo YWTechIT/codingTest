@@ -140,3 +140,27 @@ function solution(x, tempSum = 0) {
     return (x % tempSum) ? false : true
 }
 ```
+
+---
+## 📍 프로그래머스 1단계 - 평균 구하기
+<a href='https://programmers.co.kr/learn/courses/30/lessons/12944'>프로그래머스 1단계 - 평균 구하기</a>
+
+### ⚡️ 나의 풀이
+`python`과는 다르게 `JS`에서는 `sum` 함수가 따로 없어서 `reduce` 함수를 이용해서 평균을 구했다. `reduce`는 4개의 인자 `누산기(acc), 현재 값(cur), 현재 인덱스(idx), 원본 배열(src)`을 
+가진다. 또, `initialValue` : `callback` 함수를 실행할 때, `accumulator` 의 값( `default` : arr[0], `currentIndex` : 1부터 시작, 가능하면 초기값을 입력하는것을 잊지말자.
+
+```javascript
+// 나의 코드
+function solution(arr) {
+    let sumArr = arr.reduce((acc, cur) => {
+        return acc + cur;
+    });
+
+    return sumArr / arr.length;
+}
+
+// 한 줄 표현
+function solution(arr) {
+    return arr.reduce((acc, cur) => {return acc + cur}) / arr.length;
+}
+```
