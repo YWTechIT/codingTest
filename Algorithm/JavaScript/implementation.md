@@ -117,3 +117,26 @@ function solution(num) {
     }
 }
 ```
+
+---
+## 📍 프로그래머스 1단계 - 하샤드 수
+<a href='https://programmers.co.kr/learn/courses/30/lessons/12947'>프로그래머스 1단계 - 하샤드 수</a>
+
+### ⚡️ 나의 풀이
+
+`number` 타입으로 주어진 값의 자릿수를 구할 때 `for`문을 사용하고, `JS`의 문자열 특성을 이용해서 구했다.
+
+1. `x`를 `String` 형태로 바꾼다.
+2. `for - of` 반복문을 이용해서 `tempSum`을 누적한다. 이때, `JS`에서는 문자열 앞에 `+`를 붙이면 `number`형으로 바뀐다.
+3. 삼항연산자를 이용해서 자릿수로 나누어 떨어지면 `true`, 나누어 떨어지지 않으면 `false`를 `return`한다.
+
+```javascript
+function solution(x, tempSum = 0) {
+    
+    for (let digit of String(x)){
+        tempSum += (+digit)
+    }
+    
+    return (x % tempSum) ? false : true
+}
+```
