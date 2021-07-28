@@ -519,7 +519,10 @@ def solution(n):
 >4. 만약, cnt가 500번 이상일때는 -1을 반환시키고 종료한다.
 >5. n이 1보다 작거나 같아진다면 `while`문을 종료시킨다.
 
+`JS`도 마찬가지로 구현해주면 된다. 특이점은 삼항연산자를 이용했다.
+
 ```python
+# python 코드
 def solution(n):
     cnt = 0
     while n > 1:
@@ -533,6 +536,21 @@ def solution(n):
     return cnt
 
 print(solution(626331))
+```
+
+```javascript
+// JS코드
+function solution(num){
+    let cnt = 0;
+    while (num > 1){
+        num % 2 ? (num = num * 3 + 1) : (num /= 2);
+        cnt += 1;
+        if (cnt > 500){
+            return -1;
+        }
+    }
+    return cnt
+}
 ```
 
 ---
