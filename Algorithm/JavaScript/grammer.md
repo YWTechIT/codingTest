@@ -1,4 +1,4 @@
-## 📍 var, let, const 변수 차이점, 호이스팅(hoisting), TDZ, 스코프
+## 📍 var, let, const 변수 차이점과 호이스팅(hoisting), TDZ(Temporal Dead Zone), 스코프
 
 일반적으로 `var` , `let` , `const` 라고 할 때의 기본적인 차이점은 대략적으로나마 알고있을 것이다. (어렴풋이 작성한 <a href='https://blog.naver.com/abcd8637/222115190399'>나의 글</a>) 간략하게 말하면 `var` 와 `let` 은 변수를 선언하고 변수를 할당한 이후에도 값을 변경할 수 있지만(정확히는 `var` 는 재선언 및 재할당이 가능하고, `let` 은 재선언은 불가능하지만 재할당은 가능하다.) `const`는 한번 할당한 값은 다시 바꿀 수 없다.
 
@@ -39,7 +39,7 @@ let name = "안영우";
 console.log(name);  // 안영우
 ```
 
-`var` 변수와 달리 `let`, `const` 는 호이스팅이 되지 않아서 이런 에러가 뜨는것일까? 그렇지 않다. `let`, `const` 변수도 호이스팅된다. 하지만 `var` 변수와는 다르게  `let` , `const` 변수는 `TDZ(Temporal Dead Zone)` 의 영향을 받는다. 이전 코드에서 `TDZ` 의 영역은 다음과 같다. `TDZ(Temporal Dead Zone)` 란 시간적 사각지대를 의미하는데, 변수가 블록 시작부터 초기화가 완료될 때까지를 `TDZ` 라고 일컫는다. 쉽게 말해서 변수에 실질적인 값을 할당하기 전엔 사용할 수 없는데 `TDZ` 를 설정하는 이유는 코드를 예측가능하고, 잠재적인 버그를 줄이기 위함이다.
+`var` 변수와 달리 `let`, `const` 는 호이스팅이 되지 않아서 이런 에러가 뜨는것일까? 그렇지 않다. `let`, `const` 변수도 호이스팅된다. 하지만 `var` 변수와는 다르게 `let` , `const` 변수는 `TDZ(Temporal Dead Zone)` 의 영향을 받는다. 이전 코드에서 `TDZ` 의 영역은 다음과 같다. `TDZ(Temporal Dead Zone)`란 <a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#temporal_dead_zone_tdz'>시간적 사각지대</a>를 의미하는데, 변수가 블록 시작부터 초기화가 완료될 때까지를 `TDZ` 라고 일컫는다. 쉽게 말해서 변수에 실질적인 값을 할당하기 전엔 사용할 수 없는데 `TDZ` 를 설정하는 이유는 코드를 예측가능하고, 잠재적인 버그를 줄이기 위함이다.
 
 ```jsx
 console.log(name);  // TDZ(Temporal Dead Zone)
