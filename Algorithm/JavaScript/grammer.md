@@ -164,3 +164,129 @@ console.log(age);    // ReferenceError: age is not defined
 Reference
 1. <a href='https://www.youtube.com/watch?v=ocGc-AmWSnQ&list=PLZKTXPmaJk8JZ2NAC538UzhY_UNqMdZB4&index=1'>자바스크립트 중급 강좌 #1 - 변수, 호이스팅, TDZ(Temporal Dead Zone)</a>
 2. <a href='https://developer.mozilla.org/ko/'>MDN</a>
+
+---
+## 📍 객체 메소드(Object Methods)에 대해 알아보자.
+
+기본적으로 `원시 타입(Primitive)`과 `객체(Object)`의 근본적인 차이점은 원시타입은 값 자체를 저장 또는 할당하고 객체는 저장되어있는 메모리의 주소를 가리킨다는 점이다.
+
+일반적으로 다음과 같은 코드는 객체 값이 복사되지 않고 `주소값`만 복사 된다. 같은 주소를 가리키고 있기 때문에 `user`의 프로퍼티 값을 바뀌면 자연스럽게 `copyUser`의 값도 바뀌게 된다.(맨 처음에 언급했던 객체는 같은 주소값을 가리키고 있는것을 생각하자.)
+
+```jsx
+const user = {
+	name: "안영우",
+	age: 27,
+} 
+
+const copyUser = user;
+user["name"] = "안영준"
+user["age"] = 14
+
+console.log(copyUser);  // { name: '안영준', age: 14 }
+```
+
+이전에 `var`, `let`, `const` 변수의 차이점을 <a href='https://ywtechit.tistory.com/227'>공부</a>하면서 떠오른것은 `const` 변수로 선언된 객체는 `선언 + 초기화 + 할당` 을 동시에 하기 때문에 변수선언 이후 프로퍼티가 바뀌면 오류가 나야하는것 아닌가?? 라고 할수도 있지만, `const` 변수는 `user`의 값을 고정하지만 그 내용은 고정하지 않는다. ([참고: 코어 자바스크립트](https://ko.javascript.info/object#ref-18))
+
+---
+### 1️⃣ Object.assign()
+결론적으로 참조값을 복사하지 않고 객체 자체를 복사하고 싶다면 `Object.assign()` 함수인 `const copyUser = Object.assign({}, user)`을 사용하면 되는데, 여기서 첫번째 매개변수인 `{}` 는 `초기값`을 뜻하고 두번째 매개변수는 첫번째 매개변수(초기값 {})와 합친다는 뜻이다. 다음 코드에서 `assign`으로 객체를 복사한 변수는 원래의 값을 변경해도 프로퍼티의 값이 변경되지 않는 모습을 볼 수 있다.
+
+```jsx
+const user = {
+	name: "안영우",
+	age: 27,
+} 
+
+const copyUser = Object.assign({}, user);
+user["name"] = "안영준"
+user["age"] = 14
+
+console.log(copyUser);  // { name: '안영우', age: 27 }
+```
+
+위에서 언급한 `const copyUser = Object.assign({}, user)`코드에서 첫번째 파라미터인 `{}`는 초기값을 뜻한다고 했는데, 여기에 초기값을 `{}` 대신 값이 들어있는 객체형태로 선언해서 합칠 수도 있다. 
+
+```jsx
+const userInfo = {
+	age: 27
+}
+const addUserInfo = Object.assign({name: "안영우"}, userInfo);
+
+console.log(addUserInfo);  // { name: '안영우', age: 27 }
+```
+
+만약, 초기객체의 `key`와 새로 덮으려는 `key` 값이 중복되면 새로 넘어온 값을 덮어씌운다. 
+
+```jsx
+const userInfo = {
+	name: "안영우"
+}
+const overLapNameInfo = Object.assign(userInfo, {name: "안영준"});
+
+console.log(overLapNameInfo);  // { name: '안영준' }
+```
+
+또, 2개이상의 객체도 합칠 수 있다. 이때 가장 좌측에있는 초기객체에 덮어씌운다.
+
+```jsx
+
+const mergeMultipleObjs = Object.assign({name: "안영우"}, {age: 27}, {gender: "man"});
+
+console.log(mergeMultipleObjs);  // { name: '안영우', age: 27, gender: 'man' }
+```
+
+---
+### 2️⃣ Object.keys()
+객체의 `key`값을 모아 새로운 배열로 반환시키는 메소드다.
+
+```jsx
+const user = {
+	name: "안영우",
+    age: 27,
+    gender: "male"
+} 
+const userKey = Object.keys(user);
+console.log(userKey);  // [ 'name', 'age', 'gender' ]
+```
+
+---
+### 3️⃣ Object.values()
+객체의 `value`를 모아 새로운 배열로 반환시키는 메소드다.
+
+```jsx
+const user = {
+	name: "안영우",
+    age: 27,
+    gender: "male"
+} 
+const userKey = Object.values(user);
+console.log(userKey);  // [ '안영우', 27, 'male' ]
+```
+
+---
+### 4️⃣ Object.entries()
+`key`와 `value`를 모두 배열로 반환할 때 사용하는 메소스다.
+
+```jsx
+const user = {
+	name: "안영우",
+    age: 27,
+    gender: "male"
+} 
+const userKey = Object.values(user);
+console.log(userKey);  // [ [ 'name', '안영우' ], [ 'age', 27 ], [ 'gender', 'male' ] ]
+```
+
+---
+### 5️⃣ Object.fromEntries()
+`Object.entries()` 와 반대로 `key` 와 `value` 가 쌍으로 묶여있는 배열을 객체로 바꿀때 사용하는 메소드다
+
+```jsx
+const changeObjFromArray = Object.fromEntries([ [ 'name', '안영우' ], [ 'age', 27 ], [ 'gender', 'male' ] ]);
+console.log(changeObjFromArray)   // { name: '안영우', age: 27, gender: 'male' }
+```
+
+Reference
+1. [자바스크립트 중급 강좌 #3 - 객체 메소드(Object methods), 계산된 프로퍼티(Computed property)](https://www.youtube.com/watch?v=6NZpyA64ZUU&list=PLZKTXPmaJk8JZ2NAC538UzhY_UNqMdZB4&index=3)
+2. [모던 JavaScript 튜토리얼](https://ko.javascript.info/)
+3. [Object.assign() - MDN](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Object/assign)
