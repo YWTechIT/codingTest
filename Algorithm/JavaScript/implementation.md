@@ -164,3 +164,49 @@ function solution(arr) {
     return arr.reduce((acc, cur) => {return acc + cur}) / arr.length;
 }
 ```
+
+---
+## 📍 프로그래머스 1단계 - x만큼 간격이 있는 n개의 숫자
+<a href='https://programmers.co.kr/learn/courses/30/lessons/12954'>프로그래머스 1단계 - x만큼 간격이 있는 n개의 숫자</a>
+
+### ⚡️ 나의 풀이
+처음 `arr`을 어떻게 0으로 초기화 시켜야 할지 고민을 많이 했다. `python`에서는 단순하게 `[0] * n`을 작성하면 되는데 `JS`에서는 다른 방법을 찾아야 한다. 가독성을 제쳐두고 다음과 같은 방법을 찾았다.
+
+1. `let answer = [...Array(n)].map(() => 0);`
+2. `let answer = Array(n).fill(0)`
+3. `let answer = Array.apply(null, Array(n)).map(() => 0);`
+
+이 중에서 가독성이 가장 좋은 코드는 2번이었다. 다른사람의 코드에서 `increase`를 사용 할 필요없이 `idx`로 해결하니까 코드가 훨씬 간결해졌다.
+
+1. `n`만큼의 길이를 각각 `x`로 초기화시킨다. (초기값: `[2, 2, 2, 2, 2]`)
+2. `map` 함수를 사용하여 `idx`에 1씩 더해준 값에 현재 `val`를 곱하여 반환한다.
+
+```javascript
+// 나의 코드
+function solution(x, n) {
+    let answer = [...Array(n)].map(() => 0);
+    let increase = x;
+    answer.map((val, idx) => {answer[idx] = increase, increase += x})
+    return answer
+}
+
+// 나의 코드2
+function solution(x, n) {
+    let answer = Array.apply(null, Array(n)).map(() => 0);
+    let increase = x;
+    
+    answer.forEach(function(val, idx){
+        answer[idx] = increase;
+        increase += x;
+    })
+    
+    return answer
+}
+```
+
+```javascript
+// 다른 사람의 코드
+function solution(x, n) {
+    return Array(n).fill(x).map((v, i) => (i + 1) * v)
+}
+```
