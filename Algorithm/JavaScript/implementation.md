@@ -210,3 +210,48 @@ function solution(x, n) {
     return Array(n).fill(x).map((v, i) => (i + 1) * v)
 }
 ```
+
+---
+## 📍 프로그래머스 1단계 - 행렬의 덧셈
+<a href='https://programmers.co.kr/learn/courses/30/lessons/12950'>프로그래머스 1단계 - 행렬의 덧셈</a>
+
+`for`문 대신 `map`을 사용하면 훨씬 가독성이 좋아진다. 또 처음 `map`에서 나온 `item`에 또 `map`을 적용해서 리스트를 벗길 수 있다. 자주 써먹어야겠다. 주의 할 점은 `map`은 배열을 `return`시킨다는 점이다.
+
+```jsx
+// 나의 코드
+function solution(arr1, arr2, answer = []) {
+    const rowLength = arr1.length;
+    const columnLength = arr1[0].length;
+    
+    for (let i = 0; i < rowLength; i++){
+        let tmpAnswer = [];
+        for (let j = 0; j < columnLength; j++){
+            tmpAnswer.push(arr1[i][j] + arr2[i][j])
+        }
+        answer.push(tmpAnswer)
+    }
+    return answer
+}
+```
+
+```javascript
+// 수정 코드
+function solution(arr1, arr2, answer = []) {
+  for (let i = 0; i < arr1.length; i++) {
+    answer[i] = [];
+    for (let j = 0; j < arr1[i].length; j++) {
+      answer[i].push(arr1[i][j] + arr2[i][j]);
+    }
+  }
+  return answer;
+}
+```
+
+```javascript
+// 다른 사람의 코드
+function solution(arr1, arr2) {
+    return arr1.map((item, i) => item.map((val, j) => val + arr2[i][j]))
+  }
+```
+
+### ⚡️ 나의 풀이
