@@ -277,3 +277,23 @@ function solution2(arr, answer = []){
     return answer;
 }
 ```
+
+---
+## 📍 프로그래머스 1단계 - 가운데 글자 가져오기
+<a href='https://programmers.co.kr/learn/courses/30/lessons/12903'>프로그래머스 1단계 - 가운데 글자 가져오기</a>
+
+### ⚡️ 나의 풀이
+
+첫번째는 `slice` 문을 이용했고, 두번째는 `slice, splice`문을 이용했는데 `splice`는 `Array` 타입에서만 지원하는 함수여서 `split`으로 `Array`로 바꿔주고 적용햇다. 가독성은 첫번째 코드가 더 좋은것같다. 주의 할 점은 `splice` 문을 사용 할 때 `end`는 포함하지 않는다는 점과 컴퓨터는 `index`를 0부터 세는 부분이다.
+
+```javascript
+// slice
+function solution(s) {
+    return s.length%2 == 1 ? s[s.length/2 | 0] : s.slice(s.length/2 - 1, s.length/2 + 1)
+}
+
+// slice, splice
+function solution(s) {
+    return s.length%2 == 1 ? s[s.length/2 | 0] : s.split("").splice(s.length/2 -1, 2).join('')
+}
+```
