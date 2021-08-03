@@ -254,4 +254,26 @@ function solution(arr1, arr2) {
   }
 ```
 
+---
+## 📍 프로그래머스 1단계 - 같은 숫자는 싫어
+<a href='https://programmers.co.kr/learn/courses/30/lessons/12906'>프로그래머스 1단계 - 같은 숫자는 싫어</a>
+
 ### ⚡️ 나의 풀이
+맨 마지막 원소를 비교할 때는 `idx+1`이 없기때문에 오류가 나지 않을까 하면서 `filter`를 사용했는데, 마지막 `idx+1`은 `undefined`가 반환돼서 비교가 가능했다. `!=`와 `!==`의 차이는 형 변환(type casting)이후 비교를 하는지 안하는지의 차이인데 여기서는 입력 모두 `Number`형 이기 때문에 `!=`로 작성해도 된다.
+
+```javascript
+// filter
+function solution(arr){
+   return arr.filter((item, idx) => item !== arr[idx+1]);
+}
+
+// forEach
+function solution2(arr, answer = []){
+    arr.forEach((item, idx) => {
+    if(item !== arr[idx+1]){
+        answer.push(item)}
+    })
+
+    return answer;
+}
+```
