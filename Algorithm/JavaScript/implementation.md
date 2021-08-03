@@ -297,3 +297,54 @@ function solution(s) {
     return s.length%2 == 1 ? s[s.length/2 | 0] : s.split("").splice(s.length/2 -1, 2).join('')
 }
 ```
+
+---
+## 📍 프로그래머스 1단계 - 정수 제곱근 판별
+<a href='https://programmers.co.kr/learn/courses/30/lessons/12934'>프로그래머스 1단계 - 정수 제곱근 판별</a>
+
+### ⚡️ 나의 풀이
+제곱근이 아니라면 `sqrt`함수를 사용했을 때 `float`이 나오고, 제곱근이라면 `number`형이 나올것이다. 그래서 `parseInt`와 `parseFloat` 형 비교를 사용했다. 또는 `isInteger` 함수를 사용해서 제곱근이 정수인지 아닌지를 비교해도 된다. `return`문은 삼항연산자를 이용해서 작성했다.
+
+```javascript
+function solution(n) {
+    return ((parseInt(Math.sqrt(n)) === parseFloat(Math.sqrt(n))) ? Math.pow(Math.sqrt(n)+1, 2) : -1)
+}
+```
+
+---
+## 📍 프로그래머스 1단계 - 직사각형 별찍기
+<a href='https://programmers.co.kr/learn/courses/30/lessons/12969'>프로그래머스 1단계 - 직사각형 별찍기</a>
+
+### ⚡️ 나의 풀이
+`row`는 `for`문 대신`repeat` 함수를 이용하여 표현했고, `column`은 `for`문을 이용해서 표현했다. 나는 `answer`에 `push`하고나서 `join`으로 문자열로 바꿔줬는데, 그냥 `console.log`해도 정답판정이 나왔다.
+
+```javascript
+// 나의 코드
+process.stdin.setEncoding('utf8');
+process.stdin.on('data', data => {
+    const n = data.split(" ");
+    const a = Number(n[0]), b = Number(n[1]);
+
+    let answer = [];
+    let row = "*".repeat(a);
+
+    for (let i = 0; i < b; i++){
+        answer.push(row);
+    }
+    console.log(answer.join("\n"))
+});
+
+// 다른사람의 코드
+process.stdin.setEncoding('utf8');
+process.stdin.on('data', data => {
+    const n = data.split(" ");
+    const a = Number(n[0]), b = Number(n[1]);
+
+    let answer = [];
+    let row = "*".repeat(a);
+    
+    for (let i = 0; i < b; i++){
+        console.log(row)
+    }
+});
+```
