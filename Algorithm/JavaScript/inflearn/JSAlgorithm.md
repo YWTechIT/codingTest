@@ -72,6 +72,83 @@ function solution(a, b, c) {
 }
 ```
 
+---
+## 📍 03 - 연필개수
+
+1다스는 12자루씩들어가므로 12자리로 나눴을 때 나머지가 있다면 몫에 `+1`을 하는 방법도 있지만, 그보다 간편하게 `Math.ceil` 함수로 몫에 소수점이 있으면 +1 시켜줄 수 있다. `python`에서는 `Math` 라이브러리를 호출해야됐는데 `JS`에서는 `import`없이 사용가능해서 편하다. 처음에는 음수 `floor`를 이용해서 풀었다.
+
+```javascript
+console.log(solution(25));
+
+// 음수 floor
+function solution(n) {
+    return -(Math.floor(-n / 12));
+}
+
+// Math.ceil
+function solution1(n){
+    return Math.ceil(n / 12);
+}
+```
+
+---
+## 📍 04 - 1부터 N까지 합 출력하기
+
+단순하게 값을 누적하는 문제다. `sum` 공식을 사용하거나 `반복문`을 사용했다.
+
+```javascript
+console.log(solution(6));
+
+// sum공식
+function solution(n) {
+  return (n * (n + 1)) / 2;
+}
+
+// 반복문
+function solution(n) {
+  let answer = 0;
+
+  for (let i = 1; i <= n; i++) {
+    answer += i;
+  }
+
+  return answer;
+}
+```
+
+---
+## 📍 05 - 최솟값 구하기
+
+가장 작은 수를 구하는 문젠데, 배열로 주어졌을 때는 `Math.min` 함수에 단독으로 배열을 넘겨주면 `NaN`값이 반환되므로 `spreadOperator(...)`를 사용해서 `iterable`한 값 중에서 `Math.min`을 구하거나 `apply` 함수를 이용하면 된다. 마지막 반복문을 이용하는 방법은 초기 `min`값을 `JS`에서 안정적으로 높은 값인 `MAX_SAFE_INTEGER`으로 할당하고 그보다 낮은 값을 보면 낮은 값을 할당하는 방법도 있다.
+
+```javascript
+console.log(solution([5, 3, 7, 11, 2, 15, 17]));
+
+// apply
+function solution(...arr){
+    return Math.min.apply(null, arr);
+}
+
+// Math.min
+function solution(arr){
+    console.log(Math.min(...arr));
+}
+
+// 반복문
+function solution(...arr) {
+  let min = Number.MAX_SAFE_INTEGER;
+
+  arr.forEach((element) => {
+    if (element < min) {
+      min = element;
+    }
+  });
+
+  return min;
+}
+```
+
+
 
 
 
