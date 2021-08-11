@@ -148,6 +148,22 @@ function solution(...arr) {
 }
 ```
 
+---
+## 📍 05 - 홀수
+짝수와 홀수가 섞인 배열에서 홀수를 고를 때는 `filter`를 이용해서 걸렀고, 홀수들 중 최소값은 `Math.min` 함수를 이용했다. 마지막으로 홀수끼리의 합은 `reduce`를 이용했다.
+
+```javascript
+solution([12, 77, 38, 41, 53, 92, 85]);
+
+function solution(arr){
+    let OddArr = arr.filter((item) => item % 2 !== 0);
+    let sumOddArr = OddArr.reduce((acc, cur) => {return acc + cur}, 0);
+
+    console.log(sumOddArr);
+    console.log(Math.min(...OddArr));
+}
+```
+
 
 
 
