@@ -279,6 +279,36 @@ function solution(s, target){
 }
 ```
 
+---
+## 📍 10 - 대문자 찾기
+대문자를 찾으려면 `toUpperCase()`로 현재 값이 대문자인지 확인하는 방법이 있고, `ASCII` 코드를 이용해서 찾는 방법이 있다.
+
+```javascript
+console.log(solution("KoreaTimeGood"));
+
+// toUpperCase
+function solution(s) {
+  let cnt = 0;
+
+  for (let i of s) {
+    if (i === i.toUpperCase()) cnt += 1;
+  }
+
+  return cnt;
+}
+
+// ASCII
+function solution(s){
+    let cnt = 0;
+
+    for (let i of s){
+        let num = i.charCodeAt();
+        if (num >= 65 && num <=90) cnt++;
+    }
+
+  return cnt;
+}
+```
 
 
 
