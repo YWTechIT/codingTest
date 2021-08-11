@@ -164,6 +164,23 @@ function solution(arr){
 }
 ```
 
+---
+## 📍 06 - 10부제
+배열의 일의 자리 숫자가 `day`와 같은 값이 총 몇개인지 세는 문제인데, `filter`를 이용하면 금방 찾을 수 있다. 여기서 알아두면 좋은 점은 어떤 값을 `10`으로 나눈 나머지는 일의자리 수가 나온다는 점이다.
+
+```javascript
+let day = 3;
+let cars = [12, 20, 54, 30, 87, 91, 30];
+
+console.log(solution(day, cars));
+
+function solution(day, cars){
+    let violateCar = cars.filter((car) => car % 10 === day);
+    return violateCar.length;
+};
+```
+
+
 
 
 
