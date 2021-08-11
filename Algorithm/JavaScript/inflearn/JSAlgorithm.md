@@ -256,9 +256,28 @@ function solution(s){
 }
 ```
 
+---
+## 📍 09 - 문자 찾기
+특정문자를 찾을 때 `for`문을 사용해도 되고 아니면 `split(target)`을 타겟기준으로 나눈 다음 `-1`을 해줘도 된다. 만약 `target`이 제일 마지막에 있으면 어떻게 될까? 마지막에 공백이 추가되기 때문에 마찬가지로 `-1`을 해주면 된다.
 
+```javascript
+console.log(solution("COMPUTERPROGRAMMING", "G"));
 
+// for - of
+function solution(s, target){
+    let cnt = 0;
+    for (let i of s){
+        if (i === target) cnt += 1
+    }
+    return cnt;
+}
 
+// split
+function solution(s, target){
+    let answer = s.split(target);
+    return answer.length - 1 ;
+}
+```
 
 
 
