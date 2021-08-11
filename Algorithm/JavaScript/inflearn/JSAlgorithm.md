@@ -217,6 +217,46 @@ const ans = solution(input);
 console.log(ans.join("\n"));
 ```
 
+---
+## 📍 08 - A를 #으로
+`A`를 모두 `#`으로 바꾸기만 하면 되는데, 3가지 방법으로 풀었다.
+
+1. `split()` + `map()`
+2. `for - of`
+3. `replace` + `reg`
+
+마지막에 정규식의 `/A/g`는 대문자 `A`를 모두(`g`) `#`으로 바꿔달라는 의미다.
+
+```javascript
+console.log(solution("BANANA"));
+
+// 1. split() + map()
+function solution(s){
+    s = s.split("").map((item) => item === "A" ? "#" : item)
+    return s.join("");
+}
+
+// 2. for - of
+function solution(s){
+    let answer = "";
+    for (let i of s){
+        if (i === "A") answer += "#"
+        else answer += i
+    }
+
+    return answer;
+}
+
+// 3. replace + reg
+function solution(s){
+    let answer = s;
+    answer = answer.replace(/A/g, "#");
+
+    return answer;
+}
+```
+
+
 
 
 
