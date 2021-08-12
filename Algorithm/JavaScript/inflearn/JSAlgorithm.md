@@ -310,6 +310,88 @@ function solution(s){
 }
 ```
 
+---
+## 📍 11 - 대문자로 통일
+
+앞서 푼 문제와 동일한 방식으로 풀면 된다.
+
+```javascript
+console.log(solution("ItisTimeToStudy"));
+
+// ASCII
+function solution(s) {
+    let ans = "";
+
+    for(let x of s){
+        let num = x.charCodeAt();
+        if (num>=97 && num<=122) ans+=String.fromCharCode(num-32);
+        else ans+=x
+    }
+
+    return ans;
+}
+
+// toLowerCase, toUpperCase
+function solution(s){
+    let ans = "";
+    for (let string of s){
+        if(string === string.toLowerCase()) ans += string.toUpperCase();
+        else ans += string;
+    }
+    return ans;
+}
+```
+
+---
+## 📍 12 - 대소문자 변환
+대문자일때 소문자로 소문자일때는 대문자로 변환시키는데 `ASCII` 방법과 `toUpperCase, toLowerCase` 방법으로 나누어 풀었다.
+
+```javascript
+console.log(solution("StuDY"));
+
+function solution(s) {
+    let ans = "";
+
+    for(let x of s){
+        let num = x.charCodeAt();
+
+        if(num>=65 && num<=91) ans+=String.fromCharCode(num+32);
+        else ans+=String.fromCharCode(num-32);
+    }
+  return ans;
+}
+
+function solution(s) {
+    let ans = "";
+
+    for(let x of s){
+        if (x === x.toUpperCase()) ans+=x.toLowerCase();
+        else ans += x.toUpperCase();
+    }
+  return ans;
+}
+```
+
+---
+## 📍 12 - 가장 긴 문자열
+가장 긴 문자열을 찾아야하기 때문에 초기값은 제일 작은 값으로 설정해줘야하는데, `Number.MIN_SAFE_INTEGER`로 초기화하면 제일 작은 안전한 값으로 줄 수 있다.(`Number.MIN_SAFE_INTEGER` 값을 콘솔로 찍어보면 `-9007199254740991`가 나온다.) 
+
+```javascript
+// 가장 긴 문자열
+console.log(solution(5, ["teacher", "time", "student", "beautiful", "good"]));
+
+function solution(n, arr) {
+    let ans, max = Number.MIN_SAFE_INTEGER;
+
+    for (str of arr){
+        if (str.length > max){
+            max = str.length
+            ans = str
+        }
+    }
+    return ans;
+}
+```
 
 
 
