@@ -373,7 +373,7 @@ function solution(s) {
 ```
 
 ---
-## 📍 12 - 가장 긴 문자열
+## 📍 13 - 가장 긴 문자열
 가장 긴 문자열을 찾아야하기 때문에 초기값은 제일 작은 값으로 설정해줘야하는데, `Number.MIN_SAFE_INTEGER`로 초기화하면 제일 작은 안전한 값으로 줄 수 있다.(`Number.MIN_SAFE_INTEGER` 값을 콘솔로 찍어보면 `-9007199254740991`가 나온다.) 
 
 ```javascript
@@ -392,6 +392,21 @@ function solution(n, arr) {
     return ans;
 }
 ```
+
+---
+## 📍 14 - 가운데 문자 출력
+<a href='https://programmers.co.kr/learn/courses/30/lessons/12903'>프로그래머스 - 가운데 글자 가져오기</a>와 비슷한 문제이다. 가운데를 정하는 `mid` 변수를 먼저 할당해주고 `slice`를 이용해 구했다.
+
+```javascript
+console.log(solution("good"));
+
+// 삼항연산자
+function solution(s) {
+    let mid = Math.floor(s.length / 2);
+    return s.length % 2 == 1 ? s[mid] : s.slice(mid-1, mid+1);
+}
+```
+
 
 
 
