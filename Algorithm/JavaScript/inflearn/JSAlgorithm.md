@@ -407,7 +407,45 @@ function solution(s) {
 }
 ```
 
+---
+## 📍 15 - 중복 문제 제거 / 중복된 문자 찾기
+중복되는 문자를 제거하려면 `set`의 특징인 중복 값 제거를 이용하면 쉽게 풀 수 있다. 강의에서는 `indexOf`를 사용했는데, 처음 배우는 방법이라 신기했다. 현재 `index`와 `indexOf`로 찾은 값이 다르면 중복된 문자, 같으면 처음보는 문자로 판단하는 로직이다. 강의 마지막에 중복된 문자를 찾는 방법도 알려주셨는데 `indexOf`과 `while`을 통해 찾을 수 있었다. 여기서 참고할 점은 `indexOf(searchElement[, fromIndex])`인데, `indexOf`를 사용 할 때 `인자(parameter)`를 하나 더 넘기면 해당 `index`부터 `target`를 찾는다. `while`을 사용해서 `-1`이 나오면 찾는 글자가 없기때문에 `break`하는 방법을 이용했다.
 
+```javascript
+// 중복문자제거
+console.log(isDuplicate("1234"));
+
+// set
+function solution(s) {
+    return [...new Set(s)].join('');
+}
+
+// indexOf
+function solution(s) {
+  let answer = "";
+  for (let i = 0; i < s.length; i++) {
+    if (i === s.indexOf(s[i])) answer += s[i];
+  }
+  return answer;
+}
+```
+
+```javascript
+// 중복된 문자 찾기
+console.log(solution("algorithmic", "i"));
+
+function solution(s, target) {
+  let cnt = 0;
+  let duplicatedIndex = s.indexOf(target);
+
+  while (duplicatedIndex !== -1) {
+    cnt++;
+    duplicatedIndex = s.indexOf(target, duplicatedIndex + 1);
+  }
+
+  return cnt;
+}
+```
 
 
 
