@@ -524,3 +524,41 @@ function solution(arr){
     return answer.join(' ');
 }
 ```
+
+---
+## 📍 18 - 보이는 학생
+이 문제를 보자마자 <a href='https://www.acmicpc.net/problem/2493'>boj2493 - 탑</a>과 유사하다는 생각이 들었다. (비록 <a href='https://ywtechit.tistory.com/204'>python</a>으로 풀긴했지만..) `보이는 학생` 문제는 그다지 어렵지 않았다. 대신 주의할 점은 이전 `index`의 값을 알고있어야 대소관계를 알 수 있는데, 제일 첫번째 학생은 비교 대상이 없기 때문에 `stack`에 넣고 시작하면 된다. 강의영상에서는 값을 누적하는 대신 할당하는것으로 풀었는데, 굳이 빈 배열에 `push` 하지 않고도 값을 갱신하는것이 불필요한 `push`가 없어서 괜찮았다.
+
+```javascript
+console.log(solution([130, 135, 148, 140, 145, 150, 150, 153]));
+
+// 나의 코드
+function solution(students) {
+  let stack = [];
+  let cnt = 1;
+
+  stack.push(students[0]);
+
+  for (let i = 1; i < students.length; i++) {
+    if (students[i] > stack[stack.length - 1]) {
+      stack.push(students[i]);
+      cnt += 1;
+    }
+  }
+  return cnt;
+}
+
+// 강의
+function solution(students) {
+  let maxHeight = students[0];
+  let cnt = 1;
+
+  for (let i = 1; i < students.length; i++) {
+    if (students[i] > maxHeight) {
+      maxHeight = students[i];
+      cnt += 1;
+    }
+  }
+  return cnt;
+}
+```
