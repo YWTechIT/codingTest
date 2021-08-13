@@ -408,7 +408,7 @@ function solution(s) {
 ```
 
 ---
-## 📍 15 - 중복 문제 제거 / 중복된 문자 찾기
+## 📍 15 - 중복 문자 제거 / 중복된 문자 찾기
 중복되는 문자를 제거하려면 `set`의 특징인 중복 값 제거를 이용하면 쉽게 풀 수 있다. 강의에서는 `indexOf`를 사용했는데, 처음 배우는 방법이라 신기했다. 현재 `index`와 `indexOf`로 찾은 값이 다르면 중복된 문자, 같으면 처음보는 문자로 판단하는 로직이다. 강의 마지막에 중복된 문자를 찾는 방법도 알려주셨는데 `indexOf`과 `while`을 통해 찾을 수 있었다. 여기서 참고할 점은 `indexOf(searchElement[, fromIndex])`인데, `indexOf`를 사용 할 때 `인자(parameter)`를 하나 더 넘기면 해당 `index`부터 `target`를 찾는다. `while`을 사용해서 `-1`이 나오면 찾는 글자가 없기때문에 `break`하는 방법을 이용했다.
 
 ```javascript
@@ -447,5 +447,80 @@ function solution(s, target) {
 }
 ```
 
+---
+## 📍 16 - 중복 단어 제거
 
+<a href='https://ywtechit.tistory.com/249'>중복 문자 제거</a>와 같은 로직으로 풀었는데 이번엔 배열 안에 문자가 들어가있는 문제다. `set`, `indexOf`, `indexOf + filter`를 사용했다.
 
+```javascript
+solution(5, ["good", "time", "good", "time", "student"]);
+
+// set
+function solution(s) {
+  return [...new Set(s)].join("\n");
+}
+
+// indexOf
+function solution(n, words) {
+    for (let i = 0; i < n; i++){
+        if(words.indexOf(words[i]) === i){
+            console.log(words[i])
+        }
+    }
+}
+
+// filter + indexOf
+function solution(n, words) {
+  let ans = words.filter((item, idx) => words.indexOf(item) === idx);
+  console.log(ans.join("\n"));
+}
+```
+
+---
+## 📍 17 - 큰 수 출력하기
+자신의 바로 앞의 값만 비교한다는 점을 고려해서 `reduce` 함수를 사용했다. `reduce`함수의 인자로 넘겨줄 `acc, cur`에서 `acc`를 이전단계의 `cur`로 `return`해주면 바로 이전 `index`와 비교하게 된다. 맨 처음에는 `0`을 넘겨주자.
+
+`for`문으로 풀 때는 그다지 어렵지 않았는데, 맨 앞의 값을 비교할때는 이전 값이 없기때문에 `0`을 추가해줬다. (혹은 `Number.MIN_SAFE_INTEGER`을 할당해줘도 된다.)
+
+```javascript
+console.log(solution([7, 3, 9, 5, 6, 12]));
+
+// reduce
+function solution(arr) {
+  let answer = [];
+  arr.reduce((acc, cur) => {
+    if (cur > acc) {
+      answer.push(cur);
+    }
+    return cur;
+  }, 0);
+
+  return answer.join(' ');
+}
+
+// for
+function solution(arr){
+    let answer = [];
+    arr = [0, ...arr];
+
+    for (let i=1; i < arr.length; i++){
+        if (arr[i] > arr[i-1]){
+            answer.push(arr[i])
+        }
+    }
+    return answer.join(' ');
+}
+
+// for2
+function solution(arr){
+    let answer = [];
+    answer.push(arr[0]);
+
+    for (let i=1; i < arr.length; i++){
+        if (arr[i] > arr[i-1]){
+            answer.push(arr[i])
+        }
+    }
+    return answer.join(' ');
+}
+```
