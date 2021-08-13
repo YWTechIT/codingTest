@@ -562,3 +562,96 @@ function solution(students) {
   return cnt;
 }
 ```
+
+---
+## 📍 19 - 가위 바위 보
+경우의수를 잘 따져서 풀어야하는데, `if`문에 `A`가 이긴경우, `else - if`문에 비긴경우, `else`문(`B`가 이긴경우)순서로 작성하면 코드의 양을 줄일 수 있다. 두번째 코드는 `if - else if - else`를 삼항연산자로 압축해서 작성했다.
+
+```javascript
+let n = 5;
+let a = [2, 3, 3, 1, 3];
+let b = [1, 1, 2, 2, 3];
+
+console.log(solution(n, a, b));
+
+// &&
+function solution(n, a, b) {
+  let scissor = 1, rock = 2, paper = 3;
+  let ans = "";
+
+  for (i = 0; i < n; i++) {
+    if (
+      (a[i] === scissor && b[i] === paper) ||
+      (a[i] === rock && b[i] === scissor) ||
+      (a[i] === paper && b[i] === rock)
+    ) {
+      ans += "A ";
+    } else if (a[i] === b[i]) {
+      ans += "D ";
+    } else {
+      ans += "B ";
+    }
+  }
+  return ans;
+}
+```
+
+```javascript
+// 삼항연산자
+function solution(n, a, b) {
+  let scissor = 1,
+    rock = 2;
+  paper = 3;
+  let ans = "";
+
+  for (i = 0; i < n; i++) {
+    a[i] === b[i]
+      ? (ans += "D ")
+      : a[i] === scissor && b[i] === paper
+      ? (ans += "A ")
+      : a[i] === rock && b[i] === scissor
+      ? (ans += "A ")
+      : a[i] === paper && b[i] === rock
+      ? (ans += "A ")
+      : (ans += "B ");
+  }
+  return ans;
+}
+```
+
+```javascript
+// 모든 경우의 수를 나열한 코드
+function solution(n, a, b) {
+  let scissor = 1, rock = 2
+  let ans = "";
+
+  for (i = 0; i < n; i++) {
+    if (a[i] === scissor) {
+      if (b[i] === scissor) {
+        ans += "D";
+      } else if (b[i] === rock) {
+        ans += "B";
+      } else {
+        ans += "A";
+      }
+    } else if (a[i] === rock) {
+      if (b[i] === scissor) {
+        ans += "A";
+      } else if (b[i] === rock) {
+        ans += "D";
+      } else {
+        ans += "B";
+      }
+    } else {
+      if (b[i] === scissor) {
+        ans += "B";
+      } else if (b[i] === rock) {
+        ans += "A";
+      } else {
+        ans += "D";
+      }
+    }
+  }
+  return ans;
+}
+```
