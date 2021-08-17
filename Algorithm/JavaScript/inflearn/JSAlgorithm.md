@@ -716,3 +716,146 @@ function solution(n, scores) {
   return answers;
 }
 ```
+
+---
+## 📍 22 - 격자판 최대합
+`n*n`의 격자판에서 각 행, 각 열, 두 대각선의 합 중 가장 큰 값을 출력하면 되는데, 첫번째로 `row`의 합을 구할때는 반복문을 하나만 선언해서 `reduce`를 이용했고, `column`의 합은 중첩반복문을 선언해서 `i, j`값을 구했다. 대각선은 좌측상단에서 우측하단의 방향의 대각선 `arr[i][i]`과 우측상단에서 좌측하단의 방향의 대각선 `arr[i][n-i-1]`의 방법을 이용해서 구했다.
+
+```javascript
+let n = 5;
+let arr = [
+  [10, 13, 10, 12, 15],
+  [12, 39, 30, 23, 11],
+  [11, 25, 50, 53, 15],
+  [19, 27, 29, 37, 27],
+  [19, 13, 30, 13, 19],
+];
+
+console.log(solution(n, arr));
+
+// 가로, 세로, 대각선 로직을 각각 작성한 코드
+function solution(n, arr) {
+  let row = (column = normal = reverse = 0);
+
+  // row
+  for (let i = 0; i < n; i++) {
+    let rowSum = arr[i].reduce((acc, cur) => acc + cur, 0);
+    row = Math.max(row, rowSum);
+  }
+
+  // column
+  for (let i = 0; i < n; i++) {
+    let columnSum = 0;
+    for (let j = 0; j < n; j++) {
+      columnSum += arr[j][i];
+    }
+    column = Math.max(column, columnSum);
+  }
+
+  // diagonal
+  for (let i = 0; i < n; i++) {
+    normal += arr[i][i];
+    reverse += arr[i][n-i-1];
+  }
+
+  return Math.max(row, column, normal, reverse);
+}
+
+// 가로 + 세로, 대각선 로직을 작성한 코드
+function solution(n, arr) {
+  let answer = 0;
+  let normal = reverse = 0;
+
+  // row, column
+  for (let i = 0; i < n; i++) {
+    let row = column = 0;
+    for (let j = 0; j < n; j++) {
+      row += arr[i][j];
+      column += arr[j][i];
+    }
+    answer = Math.max(row, column);
+  }
+
+  // diagonal
+  for (let i = 0; i < n; i++) {
+    normal += arr[i][i];
+    reverse += arr[i][n-i-1];
+  }
+
+  answer = Math.max(answer, normal, reverse);
+  return answer;
+}
+```
+
+---
+## 📍 23 - 봉우리
+자신의 상하좌우 숫자보다 큰 숫자의 개수를 찾으면 되는데, 상하좌우를 판별할때는 `dx, dy`와 같이 방향 벡터를 설정해주면 확인하기 편하다. 
+
+나는 이렇게 풀었다.
+1. 상, 하, 좌, 우의 좌표를 하나씩 탐색하고 최대값을 갱신한다.
+2. `max`로 갱신된 주변 좌표와 원래 나의 좌표와 비교한다음 원래 나의 좌표가 더 크면 `cnt++` 해준다.
+
+강사님은 이렇게 푸셨다.
+1. `flag`를 설정한다.
+2. 원래 나의 좌표보다 주변좌표가 크면 `flag`를 0으로 바꾼다.
+3. 주변 좌표의 탐색이 끝났는데도 `flag`가 1이면 원래 나의 좌표가 큰것이므로 `cnt++` 해준다.
+
+
+```javascript
+let n = 5;
+let arr = [[5, 3, 7, 2, 3], [3, 7, 1, 6, 1], [7, 2, 5, 3, 4], [4, 3, 6, 4, 1], [8, 7, 3, 5, 2]];
+
+console.log(solution(n, arr));
+
+// 나의 코드
+function solution(n, arr){
+    let cnt = 0;
+    let dx = [-1, 0, 1, 0], dy = [0, 1, 0, -1];
+
+    for (let x=0; x<n; x++){
+        for(let y=0; y<n; y++){
+            let surround = 0;
+            for (let i=0; i<4; i++){
+                let nx = x + dx[i];
+                let ny = y + dy[i];
+
+                if (nx<0 || ny<0 || nx>=n || ny>=n) continue
+                if (surround < arr[nx][ny]) surround = arr[nx][ny]
+            }
+            if (arr[x][y] > surround) cnt++;
+        }
+    }
+    return cnt;
+}
+```
+
+```javascript
+let n = 5;
+let arr = [[5, 3, 7, 2, 3], [3, 7, 1, 6, 1], [7, 2, 5, 3, 4], [4, 3, 6, 4, 1], [8, 7, 3, 5, 2]];
+
+console.log(solution(n, arr));
+
+// 강의 코드
+function solution(n, arr){
+    let cnt = 0;
+    let dx = [-1, 0, 1, 0], dy = [0, 1, 0, -1];
+
+    for (let x=0; x<n; x++){
+        for(let y=0; y<n; y++){
+            let flag = 1;
+            for (let i=0; i<4; i++){
+                let nx = x + dx[i];
+                let ny = y + dy[i];
+
+                if (nx<0 || ny<0 || nx>=n || ny>=n) continue
+                if (arr[nx][ny] > arr[x][y]){
+                    flag = 0;
+                    break;
+                }
+            }
+            if (flag) cnt ++;
+        }
+    }
+    return cnt;
+}
+```
