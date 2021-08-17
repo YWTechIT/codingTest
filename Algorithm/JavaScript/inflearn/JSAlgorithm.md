@@ -988,3 +988,40 @@ function solution(s){
     return +result
 }
 ```
+
+---
+## 📍 27 - 가장 짧은 문자거리
+`target`이 문자열 `s`에서 떨어진 최소거리를 출력하는 문제다. 여기서 고려해야하는 점이 있는데, 처음에 `cnt = 0`으로 초기화하고나서 강의를 들어보니까 맨 좌측을 기준으로 판단할때는 맨 좌측에 `target`이 없으므로 `cnt`를 제일 큰 숫자로 초기화해야한다는 것이다. 그렇게해야 `reverse`로 검사할때도 올바른 답을 도출해낼 수 있다. 잘 이해가 되지 않는다면 `테스트 케이스` 입력: `tteachermodett` 출력: `2 1 0 1 2 1 0 1 2 2 1 0 1 2`와 같이 나오는지 확인해보자.
+
+```javascript
+let s = "teachermode";
+let target = "e";
+
+console.log(solution(s, target));
+
+// 나의코드
+function solution(s, target) {
+  let n = s.length;
+  let cnt = 1000;
+  let answer = [];
+
+  for (let i = 0; i < n; i++) {
+    if (s[i] === target) cnt = 0;
+    else cnt++;
+
+    answer.push(cnt);
+    console.log(answer);
+  }
+
+  cnt = 1000;
+
+  for (let i = 0; i < n; i++) {
+    if (s[n - i - 1] === target) cnt = 0;
+    else cnt++;
+
+    answer[n - i - 1] = Math.min(answer[n - i - 1], cnt);
+  }
+
+  return answer.join(" ");
+}
+```
