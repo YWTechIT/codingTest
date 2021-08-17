@@ -859,3 +859,132 @@ function solution(n, arr){
     return cnt;
 }
 ```
+
+---
+## 📍 24 - 회문 문자열
+주어진 문자열이 회문인지 판별하는 문제다. <a href='https://ywtechit.tistory.com/34'>이전</a>에 파이썬 알고리즘 인터뷰에서 한번 풀어본적이 있다.
+
+```javascript
+console.log(solution("gooog"));
+
+// split + reverse + join
+function solution(str){
+    if (str.split('').reverse().join('') !== str) return false;
+    return true
+}
+```
+
+```javascript
+console.log(solution("gooog"));
+
+// for
+function solution(str){
+    str = str.toLowerCase();
+    let n = str.length
+    
+    for (let i=0; i<Math.floor(n/2); i++){
+        if (str[i] !== str[n-i-1]) return false
+    }
+    return true
+}
+```
+
+```javascript
+console.log(solution("gooog"));
+
+// slice
+function solution(str){
+    str = str.toLowerCase();
+
+    while (str.length > 1){
+        if (str.slice(0, 1) === str.slice(-1)) str = str.slice(1, -1);
+        else return false;
+        console.log(str)
+    }
+    return true;
+}
+```
+
+```javascript
+console.log(solution("gooog"));
+
+// recursive
+function firstCharacter(str){
+    return str.slice(0, 1);
+}
+
+function midCharacter(str){
+    console.log(str.slice(1, -1), str)
+    return str.slice(1, -1);
+}
+
+function lastCharacter(str){
+    return str.slice(-1);
+}
+
+function isPalindrome(str){
+    if (firstCharacter(str) !== lastCharacter(str)) return false;
+    if (midCharacter(str).length <= 1) return true;
+
+    return isPalindrome(midCharacter(str))
+}
+```
+
+---
+## 📍 25 - 유효한 팰린드롬
+주어진 문자열이 회문인지 판별하는 문제인데, 추가로 알파벳이외의 문자들은 무시한다. 마찬가지로 <a href='https://ywtechit.tistory.com/34'>이전</a>에 파이썬 알고리즘 인터뷰에서 한번 풀어본적이 있다. 알파벳이외의 값을 제거하는 방법으로 `정규표현식(Reg)`을 이용했다.
+
+```javascript
+let s = "found7, time: study; Yduts; emit, 7Dnuof";
+console.log(solution(s));
+
+function solution(s){
+    s = s.toLowerCase();
+    let notIncludeSpecialCharacter = s.replace(/[^a-z]/g, '');
+    let compareStr = notIncludeSpecialCharacter.split('').reverse().join('');
+    
+    if (notIncludeSpecialCharacter === compareStr) return true;
+    return false;
+}
+```
+
+---
+## 📍 26 - 숫자만 추출
+`문자 + 숫자`가 섞여있는 문자열에서 숫자만 추출하는 문제다. 숫자판별은 `isNaN` 함수를 사용해서 숫자인지 확인하거나, `정규표현식(Reg)`으로 숫자인지 확인하는 방법을 사용했다.
+
+```javascript
+let s = "g0en2T0s8eSoft";
+// let s = "tge0a1h205er"
+// let s = "12a3E4hg5n6vc7x"
+console.log(solution(s));
+
+// isNaN
+function solution(s) {
+  let ans = 0;
+  for (let i of s) {
+    if (!isNaN(i)) ans = ans * 10 + (+i);
+  }
+  return +ans;
+}
+
+//isNaN
+function solution(s) {
+  let ans = "";
+  for (let i of s) {
+    if (!isNaN(i)) ans += i;
+  }
+  return +ans;
+}
+
+//replace + Reg
+function solution(s){
+    let result = s.replace(/[^0-9]/g, '');
+    return +result;
+}
+
+//match + Reg
+function solution(s){
+    let result = s.match(/[0-9]/g).join('');
+    return +result
+}
+```
