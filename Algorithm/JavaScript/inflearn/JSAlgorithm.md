@@ -655,3 +655,64 @@ function solution(n, a, b) {
   return ans;
 }
 ```
+
+---
+## 📍 20 - 점수 계산
+문제의 양은 길지만 조금만 생각하면 금방 풀 수 있다. 여기서 중요한 점은 `가산점`처리인데, 연속으로 맞은 경우에만 `+1`씩 증가하게 작성해야한다.
+
+```javascript
+let n = 10;
+let scores = [1, 0, 1, 1, 1, 0, 0, 1, 1, 0];
+console.log(solution(n, scores));
+
+// 삼항연산자
+function solution(n, scores) {
+  let extraPoint = 0;
+  let cnt = 0;
+
+  for (let score of scores) {
+    score === 1 ? (extraPoint++, (cnt += extraPoint)) : (extraPoint = 0);
+  }
+
+  return cnt;
+}
+
+// if - else
+function solution(n, scores) {
+  let extraPoint = 0;
+  let cnt = 0;
+
+  for (let score of scores) {
+    if (score === 1) {
+      extraPoint++;
+      cnt += extraPoint;
+    } else extraPoint = 0;
+  }
+
+  return cnt;
+}
+```
+
+---
+## 📍 21 - 등수 구하기
+이 문제는<a href='https://www.acmicpc.net/problem/7568'>boj7568 - 덩치</a>와 비슷한 문제다. 등수 구하기 문제가 쉽다면 덩치 문제를 풀어보자. 모든 경우의 수를 찾는 `bruteForce` 방법으로 풀면 되는데, 모든 값을 `1`로 빈 배열을 초기화 시킬 때 `Array.from`을 이용했다. 
+
+```javascript
+let n = 5;
+let scores = [100, 88, 76, 88, 76];
+
+console.log(solution(n, scores));
+
+function solution(n, scores) {
+  let answers = Array.from({ length: n }, () => 1);
+
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      if (scores[j] > scores[i]) {
+        answers[i]++;
+      }
+    }
+  }
+  return answers;
+}
+```
