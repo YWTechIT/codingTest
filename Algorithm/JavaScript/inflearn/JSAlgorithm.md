@@ -1,4 +1,4 @@
-## 📍 01 - 세 수 중 최솟값
+## 📍 section04 - 1 - 세 수 중 최솟값
 
 3개의 입력 중 가장 작은 수를 구하는 문제다. 먼저, 제일 작은 값을 `a`라고 가정한 다음, `a`와 `b`의 대소관계를 비교하고, `c`와의 대소관계를 비교한 다음 `answer`를 `return` 해줬다.
 
@@ -1024,4 +1024,373 @@ function solution(s, target) {
 
   return answer.join(" ");
 }
+```
+
+---
+## 📍 28 - 문자열 압축
+`if-else`문을 이용해서 구현했다.
+
+```javascript
+let s = "KKHSSSSSSSE";
+
+console.log(solution(s));
+
+// 나의코드
+function solution(s) {
+  let cnt = 1;
+  let answer = "";
+
+  for (let x of s) {
+    if (x === answer[answer.length - 1]) cnt++;
+    else {
+      if (cnt >= 2) answer += cnt;
+      answer += x;
+      cnt = 1;
+    }
+  }
+  return answer;
+}
+
+// 강사님 코드
+function solution(s) {
+  let cnt = 1;
+  let answer = "";
+  s += " ";
+
+  for (let i=0; i<s.length-1; i++) {
+    if (s[i] === s[i+1]) cnt++;
+    else{
+        answer += s[i];
+        if(cnt>1) answer+=cnt
+        cnt = 1
+    }
+}
+  return answer;
+}
+```
+
+---
+## 📍 section04 - 1 - 자릿수의 합
+자릿수의 합을 구하고 그 합이 최대인것까지는 잘 구할 수 있었는데, 자릿수의 합이 같을 때 원래 숫자를 비교하여 더 큰 숫자를 리턴하는 방법이 명확하게 떠오르지 않았다. 어렵게 생각 할 필요 없이 처음 자릿수의 합을 비교할 때 자릿수의 합만 저장하는것이 아니라 변수를 따로 만들어서 원래 숫자까지 저장하는 방법을 쓰면 된다. 이후에 자릿수의 합이 동일한 값이 나오면 원래 숫자와 비교해서 더 큰 값으로 갱신해주면 된다.
+
+```javascript
+let n = 7;
+let arr = [133, 532, 701, 1001, 145];
+
+console.log(solution(n, arr));
+
+// 나의 코드
+function solution(n, arr) {
+  let max = Number.MIN_SAFE_INTEGER;
+  let answer;
+
+  for (let x of arr) {
+    let sum = 0;
+    let temp = x;
+
+    do {
+      sum += temp % 10;
+      temp = Math.floor(temp / 10);
+    } while (temp !== 0);
+
+    if (max < sum){
+        max = sum;
+        answer = x;
+    }
+    else if (max === sum) {
+        if (answer < x) answer = x;
+    }
+  }
+
+  return answer;
+}
+```
+
+```javascript
+let n = 7;
+let arr = [133, 532, 701, 1001, 145];
+
+// 강사님 코드
+function solution(n, arr) {
+  let answer;
+  let max = 0;
+
+  for (let x of arr) {
+    let temp = x;
+    let sum = 0;
+
+    while (temp) {
+      sum += temp % 10;
+      temp = Math.floor(temp / 10);
+    }
+
+    if (sum > max) {
+      max = sum;
+      ans = x;
+    } else if (sum === max) {
+      if (x > ans) ans = x;
+    }
+  }
+
+  return answer;
+}
+```
+
+---
+## 📍 section04 - 2 - 뒤집은 소수
+자연수를 뒤집을 때 `string`형을 사용하는 대신 `number`형 그대로 뒤집는 방법을 알면 좋을것 같다. 그리고 소수를 판별 할 때는 반복문의 범위를 `i<=Math.floor(n**0.5)`까지만 설정해주면 더 적은 시간에 소수를 판별 할 수 있다. 코드의 가독성을 높이기 위해 자연수를 뒤집는 로직과 소수를 판별하는 로직을 나눠서 하는 편도 좋다. 소수 판별 문제는 <a href='https://ywtechit.tistory.com/13'>이전</a>에도 종종 풀었다.
+
+```javascript
+// 나의 코드
+let n = 9;
+let arr = [32, 55, 62, 20, 250, 370, 200, 30, 100];
+
+console.log(solution(n, arr));
+
+function solution(n, arr) {
+  let answer = "";
+
+  for (let number of arr) {
+    let sum = 0;
+    let flag = true;
+
+    do {
+      sum = sum * 10 + number % 10;
+      number = Math.floor(number / 10);
+    } while (number > 1);
+
+    if (sum > 1) {
+      for (let i = 2; i <= Math.floor(sum ** 0.5); i++) {
+        if (sum % i === 0) {
+          flag = false;
+          break;
+        }
+      }
+      if (flag) answer += `${sum} `;
+    }
+  }
+  return answer.slice(0, -1);
+}
+```
+
+```javascript
+// 강사님 코드
+let n = 9;
+let arr = [32, 55, 62, 20, 250, 370, 200, 30, 100];
+
+console.log(solution(n, arr));
+
+function isPrime(n) {
+  if (n < 2) return false;
+
+  for (let i = 2; i <= Math.floor(n ** 0.5); i++) {
+    if (n % i === 0) return false;
+  }
+  return true;
+}
+
+function solution(n, arr) {
+  let ans = "";
+
+  for (let number of arr) {
+    let sum = 0;
+    do {
+      sum = sum * 10 + (number % 10);
+      number = Math.floor(number / 10);
+    } while (number > 1);
+
+    if (isPrime(sum)) ans += `${sum} `;
+  }
+  
+  return ans.slice(0, -1);
+}
+```
+
+---
+## 📍 section04 - 3 - 멘토링
+조금 어려운 문제였다. `bruteForce`로 풀어야하는것은 알고있었지만, 어떤 흐름으로 문제를 풀어야할지 고민이 많았다. 강의를 봤는데도 이해가 잘 안돼서 복습을 여러번했다.
+
+결과적으로 이 문제의 핵심은 `n`명의 학생이 각각의 경우에 `m`번의 수학성적 모두 `mento`와 `mentee`가 될 수 있는 조건이 맞는지 찾아야 하고, 그 안에서 수학등수를 나타내는 `idx`를 고려해서 `mentoIdx < menteeIdx`인 조건을 찾을 수 있는지 물어보는 문제인것 같다. 또, `mento`와 `mentee`는 같은 학생일때는 성립하지 않음을 알아야한다.
+
+강의에서 4중반복문으로 풀었는데, 반복문의 개수가 많다보니까 헷갈려서 수학성적이 `m`개가 아닌 딱 1개만 주어졌을때를 가정하고 풀어봤다. 다음의 사진처럼 경우의 수를 모두 구해보고 코드를 작성하니까 조금 이해가 됐다.
+
+![](https://images.velog.io/images/abcd8637/post/6344fd46-0881-4884-9f27-774c7664eb3b/KakaoTalk_Photo_2021-08-21-09-43-51.jpeg)
+
+```javascript
+let arr = [3, 4, 1, 2];
+let n = 4;
+let m = 1;
+let cnt = 0;
+
+for (let x = 1; x <= n; x++) {
+  for (let y = 1; y <= n; y++) {
+    let mentoIdx = menteeIdx = 0;
+    for (let i = 0; i < n; i++) {
+      if (x === y) continue;
+      if (arr[i] === x) mentoIdx = i;
+      if (arr[i] === y) menteeIdx = i;
+    }
+    if (mentoIdx < menteeIdx) {
+        cnt++; 
+        console.log(x, y);
+    }
+  }
+}
+console.log(cnt);
+👉🏽 
+1 2
+3 1
+3 2
+3 4
+4 1
+4 2
+
+6
+```
+
+수학성적에 2차원 배열이 들어갔을 때도 위에서 작성한 코드에서 크게 벗어나지 않는다. 다만, `mento`, `mentee`의 관계가 성립하려면 모든 수학성적에서 `mento`가 더 앞서야하므로 `cnt`가 `m`과 동일하다는 조건을 걸어줘야한다. 전체 코드는 다음과 같다.
+
+```javascript
+let arr = [[3, 4, 1, 2], [4, 3, 2, 1], [3, 1, 4, 2]];
+let n = 4;
+let m = 3;
+
+console.log(solution(n, m, arr));
+
+function solution(n, m, arr){
+    let ans = 0;
+    for (let x=1; x<=n; x++){
+        for (let y=1; y<=n; y++){
+            let cnt = 0;
+            for (let i=0; i<m; i++){
+                let mento = mentee = 0;
+                for (let j=0; j<n; j++){
+                    if (x===y) continue;
+                    if (arr[i][j] === x) mento = j;
+                    if (arr[i][j] === y) mentee = j;  
+                }
+                if (mento < mentee) cnt++;
+            }
+            if (cnt === m) ans++;
+        }
+    }
+    return ans;
+}
+```
+
+---
+## 📍 section04 - 4 - 졸업선물
+상품을 최대한 많이 사야하는 문제는 비용이 적게드는 상품부터 포함하면 최대한 많이 살 수 있다는 점을 알고 이 문제를 풀자. 그리고 최대 몇 명의 학생들에게 사줄 수 있는지 보려면 경우의 수를 하나씩 따져가며 검사를 다 해야하기 때문에 `bruteForce`를 이용하자. 이중 반복문을 돌면서 맨 처음 상품은 50% 할인 쿠폰을 사용하고 나머지 상품을 구매 할 때는 그냥 더해주면 된다. 동일한 학생이 없으므로 `i !== j`인 조건을 추가하는 것도 잊지 말자.
+
+```javascript
+// 나의 코드
+let n = 5;
+let m = 28;
+let cost = [[6, 6], [2, 2], [4, 3], [4, 5], [10, 3]];
+
+console.log(solution(n, m, cost));
+
+function solution(n, m, cost) {
+  let max = Number.MIN_SAFE_INTEGER;
+
+  cost.sort((a, b) => a[0] + a[1] - (b[0] + b[1]));
+
+  for (let i = 0; i < n; i++) {
+    let budget = m - (cost[i][0] / 2 + cost[i][1]);
+    let cnt = 1;
+
+    for (let j = 0; j < n; j++) {
+      if (i === j) continue;
+      if (budget - (cost[j][0] + cost[j][1]) >= 0) {
+        budget -= cost[j][0] + cost[j][1];
+        cnt++;
+      } else {
+        break;
+      }
+    }
+    max = Math.max(max, cnt);
+  }
+  return max;
+}
+
+```
+
+```javascript
+// 강사님 코드
+let n = 5;
+let budget = 28;
+
+let arr = [[6, 6], [2, 2], [4, 3], [4, 5], [10, 3]];
+
+console.log(solution(n, budget, arr))
+
+function solution(n, budget, arr){
+    let ans = Number.MIN_SAFE_INTEGER;
+    arr.sort((a, b) => a[0] + a[1] - (b[0] + b[1]));
+
+    for (let i=0; i<n; i++){
+        let cnt = 1;
+        let changeBudget = budget - (arr[i][0]/2 + arr[i][1]);
+        for (let j=0; j<n; j++){
+            if (i === j) continue;
+
+            if (arr[j][0] + arr[j][1] <= changeBudget){
+                changeBudget -= arr[j][0] + arr[j][1];
+                cnt++
+                console.log(arr[j][0] + arr[j][1], changeBudget, cnt)
+            }else break;
+        }
+        ans = Math.max(ans, cnt);
+    }
+}
+```
+
+---
+## 📍 section04 - 5 - K번째 큰 수
+100장의 카드 중 3장을 뽑는 모든 경우의 수는 `100C3`이므로 `161,700`이다. 여기서 3장을 뽑아 각 카드의 적힌수를 합하려면 3중반복문으로 `bruteForce`로 모든 경우의 수를 돌려보면 된다. 여기서 시간복잡도는 다항시간인 `O(N^3)`이지만 `N=100`일때 최대 `1,000,000`번 수행하므로 시간초과에 걸리지 않는다. (보통 반복문을 돌 때 1초당 최대 `10^8` (약 1억번) 돌 수 있으므로, `N=100`일때는 `O(N^4)`까지는 커버가능하다.) 또, 강의에서는 3중 반복문의 `i, j, k`의 범위를 모두 `n`까지로 설정했는데, 맨 마지막에서 `k`가 `n`을 벗어나면 반복문에 들지 않고, 마찬가지로 `j`가 `n`의 범위를 벗어나도 반복문에 들지 않기 때문에 자동적으로 종료된다고 말씀하셨다. 나는 조금이라도 불 필요한 연산을 줄이기 위해 반복문의 범위를 `n-2`, `n-1`, `n`까지로 설정했다.
+
+```javascript
+// 나의 코드
+let arr = [13, 15, 34, 23, 45, 65, 33, 11, 26, 42];
+let target = 3;
+let n = 10;
+
+console.log(solution(n, target, arr))
+
+function solution(n, target, arr){
+    let answer = [...new Set([])];
+
+    for (let i=0; i<n-2; i++){
+        for (let j=i+1; j<n-1; j++){
+            for (let k=j+1; k<n; k++){
+                answer.push(arr[i] + arr[j] + arr[k]);
+            }
+        }
+    }
+    answer = answer.sort((a, b) => b - a);
+    return answer[target-1];
+}
+```
+
+```javascript
+// 강사님 코드
+let arr = [13, 15, 34, 23, 45, 65, 33, 11, 26, 42];
+let target = 3;
+let n = 10;
+
+console.log(solution(n, target, arr))
+
+function solution(n, k, arr) {
+    let ans = new Set();
+    
+    for (let i = 0; i < n - 2; i++) {
+      for (let j = i + 1; j < n - 1; j++) {
+        for (let k = j + 1; k < n; k++) {
+          ans.add(arr[i] + arr[j] + arr[k]);
+        }
+      }
+    }
+    ans = Array.from(ans).sort((a, b) => b - a);
+    return ans[k - 1];
+  }
 ```
