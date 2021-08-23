@@ -1394,3 +1394,60 @@ function solution(n, k, arr) {
     return ans[k - 1];
   }
 ```
+
+## 📍 section05 - 1 - 두 배열 합치기
+오름차순으로 정렬된 배열을 합치는 문제인데, 저번에 병합정렬(mergeSort) 연습하다가 이 문제와 비슷한 로직인것 같아서 그대로 적용했다. 강사님 코드는 나의코드와 조금 비슷하면서 달랐다. 또, 문제에서 `n`의 범위가 `100`까지기 때문에 시간복잡도를 `다항시간(O(N^2) 이상)`내로 풀어도 되지만, 범위가 큰 경우를 대비해서 `TwoPointer`를 사용하여 `O(N)`으로 풀었다. 똑같이 풀 수 있는데 왜 `twoPointer`를 선택했냐고 묻는다면 만약, 실무에서 `O(N^2)` 코드와 `O(N)`코드가 있을 때 `O(N)`코드를 선택 할 것임은 자명하다. 
+
+강사님은 `후치연산자(postfix form)`를 사용하셨는데, 후치연산자의 특징은 연산자가 변수 뒤에 올때 값을 먼저 계산하고 `증가/감소`가 이루어지는 형태다. 코드를 간략하게 쓸 때 좋은것 같다. 또 `while`문의 조건을 `&&`로 해줘야 둘 중 하나가 `false` 일 때 전체 반복문이 `false`가 되는것도 잊지말자.
+
+```javascript
+// 나의코드
+let n = 4;
+let arr1 = [1, 10, 20, 50];
+let m = 5;
+let arr2 = [3, 6, 10, 20, 25];
+
+console.log(solution(n, arr1, m, arr2));
+
+function solution(n, nArr, m, mArr) {
+  let p1 = p2 = 0;
+  let answer = [];
+
+  while (n<p1 && m<p2) {
+    if (nArr[p1] < mArr[p1]) {
+      answer.push(nArr[p1]);
+      p1++;
+    } else {
+      answer.push(mArr[p2]);
+      p2++;
+    }
+  }
+
+  return answer.concat(nArr.slice(p1), mArr.slice(p2));
+}
+```
+
+```javascript
+// 강사님 코드
+let n = 4;
+let arr1 = [1, 10, 20, 50];
+let m = 5;
+let arr2 = [3, 6, 10, 20, 25];
+
+console.log(solution(n, arr1, m, arr2));
+
+function solution(n, arr1, m, arr2){
+	let p1 = p2 = 0;
+	let answer = [];
+
+	while (p1<n && p2<m){
+		if (arr1[p1] < arr2[p2]) answer.push(arr1[p1++]);
+		else answer.push(arr2[p2++]);
+	}
+
+	while (p1<n) answer.push(arr1[p1++]);
+	while (p2<m) answer.push(arr2[p2++]);
+
+	return answer;
+}
+```
