@@ -1452,6 +1452,7 @@ function solution(n, arr1, m, arr2){
 }
 ```
 
+---
 ## 📍 section05 - 2 - 공통 원소 구하기
 `A, B` 두 개의 집합이 주어질 때 공통 원소를 추출하여 오름차순으로 출력하는 문제다. 투 포인터를 사용해야하는 이유는 `N`의 크기가 `30,000`인데, 이를 `O(N^2)`으로 풀게 되면 최악의 경우 1초당 `9억`번의 연산을 해야하기때문에 시간초과가 난다. 따라서, `O(N^2)`보다 작은 시간복잡도로 계산해야 한다. 만약, `N`의 범위가 `30,000`보다 더 작다면 `O(N^2)`으로 `bruteForce`로도 풀 수 있다.`bruteForce`의 장점은 모든 경우의 수를 검사하기 때문에 정확한 결과값이 나온다는 점이다.
 
@@ -1514,5 +1515,57 @@ function solution(n, arr1, m, arr2) {
   }
 
   return ans;
+}
+```
+
+---
+## 📍 section05 - 3 - 연속 부분수열1
+`N`개의 수가 있을 때, 연속부분수열의 합이 `target`과 동일한 경우가 몇 번있는지 찾는 문제다. 이전까지는 이와 비슷한 유형의 문제를 풀어본 경험이 없기 때문에 어려웠다. `N<=100,000` 일 때 최대 `O(nlogn)`의 시간복잡도를 만족해야 시간초과를 받지 않는다. 즉, `bruteForce(O(N^2))` 대신 다른 방법을 사용해야 한다. 
+
+코드에서는 `while + while`문을 사용했는데, 반복문을 2개 사용하면 무조건 `O(N^2))`이 되는게 아닌가요?라고 할 수도 있다. 결론적으로는 그렇지 않다. 이중 반복문을 사용하더라도 그 안에서 어떤 연산을 했느냐에 따라 다른데, 현재 코드에서는 안쪽 루프가 도는 총 횟수를 다 합했을 때 꼭 `O(N)`이 되지 않는다. 왜냐하면 안쪽 루프의 조건을 보면 `sum>=m` 인데, 만약, 현재 조건이 `sum<m`이라면 안쪽 루프는 실행되지 않을 것이기 때문이다. 
+ 
+1. 투 포인터 변수인 `lt=rt=0`으로 초기화한다.
+2. `sum` 변수에 `arr[rt]` 값을 더한다.
+3. `sum === target` 이면, `cnt++`해준다.
+4. 만약, `sum>target`이면, `lt`를 증가해서 `sum<=target`이 될 때까지 빼줘야 한다.
+5. `while`문 안에서 `lt`를 빼줬을 때도 `3`번 과정을 거친다. (여기서 알아두어야 하는점은 `sum===target`이어도 `lt`를 빼줘야 다음 `rt`를 증가시킬 수 있다.)
+
+```javascript
+let n = 8;
+let target = 6;
+let arr = [1, 2, 1, 3, 1, 1, 1, 2];
+
+console.log(solution(n, target, arr));
+
+// 나의 코드
+function solution(n, target, arr) {
+  let lt = (rt = cnt = sum = 0);
+
+  while (rt < n) {
+    sum += arr[rt++];
+    if (sum === m) cnt++;
+    while (sum >= m) {
+      sum -= arr[lt++];
+      if (sum === m) cnt++;
+    }
+  }
+
+  return cnt;
+}
+
+
+// 강의 코드
+function solution(n, target, arr) {
+  let lt = (cnt = sum = 0);
+
+  for (let rt = 0; rt < n; rt++) {
+    sum += arr[rt];
+    if (sum === target) cnt++;
+    while (sum >= target) {
+      sum -= arr[lt++];
+      if (sum === target) cnt++;
+    }
+  }
+  return cnt;
 }
 ```
