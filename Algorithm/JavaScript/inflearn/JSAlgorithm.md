@@ -1531,13 +1531,13 @@ function solution(n, arr1, m, arr2) {
 5. `while`문 안에서 `lt`를 빼줬을 때도 `3`번 과정을 거친다. (여기서 알아두어야 하는점은 `sum===target`이어도 `lt`를 빼줘야 다음 `rt`를 증가시킬 수 있다.)
 
 ```javascript
+// 나의 코드
 let n = 8;
 let target = 6;
 let arr = [1, 2, 1, 3, 1, 1, 1, 2];
 
 console.log(solution(n, target, arr));
 
-// 나의 코드
 function solution(n, target, arr) {
   let lt = (rt = cnt = sum = 0);
 
@@ -1552,9 +1552,16 @@ function solution(n, target, arr) {
 
   return cnt;
 }
+```
 
-
+```javascript
 // 강의 코드
+let n = 8;
+let target = 6;
+let arr = [1, 2, 1, 3, 1, 1, 1, 2];
+
+console.log(solution(n, target, arr));
+
 function solution(n, target, arr) {
   let lt = (cnt = sum = 0);
 
@@ -1567,5 +1574,37 @@ function solution(n, target, arr) {
     }
   }
   return cnt;
+}
+```
+
+---
+## 📍 section05 - 4 - 연속 부분수열2
+<a href='https://ywtechit.tistory.com/277'>연속 부분수열1</a>보다 약간 더 어려운 문제였다. 이전 문제는 다음 `rt` 포인터가 기준보다 커지면 `arr[lt++]`처리를 해줬는데, 이 문제는 특정 기준 값 이하인 경우 새로운 숫자가 포함된 연속부분수열을 구해주면 된다. 그럼 이전 숫자는 안구하는지 궁금 할 수 있는데, 이전 숫자가 끝에 있으면서 연속수열인 값은 이전과정에서 구했기 때문에, 새로운 경우의 수만 누적 해주면 된다. 
+
+1. 반복문을 따라 `sum+=arr[rt]`를 누적한다.
+2. 만약, `sum>target`이면 `sum<=target`이 될 때 까지 `sum`을 빼준다.(`lt`)
+3. 마지막에 부분수열이 몇개있는지 계산해주면 된다. (경우의 수를 구할때는 `rt-lt+1`을 해주면 된다.)
+
+![](https://images.velog.io/images/abcd8637/post/1c359b1a-5762-4e26-b222-70a2ab01a219/KakaoTalk_Photo_2021-08-27-18-11-11.jpeg)
+
+```javascript
+let n = 5;
+let target = 5;
+let arr = [1, 3, 1, 2, 3];
+
+console.log(solution(n, target, arr));
+
+function solution(n, target, arr) {
+  let lt = sum = ans = 0;
+
+  for (let rt = 0; rt < n; rt++) {
+    sum += arr[rt];
+
+    while (sum > target) {
+      sum -= arr[lt++];
+    }
+    ans += rt - lt + 1;
+  }
+  return ans;
 }
 ```
