@@ -1395,6 +1395,7 @@ function solution(n, k, arr) {
   }
 ```
 
+---
 ## 📍 section05 - 1 - 두 배열 합치기
 오름차순으로 정렬된 배열을 합치는 문제인데, 저번에 병합정렬(mergeSort) 연습하다가 이 문제와 비슷한 로직인것 같아서 그대로 적용했다. 강사님 코드는 나의코드와 조금 비슷하면서 달랐다. 또, 문제에서 `n`의 범위가 `100`까지기 때문에 시간복잡도를 `다항시간(O(N^2) 이상)`내로 풀어도 되지만, 범위가 큰 경우를 대비해서 `TwoPointer`를 사용하여 `O(N)`으로 풀었다. 똑같이 풀 수 있는데 왜 `twoPointer`를 선택했냐고 묻는다면 만약, 실무에서 `O(N^2)` 코드와 `O(N)`코드가 있을 때 `O(N)`코드를 선택 할 것임은 자명하다. 
 
@@ -1608,3 +1609,116 @@ function solution(n, target, arr) {
   return ans;
 }
 ```
+
+---
+## 📍 section05 - 5 - 최대 매출
+연속된 `K`일 동안의 최대 매출액을 구하는 `slidingWindow` 문제인데 여기서 문제인건 `slidingWindow`을 처음 배운것이다. `twoPointer`를 배웠다면 범위를 많이 벗어나지 않아서 다행이었다. `N`의 범위는 `100,000`까지인데, 만약, 시간복잡도가 `O(N^2)`이었다면 시간초과 판정을 받았을 것이다. 되도록 `O(nlogn)`이내로 끊자.
+
+이 문제의 핵심요지는 `연속된 3일간`인데, 나는 `while`문으로 투 포인터를 사용하면서 `rt-lt+1===k`을 지키는 선에서 최대매출을 계산했다. 그와 비슷하게 강사님은 `for`문으로 푸셨는데, 이전에 `k`번째까지의 합을 구해놓고, `sum`을 누적하면서 `k`번째 이전의 인덱스를 계속 빼줬다. 즉, 이전단계+현재단계에 중복되는 수는 연산에서 제외시키고 다음 `sum`에 누적될 새로운 값과 `k`번째 이전의 값만 연산에 포함시키는 것이다. `k`번째 이전의 인덱스만 빼주는 이유는 이전 `index`와 현재 `index`는 중복되기 때문인데, 만약 `bruteForce`로 풀었다면 중복값을 고려하지 않기때문에 이중반복문을 사용했을 것이다.
+
+`bruteForce`로도 풀어봤고 `slidingWindow`로도 풀었다.
+
+![](https://images.velog.io/images/abcd8637/post/56ebbb4f-7fac-4108-a6de-8f00227b6c0e/KakaoTalk_Photo_2021-08-25-09-39-21.jpeg)
+
+```javascript
+let n = 10;
+let k = 3;
+let arr = [12, 15, 11, 20, 25, 10, 20, 19, 13, 15];
+
+// bruteForce
+for (let i=0; i<n-k+1; i++){
+    let max = 0;
+    for (let j=i; j<i+k; j++){
+        max += arr[j]
+    }
+    console.log(max)
+}
+```
+
+```javascript
+// sliding window1 나의 코드
+function solution(n, k, arr) {
+  let lt = rt = currentSum = 0;
+  let max = Number.MIN_SAFE_INTEGER;
+
+  while (rt < n) {
+    currentSum += arr[rt];
+    if (rt-lt+1 === k) {
+      max = Math.max(max, currentSum);
+      currentSum -= arr[lt++];
+    }
+    rt++;
+  }
+  return max;
+}
+
+// sliding window2 강의 코드
+function solution(n, k, arr) {
+  let lt = rt = currentSum = 0;
+  let max = Number.MIN_SAFE_INTEGER;
+  let answer;
+
+ for (let i=0; i<k; i++) currentSum+=arr[i];
+ answer = currentSum;
+
+ for (let i=k; i<n; i++){
+     currentSum+=(arr[i] - arr[i-k])
+		 answer = Math.max(answer, currentSum);
+ }
+return answer;
+}
+
+```
+
+```
+
+
+
+
+```javascript
+let n = 10;
+let k = 3;
+let arr = [12, 15, 11, 20, 25, 10, 20, 19, 13, 15];
+
+solution(n, k, arr);
+
+// 나의 코드
+function solution(n, k, arr) {
+  let lt = rt = currentSum = 0;
+  let max = Number.MIN_SAFE_INTEGER;
+
+  while (rt < n) {
+    currentSum += arr[rt];
+    if (rt-lt+1 === k) {
+      max = Math.max(max, currentSum);
+      currentSum -= arr[lt++];
+    }
+    rt++;
+  }
+  return max;
+}
+```
+
+```javascript
+// 강의 코드
+let n = 10;
+let k = 3;
+let arr = [12, 15, 11, 20, 25, 10, 20, 19, 13, 15];
+
+solution(n, k, arr);
+
+function solution(n, k, arr) {
+  let lt = rt = currentSum = 0;
+  let max = Number.MIN_SAFE_INTEGER;
+  let answer;
+
+ for (let i=0; i<k; i++) currentSum+=arr[i];
+ answer = currentSum;
+
+ for (let i=k; i<n; i++){
+     currentSum+=(arr[i] - arr[i-k])
+     console.log(currentSum)
+ }
+}
+```
+
