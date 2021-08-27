@@ -1621,11 +1621,11 @@ function solution(n, target, arr) {
 ![](https://images.velog.io/images/abcd8637/post/56ebbb4f-7fac-4108-a6de-8f00227b6c0e/KakaoTalk_Photo_2021-08-25-09-39-21.jpeg)
 
 ```javascript
+// bruteForce
 let n = 10;
 let k = 3;
 let arr = [12, 15, 11, 20, 25, 10, 20, 19, 13, 15];
 
-// bruteForce
 for (let i=0; i<n-k+1; i++){
     let max = 0;
     for (let j=i; j<i+k; j++){
@@ -1636,6 +1636,10 @@ for (let i=0; i<n-k+1; i++){
 ```
 
 ```javascript
+let n = 10;
+let k = 3;
+let arr = [12, 15, 11, 20, 25, 10, 20, 19, 13, 15];
+
 // sliding window1 나의 코드
 function solution(n, k, arr) {
   let lt = rt = currentSum = 0;
@@ -1667,58 +1671,4 @@ function solution(n, k, arr) {
  }
 return answer;
 }
-
 ```
-
-```
-
-
-
-
-```javascript
-let n = 10;
-let k = 3;
-let arr = [12, 15, 11, 20, 25, 10, 20, 19, 13, 15];
-
-solution(n, k, arr);
-
-// 나의 코드
-function solution(n, k, arr) {
-  let lt = rt = currentSum = 0;
-  let max = Number.MIN_SAFE_INTEGER;
-
-  while (rt < n) {
-    currentSum += arr[rt];
-    if (rt-lt+1 === k) {
-      max = Math.max(max, currentSum);
-      currentSum -= arr[lt++];
-    }
-    rt++;
-  }
-  return max;
-}
-```
-
-```javascript
-// 강의 코드
-let n = 10;
-let k = 3;
-let arr = [12, 15, 11, 20, 25, 10, 20, 19, 13, 15];
-
-solution(n, k, arr);
-
-function solution(n, k, arr) {
-  let lt = rt = currentSum = 0;
-  let max = Number.MIN_SAFE_INTEGER;
-  let answer;
-
- for (let i=0; i<k; i++) currentSum+=arr[i];
- answer = currentSum;
-
- for (let i=k; i<n; i++){
-     currentSum+=(arr[i] - arr[i-k])
-     console.log(currentSum)
- }
-}
-```
-
