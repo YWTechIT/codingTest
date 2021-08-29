@@ -1672,3 +1672,33 @@ function solution(n, k, arr) {
 return answer;
 }
 ```
+
+---
+## 📍 section06 - 6 - 학급회장
+투표 용지를 보고 어떤 기호의 후보가 학급회장이 되었는지 출력하는 문제이다. 이런 유형은 해쉬(`hash`)로 풀면된다. `JS`에서 `hash` 문제는 `key:value` 형태인 `object`로 풀면 될 줄 알았는데, `ES6` 문법에 새로운 자료구조인 `map` 형으로 푸는것이 더 쉬웠다. 기본적으로 `object`의 `key`는 `string | symbol`형만 가능하지만 `map`의 `key`는 함수, 객체, 모든 기본요소를 포함할 수 있다. 또한 `object`는 `nonIterable`이라서 `for`문 대신 `Object.entries() | Object.keys() | Object.values()`를 사용했지만 `map`은 `iterable` 하기 때문에 `for`문을 사용할 수 있다. `map`과 `object`의 차이를 더 보고싶다면 <a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map'>`MDN`</a>을 참고하자. 알고리즘에서 `map`처럼 `key:value`형을 `iterable`할 수 있다는 특징만으로도 충분히 사용가치가 있다고 생각한다.
+
+1. 투표용지를 `hash`값으로 각각 저장한다.
+2. 반복문으로 `key, value`를 순회하면서 가장 많은 투표 수를 가진 후보를 최대 후보로 갱신시킨다.
+
+```javascript
+let n = 15;
+let votes = "BACBACCACCBDEDE";
+
+console.log(solution(n, votes));
+
+function solution(n, votes){
+  let vote = new Map();
+  let maxVote = Number.MIN_SAFE_INTEGER;
+  let maxCandidate;
+
+  for (let x of votes){
+    if (vote.has(x)) vote.set(x, vote.get(x)+1);
+    else vote.set(x, 1);
+  }
+
+  vote.forEach((numberOfVote, candidate) => {
+    if(numberOfVote>maxVote) maxVote=numberOfVote, maxCandidate=candidate;
+  })
+  return maxCandidate;
+}
+```
