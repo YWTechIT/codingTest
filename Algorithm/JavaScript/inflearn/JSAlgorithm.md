@@ -1674,8 +1674,8 @@ return answer;
 ```
 
 ---
-## 📍 section06 - 6 - 학급회장
-투표 용지를 보고 어떤 기호의 후보가 학급회장이 되었는지 출력하는 문제이다. 이런 유형은 해쉬(`hash`)로 풀면된다. `JS`에서 `hash` 문제는 `key:value` 형태인 `object`로 풀면 될 줄 알았는데, `ES6` 문법에 새로운 자료구조인 `map` 형으로 푸는것이 더 쉬웠다. 기본적으로 `object`의 `key`는 `string | symbol`형만 가능하지만 `map`의 `key`는 함수, 객체, 모든 기본요소를 포함할 수 있다. 또한 `object`는 `nonIterable`이라서 `for`문 대신 `Object.entries() | Object.keys() | Object.values()`를 사용했지만 `map`은 `iterable` 하기 때문에 `for`문을 사용할 수 있다. `map`과 `object`의 차이를 더 보고싶다면 <a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map'>`MDN`</a>을 참고하자. 알고리즘에서 `map`처럼 `key:value`형을 `iterable`할 수 있다는 특징만으로도 충분히 사용가치가 있다고 생각한다.
+## 📍 section05 - 6 - 학급회장
+투표 용지를 보고 어떤 기호의 후보가 학급회장이 되었는지 출력하는 문제이다. 이런 유형은 해쉬(`hash`)로 풀면된다. `JS`에서 `hash` 문제는 `key:value` 형태인 `object`로 풀면 될 줄 알았는데, `ES6` 문법에 새로운 자료구조인 `Map` 형으로 푸는것이 더 쉬웠다. 기본적으로 `object`의 `key`는 `string | symbol`형만 가능하지만 `Map`의 `key`는 함수, 객체, 모든 기본요소를 포함할 수 있다. 또한 `object`는 `nonIterable`이라서 `for`문 대신 `Object.entries() | Object.keys() | Object.values()`를 사용했지만 `Map`은 `iterable` 하기 때문에 `for`문을 사용할 수 있다. 또한, `object`의 순서는 `random`이지만, `Map`의 순서는 `sequence`하다. `Map`과 `object`의 차이를 더 보고싶다면 <a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map'>`MDN`</a>을 참고하자. 알고리즘에서 `Map`처럼 `key:value`형을 `iterable`할 수 있다는 특징만으로도 충분히 사용가치가 있다고 생각한다.
 
 1. 투표용지를 `hash`값으로 각각 저장한다.
 2. 반복문으로 `key, value`를 순회하면서 가장 많은 투표 수를 가진 후보를 최대 후보로 갱신시킨다.
@@ -1700,5 +1700,37 @@ function solution(n, votes){
     if(numberOfVote>maxVote) maxVote=numberOfVote, maxCandidate=candidate;
   })
   return maxCandidate;
+}
+```
+
+---
+## 📍 section05 - 7 - 아나그램
+`Anagram`은 두 문자열이 알파벳의 나열 순서를 다르지만 그 구성이 일치하면 두 단어를 아나그램이라고 한다. 이 문제를 `hash`로 풀면 `O(N)`으로 간단하게 풀 수 있다. 여기서 아나그램이 성립하지 않는 경우를 생각하면 편하다.
+
+1. 문자열 `s1`의 원소를 `hash`값으로 만든다.
+2. 비교할 문자열 `s2`를 반복문으로 순회하면서 아나그램이 되지 않는 경우를 찾는다.(아나그램이 성립하지 않는 경우: `s2`의 값이 `hash`값에 존재하지 않는경우, `hash`값의 `value`가 1보다 작은경우)
+3. 조건문밖에는 `hash`의 `key`값을 `-1`씩 빼준다.
+
+```javascript
+let s1 = "AbaAeCe";
+let s2 = "baeeACA";
+let s1H = new Map();
+
+console.log(solution(s1, s2));
+
+function solution(s1, s2) {
+  for (let x of s1) {
+    if (s1H.has(x)) s1H.set(x, s1H.get(x) + 1);
+    else s1H.set(x, 1);
+  }
+
+  console.log(s1H)
+
+  for (let x of s2) {
+    if (!s1H.has(x) | (s1H.get(x) < 1)) return "NO";
+    s1H.set(x, s1H.get(x) - 1);
+    console.log(x, s1H)
+  }
+  return "YES";
 }
 ```
