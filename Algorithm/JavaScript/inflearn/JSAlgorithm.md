@@ -1734,3 +1734,118 @@ function solution(s1, s2) {
   return "YES";
 }
 ```
+
+---
+## 📍 section05 - 8 - 모든 아나그램 찾기
+`S` 문자열에서 `T`문자열과 아나그램이 되는 `S`의 부분 문자열의 개수를 구하는 문제이다. 문제가 조금 어려울 수 있는데, 요구사항을 하나씩 구현하면 된다. 이전까지 아나그램 문제를 풀 때는 `hash`의 특징을 사용했고, 부분 문자열을 구하는 방식은 `slidingWindow`을 이용하여 풀었다. 여기에 인덱스를 따로 설정하게 `twoPointer` 방식만 적용해주면 된다.
+
+나는 `while`문을 사용해서 풀었는데, 올바른 방향으로 풀었는지 궁금해서 <a href='https://www.inflearn.com/questions/294479'>질문</a>을 남겼더니 선생님께서 칭찬해주셨다.(☺️ ☺️ ) 이것보다 더 짧은 코드로 짜고 싶다는 생각이 들었다.
+
+![](https://images.velog.io/images/abcd8637/post/0d6bfe86-c373-4b59-af30-8855e50ac38a/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202021-08-30%2011.43.24.png)
+
+나의 방법은 다음과 같다.
+1. 투 포인터를 사용해 `rt++`가 되면서 `sum`을 구한다. 
+2. `sum`의 길이가 `m`과 동일하면 여기서 `hash`값을 구한다.
+3. `sHash`값과 `t`를 비교하여 `anagram`이 맞는지 검사하고 `flag`를 통해 결과를 저장한다. `true | false`
+4. `flag`가 `true`면 `cnt++`
+5. `sum`의 길이가 `t.length`보다 커지면 그때 `lt`의 값을 빼준다.(빼주는 과정은 `slice`를 이용함)
+
+코드를 짜고 보니까 `while`문 마다 `for`문이 두 번 돌고 `slice`과정까지 거치므로 시간복잡도가 꽤 나올것 같았다. 그럼, `while`문 밖에서 미리 `hash`값을 선언하면 어떨까?
+
+선생님께서는 이렇게 푸셨다.
+1. `for` 전에 `m-1`까지 `sum`을 구한다.(이후 `while`문에서 `sum` 값을 구함)
+2. `for` 전에 `t`의 `hash`값을 구한다.
+3. `rt`를 돌면서 현재 `hash`값을 구한다.
+4. `compareAnagram` 함수를 돌면서 `anagram`이 맞는지 검사한다.
+5. 이후 `lt`값의 `value`를 1씩 빼주고, 만약 `tH.get(value) === 0`이면, `delete(key)` 해준다. 0이 될때 `key`는 더 이상 필요가 없기 때문이다. (현재 `lt`는 `t.length-3`번째 위치한다.)
+
+```javascript
+let s = "bacaAacba";
+let t = "abc";
+
+console.log(solution(s, t));
+
+// 내 코드
+function solution(s, t) {
+  let n = s.length;
+  let m = t.length;
+
+  let sum = "";
+  let lt = rt = cnt = 0;
+
+  while (rt < n) {
+    sum += s[rt];
+
+    if (rt - lt + 1 >= m) {
+      let sH = new Map();
+      let temp = sum;
+      let flag = true;
+
+      for (let x of temp) {
+        if (sH.has(x)) sH.set(x, sH.get(x) + 1);
+        else sH.set(x, 1);
+      }
+
+      for (x of t) {
+        if (!sH.has(x) || sH.get(x) === 0) flag = false;
+        sH.set(x, sH.get(x) - 1);
+      }
+
+      if (flag) cnt++;
+      sum = sum.slice(1);
+      lt++;
+    }
+    rt++;
+  }
+  return cnt;
+}
+```
+
+```javascript
+// 강의코드
+let s = "bacaAacba";
+let t = "abc"
+
+function compareAnagram(sH, tH) {
+  if (sH.size !== tH.size) return false;
+
+  for (let [key, value] of tH) {
+    if (!sH.has(key)) return false;
+    if (sH.get(key) !== value) return false;
+  }
+  return true;
+}
+
+console.log(solution(s, t));
+
+function solution(s, t) {
+  let n = s.length;
+  let m = t.length;
+  let cnt = lt = 0;
+
+  let sH = new Map();
+  let tH = new Map();
+
+  for (let i = 0; i < m - 1; i++) {
+    if (sH.has(s[i])) sH.set(s[i], sH.get(s[i]) + 1);
+    else sH.set(s[i], 1);
+  }
+
+  for (let x of t) {
+    if (tH.has(x)) tH.set(x, tH.get(x) + 1);
+    else tH.set(x, 1);
+  }
+
+  for (let rt = m - 1; rt < n; rt++) {
+    if (sH.has(s[rt])) sH.set(s[rt], sH.get(s[rt]) + 1);
+    else sH.set(s[rt], 1);
+
+    if (compareAnagram(sH, tH)) cnt++;
+
+    sH.set(s[lt], sH.get(s[lt]) - 1);
+    if (sH.get(s[lt]) === 0) sH.delete(s[lt]);
+    lt++;
+  }
+  return cnt;
+}
+```
