@@ -1879,3 +1879,47 @@ function solution(s) {
   return "YES";
 }
 ```
+
+---
+## 📍 section06 - 2 - 괄호 문자 제거
+소괄호`()` 사이의 모든 문제를 제외하고 남은 문자만 출력하는 문제다. 나의 풀이방법은 다음과 같다.
+
+1. 반복문을 선언하고 현재 값이 문자인지 아닌지 검사한다.(정규식) 이때, `stack`에 아무것도 없다면 `answer`에 값을 더해준다.
+2. 현재값이 `(`면 모두 `stack`에 넣는다.
+3. 현재값이 `)`인데, 만약 `stack[-1]`이 `(`면 `stack.pop`을 해준다.
+
+선생님은 조금 더 간단하게 푸셨다.
+1. `(`와 문자는 모두 `stack.push`한다.
+2. `)`가 나오면 `(`가 나올때까지 모두 `pop`해준다.
+
+```javascript
+let s = "(A(BC)D)EF(G(H)(IJ)K)LM(N)";
+// let s = "(AB(A))B(A)";
+
+console.log(solution(s));
+
+// 나의코드
+function solution(s) {
+  let stack = [];
+  let answer = "";
+
+  for (let x of s) {
+    if (stack.length===0 && /[A-Z]/.test(x)) answer+=x;
+
+    if (x === "(") stack.push(x);
+    else if(x === ")") if (stack[stack.length - 1] === "(") stack.pop();
+  }
+  return answer;
+}
+
+// 강의코드
+function solution(s){
+    let stack = [];
+
+    for (let x of s){
+        if (x === ")") while(stack.pop() !== "(");
+        else stack.push(x)
+    }
+    return stack.join("");
+}
+```
