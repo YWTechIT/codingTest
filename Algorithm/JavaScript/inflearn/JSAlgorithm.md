@@ -1964,5 +1964,78 @@ function solution(boards, moves) {
   }
   return cnt;
 }
+```
 
+---
+## 📍 section06 - 4 - 후위식 연산(postfix)
+간단하게 후위식연산에 대해서 알아보자면, 우리가 일반적으로 사용하는 사칙연산 `7+7`은 중위표기식이라고 한다. (숫자 사이에 `+-*/`가 들어감.) 후위표기식은 주로 컴퓨터가 많이 사용하는 방법으로 괄호가 없어도 우선순위를 정확하게 알 수 있다는 점에서 `S/W`에서 널리 쓰인다.
+
+1. 숫자를 만나면 `stack`에 담는다.
+2. 연산자를 만나면 `stack`에서 2개의 값을 꺼내 계산한다.
+3. 계산한 값을 다시 `stack`에 넣는다.
+4. `stack`에 값이 1개면 계산이 끝난다.
+
+나는 이렇게 풀었다.
+1. 숫자는 모두 `stack`에 넣는다.
+2. 연산자를 만났을 때 `stack`에서 값 2개를 빼고 `getCalculator` 함수에 넣는다.
+3. 연산이 끝나면 다시 `stack`에 넣는다.
+
+선생님은 이렇게 푸셨다.
+1. `isNaN`이 `false`면 숫자이므로 해당 값을 `stack`에 넣는다.
+2. 숫자가 아닌 값(연산자)은 `stack`에서 `pop`을 2번 진행하여 `lt, rt`로 선언한다.
+3. 연산 이후 다시 `stack`에 넣는다.
+
+```javascript
+// 나의 코드
+let postFix = "352+*9-";
+
+console.log(solution(postFix));
+
+function getCalculator(operator, lt, rt) {
+  switch (operator) {
+    case "+":
+      return lt + rt;
+    case "-":
+      return lt - rt;
+    case "*":
+      return lt * rt;
+    case "/":
+      return lt / rt;
+  }
+}
+
+function solution(postFix) {
+  let stack = [];
+  for (let x of postFix) {
+    if (/[0-9]/.test(x)) stack.push(+x);
+    else {
+      let operator = x;
+      let rt = stack.pop();
+      let lt = stack.pop();
+      stack.push(getCalculator(operator, lt, rt));
+    }
+  }
+  return +stack;
+}
+```
+
+```javascript
+// 강의 코드
+let postFix = "352+*9-";
+
+function solution(s){
+    let stack = [];
+    for (let x of s){
+        if(!isNaN(x)) stack.push(+x);
+        else{
+            let rt = stack.pop();
+            let lt = stack.pop();
+            if (x==="+") stack.push(lt+rt);
+            else if (x==="-") stack.push(lt-rt);
+            else if (x==="*") stack.push(lt*rt);
+            else if (x==="/") stack.push(lt/rt);
+        }
+    }
+    return +stack;
+}
 ```
