@@ -2039,3 +2039,34 @@ function solution(s){
     return +stack;
 }
 ```
+
+---
+## 📍 section06 - 5 - 쇠막대기
+<a href='https://ywtechit.tistory.com/198'>이전</a>에 풀어봤던 문제다. 당시 처음 풀 때는 이 문제를 왜 `stack`으로 푸는지 이해가 안됐는데, 다시 보니까 조금이나마 이해가 된다. 이전 `stack` 유형과는 달리 `stack[-1]`값을 비교하는것이 아니라 주어진 문자열 `s[i-1]`을 기준으로 비교하기 때문에 그 부분을 잘 캐치해야 문제를 풀 수 있다. 그리고 레이저를 만났을 때 `cnt`를 계산하는 방법이 조금 어려울 수 있는데, 레이저를 만나게 되면 지금까지 `stack`에 들어가있는 `(`길이만큼 누적해주면 된다. `(`는 쇠막대기를 의미함. 레이저를 만나지 않고 쇠막대기 `(`를 만나게 되면 `cnt++`을 해주면 된다.
+
+1. `(`는 무조건 `stack`에 넣는다.
+2. `)`를 만날 때 `stack.pop()`을 하는데, 여기서 `s[i-1]`값이 `(`이라면 레이저(왜냐하면 레이저는 여는 괄호와 닫는 괄호의 인접한 쌍 즉, `()`형태로만 주어지기 때문)기 때문에 `stack`길이 만큼 `cnt`에 누적해주고 `s[i-1]` 값이 `)`라면 쇠막대기이므로 `cnt++`을 해준다.
+3. 반복문이 끝나면 쇠막대기의 개수 `cnt`를 `return`한다.
+
+```javascript
+let s = "()(((()())(())()))(())"
+
+console.log(solution(s));
+
+function solution(s){
+  let n = s.length;
+  let stack = [];
+  let cnt = 0;
+  
+  for (let i = 0; i < n; i++) {
+    if (s[i] === "(") stack.push(s[i]);
+    else {
+      stack.pop();
+      if (s[i - 1] === "(") cnt += stack.length;
+      else cnt++;
+    }
+  }
+  return cnt;
+}
+
+```
