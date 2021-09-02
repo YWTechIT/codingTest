@@ -2068,5 +2068,70 @@ function solution(s){
   }
   return cnt;
 }
+```
 
+---
+## 📍 section06 - 6 - 공주구하기
+공주 구하기 문제는 <a href='https://ywtechit.tistory.com/94'>이전</a>에 풀었던 요세푸스 문제와 동일하다. 요세푸스문제는 `큐(queue)` 자료구조를 사용하면 풀 수 있다. 선생님께서는 이렇게 설명 해주셨다. 
+
+1. `arr`에 `length`가 1개일때까지 반복한다.
+2. `for`문을 사용해 `k-1`번 돌린다. `arr[0]`을 맨 뒤로 넣는다.
+3. `k`번째 사람이 제외되어야 하므로 다음 값은 `shift()`한다.
+
+```javascript
+// 강의 코드
+let n = 8;
+let k = 3;
+
+console.log(solution(n, k));
+
+function solution(n, k){
+  let arr = Array.from({length: n}, (v, i) => i+1);
+
+  while(arr.length>=2){
+      for (let i=0; i<k-1; i++) arr.push(arr.shift());
+      arr.shift();
+  }
+  return +arr;
+}
+```
+
+```javascript
+// 나의 코드
+let n = 8;
+let k = 3;
+
+console.log(solution(n, k));
+
+function solution(n, k) {
+  let princes = Array.from({ length: n }, (value, idx) => idx + 1);
+  let cnt = 0;
+
+  while (princes.length >= 2) {
+    if (cnt === k - 1) princes.splice(0, 1), (cnt = 0);
+    else princes.push(princes.shift()), cnt++;
+  }
+
+  return +princes;
+}
+```
+
+```javascript
+// 나의 코드2
+let n = 8;
+let k = 3;
+
+console.log(solution(n, k));
+
+function solution(n, k) {
+  let princes = Array.from({ length: n }, (value, idx) => idx + 1);
+  let cnt = 0;
+
+  while (princes.length >= 2) {
+    cnt = (cnt + k - 1) % princes.length;
+    princes.splice(cnt, 1);
+  }
+
+  return +princes;
+}
 ```
