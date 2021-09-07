@@ -2198,5 +2198,54 @@ function solution(s, target) {
 }
 ```
 
+---
+## 📍 section07 - 1 - 선택정렬
+이번 섹션부터는 정렬(sort), 그리디(greedy), 결정알고리즘에 대해서 배운다. 블로그에 따로 게시하진 않았지만 이전에 종종 `삽입정렬`, `선택정렬`, `병합정렬`, `버블정렬`, `퀵정렬` 코드 구현까지 공부했는데, 항상 정렬 문제를 풀 때마다 알맞는 정렬 코드를 구현할려고 하면 까먹는다. 😅 😅 이번 섹션을 풀면서 언제 어떤 정렬을 사용해야하는지 잘 알아둬야겠다.
 
+선택정렬에 관한 짧은 영상은 <a href='https://www.youtube.com/watch?v=jtxwQ7ChiII'>선택정렬 5분만에 이해하기 - 코딩하는거니</a> 개인적으로 이 분 영상이 길지 않고 핵심만 가르쳐주는 영상이어서 좋았다.
 
+선택정렬은 가장 작은 숫자를 차례대로 탐색하여 가장 왼쪽 자리부터 `swap` 하는 정렬이다. 이중 반복문으로 전체 원소를 탐색하고 나보다 작은 값이 있으면 두 개의 위치를 서로 바꾸는 정렬이다. 시간복잡도는 `O(N^2)`이고, 최적의 경우(정렬 되어있는 경우)는 `O(N)`의 시간복잡도를 보여준다.
+
+![](https://images.velog.io/images/abcd8637/post/2a5d340e-ac88-4eda-8518-10697e1c138a/insertion-sort.gif)
+
+(출처: <a href='https://visualgo.net/en/sorting'>VisuAlgo</a>)
+
+```javascript
+// 나의 코드(j번 모두 바꾸는 방법)ㄴ
+let n = 6;
+let arr = [6, 5, 4, 3, 2, 1];
+
+console.log(solution(n, arr));
+
+function solution(n, arr) {
+  for (let i=0; i<n-1; i++) {
+    for (let j=i+1; j<n; j++) {
+      if (arr[i]>arr[j]) {
+        let temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+      }
+    }
+  }
+  return arr;
+}
+```
+
+```javascript
+// 강의 코드(j번 안에서 idx를 갱신하여 한번에 바꾸는 방법)
+let n = 6;
+let arr = [6, 5, 4, 3, 2, 1];
+
+console.log(solution(n, arr));
+
+function solution(n, arr) {
+    for (let i=0; i<n-1; i++) {
+        let idx=i;
+        for (let j=i+1; j<n; j++) {
+            if (arr[i] > arr[j]) idx = i;
+        }
+        [arr[i], arr[idx]] = [arr[idx], arr[i]];
+    }
+    return arr;
+}
+```
