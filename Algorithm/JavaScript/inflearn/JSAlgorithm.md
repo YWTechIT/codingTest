@@ -2249,3 +2249,30 @@ function solution(n, arr) {
     return arr;
 }
 ```
+
+---
+## 📍 section07 - 2 - 버블정렬
+구현하기 쉬운 정렬 중 한개다. 데이터가 정렬되는 모습이 버블같아서 붙여진 이름이다. (데이터가 왼쪽으로 이동하는 모습이 거품이 올라오는 모습 같은가?)
+
+![](https://images.velog.io/images/abcd8637/post/584f7e86-8f33-45a9-aec2-65866dacdfcb/bubble-srot.gif)
+
+버블정렬은 다른 정렬에 비해 구현이 쉽다는 장점을 가지고있다.(이중 반복문) 하지만, 시간복잡도는 `O(N^2)`가 걸리므로 실제 많이 쓰이지는 않는다. (이미 정렬이 되어있는 최적화의 경우에는 `O(N)` 걸린다.)
+
+1. `j`가 돌 때마다 `j+1`과 매번 비교한다.(실행횟수가 많다.)
+2. `i`가 한바퀴 돌고 난 이후 다음 `j`번을 돌 때 `i`의 맨 마지막 값이 하나 줄어든 범위까지만 탐색한다. (`1번`을 거치면서 제일 큰 값은 맨 뒤로 가있다라고 확정을 짓는다.)
+
+```javascript
+let n = 6;
+let arr = [13, 5, 11, 7, 23, 15];
+
+console.log(solution(n, arr));
+
+function solution(n, arr) {
+    for (let i = 0; i < n - 1; i++) {
+        for (let j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+        }
+    }
+    return arr;
+}
+```
