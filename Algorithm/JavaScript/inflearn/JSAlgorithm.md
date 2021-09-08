@@ -2276,3 +2276,54 @@ function solution(n, arr) {
     return arr;
 }
 ```
+
+---
+## 📍 section07 - 3 - Special Sort(구글 인터뷰)
+문제: 음의 정수는 앞쪽에 양의정수는 뒤쪽에 있어야 한다. 이때, 양의정수와 음의정수의 순서는 변함이 없어야한다. <a href='https://www.geeksforgeeks.org/move-negative-numbers-beginning-positive-end-constant-extra-space/'>GeeksforGeeks</a>에서 관련 문제를 가져왔다. 영어로 풀고 싶으면 사이트에 들어가서 푸는것을 권장한다.
+
+이 문제를 풀때 2가지 방법이 떠올랐다. 
+
+1. 한개는 `for`문을 돌면서 음수 먼저 `answer`에 `push`하고 또 `for`문을 돌면서 양수를 `answer`에 `push` 하는 방법
+2. 버블정렬 방식의 일부를 가져와서 `j`가 음수이고 `j+1`이 양수면 `swap`하는 방법
+
+시간복잡도는 1번(`O(N)`)으로 더 빠르지만 만약, 코딩인터뷰를 할 때 정렬을 이용해서 풀어보라고 할 때는 2번(`O(N^2)`)을 이용하면 된다.
+
+```javascript
+// 1번 방법
+let n = 8;
+let arr = [1, 2, 3, -3, -2, 5, 6, -6];
+
+console.log(solution(n, arr));
+👉🏽 [ -3, -2, -6, 1, 2, 3, 5, 6 ]
+
+function solution(n, arr){
+    let answer = [];
+    
+    for (let x of arr){
+        if (x<0) answer.push(x);
+    }
+    
+    for (let x of arr){
+        if (x>0) answer.push(x);
+    }
+    return answer
+}
+```
+
+```javascript
+// 2번 방법
+let n = 8;
+let arr = [1, 2, 3, -3, -2, 5, 6, -6];
+
+console.log(solution(n, arr));
+👉🏽 [ -3, -2, -6, 1, 2, 3, 5, 6 ]
+
+function solution(n, arr){
+    for (let i=0; i<n-1; i++){
+        for (let j=0; j<n-i-1; j++){
+            if (arr[j]>0 && arr[j+1]<0) [arr[j], arr[j+1]] = [arr[j+1], arr[j]]
+        }
+    }
+    return arr;
+}
+```
