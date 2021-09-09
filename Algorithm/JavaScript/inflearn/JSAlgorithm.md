@@ -2204,7 +2204,7 @@ function solution(s, target) {
 
 선택정렬에 관한 짧은 영상은 <a href='https://www.youtube.com/watch?v=jtxwQ7ChiII'>선택정렬 5분만에 이해하기 - 코딩하는거니</a> 개인적으로 이 분 영상이 길지 않고 핵심만 가르쳐주는 영상이어서 좋았다.
 
-선택정렬은 가장 작은 숫자를 차례대로 탐색하여 가장 왼쪽 자리부터 `swap` 하는 정렬이다. 이중 반복문으로 전체 원소를 탐색하고 나보다 작은 값이 있으면 두 개의 위치를 서로 바꾸는 정렬이다. 시간복잡도는 `O(N^2)`이고, 최적의 경우(정렬 되어있는 경우)는 `O(N)`의 시간복잡도를 보여준다.
+선택정렬은 가장 작은 숫자를 차례대로 탐색하여 가장 왼쪽 자리부터 `swap` 하는 정렬이다. 이중 반복문으로 전체 원소를 탐색하고 나보다 작은 값이 있으면 두 개의 위치를 서로 바꾸는 정렬이다. 시간복잡도는 `O(N^2)`이고, 최적의 경우(정렬되어있는 경우)에도 상관없이 원소를 모두 비교하므로 마찬가지로 O(N^2)의 시간 복잡도를 나타낸다.
 
 ![](https://images.velog.io/images/abcd8637/post/2a5d340e-ac88-4eda-8518-10697e1c138a/insertion-sort.gif)
 
@@ -2330,7 +2330,9 @@ function solution(n, arr){
 
 ---
 ## 📍 section07 - 4 - 삽입 정렬
-삽입정렬은 <a href='https://ywtechit.tistory.com/293?category=958175'>선택정렬</a>과 비슷하지만 조금은 다른 방식이다. 삽입정렬의 간략한 소개는 <a href='https://www.youtube.com/watch?v=iqf96rVQ8fY'>삽입정렬 5분만에 이해하기 - Gunny</a>의 영상을 확인하자.
+삽입정렬은 <a href='https://ywtechit.tistory.com/293?category=958175'>선택정렬</a>과 비슷하지만 조금은 다른 방식이다. 삽입정렬의 간략한 소개는 <a href='https://www.youtube.com/watch?v=iqf96rVQ8fY'>삽입정렬 5분만에 이해하기 - Gunny</a>의 영상을 확인하자. 
+
+삽입정렬은 선택정렬보다 시간복잡도면에서 효과적인 알고리즘인데 만약, 데이터가 거의 정렬되어있다고 가정하면 `while`문을 거의 수행하지 않으므로 `O(N)`의 시간복잡도를 보여준다. 하지만 데이터가 역정렬(반대로 정렬)되어있다면 `index` 끝까지 `while`문을 수행하므로 최악의 경우인 `O(N^2)`을 나타낸다.
 
 ![](https://images.velog.io/images/abcd8637/post/7e6ffe29-3984-4d6b-8c44-c5328158bd41/insertion-sort.gif)
 
