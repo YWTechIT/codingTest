@@ -2327,3 +2327,53 @@ function solution(n, arr){
     return arr;
 }
 ```
+
+---
+## 📍 section07 - 4 - 삽입 정렬
+삽입정렬은 <a href='https://ywtechit.tistory.com/293?category=958175'>선택정렬</a>과 비슷하지만 조금은 다른 방식이다. 삽입정렬의 간략한 소개는 <a href='https://www.youtube.com/watch?v=iqf96rVQ8fY'>삽입정렬 5분만에 이해하기 - Gunny</a>의 영상을 확인하자.
+
+![](https://images.velog.io/images/abcd8637/post/7e6ffe29-3984-4d6b-8c44-c5328158bd41/insertion-sort.gif)
+
+1. `i`가 1부터 시작하여 `n`까지 탐색한다. (`left` 인덱스 사용으로 인해 0부터 시작을 하지 않음)
+2. `temp`에 `arr[i]`를 선언한다. (나중에 덮어씌운 값 맨 앞에 넣을 예정)
+3. `left`가 0보다 크거나 && 나보다 좌측에 작은 값이 있을 때만 우측값에 현재값을 덮어씌운다.
+4. `while`문이 거짓이 되면 제일 마지막으로 움직인 `left+1` 값에 `temp`를 넣는다. 
+
+![](https://images.velog.io/images/abcd8637/post/48a62463-78ff-4322-89fb-2187eaa46fe7/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202021-09-09%2011.31.41.png)
+
+```javascript
+let n = 6;
+let arr = [11, 7, 5, 6, 10, 9];
+
+console.log(solution(n, arr));
+
+// 나의 코드
+function solution(n, arr) {
+    for (let i = 1; i < n; i++) {
+        let cur = arr[i];
+        let left = i - 1;
+
+        while (left >= 0 && arr[left] > cur) {
+            arr[left + 1] = arr[left];
+            left--;
+        }
+        arr[left + 1] = cur;
+    }
+    return arr;
+}
+
+// 강의 코드
+function solution(n, arr) {
+    for (let i=0; i<n; i++){
+        let tmp = arr[i]
+        let j;
+        for (j=i-1; j>=0; j--){
+            if (arr[j] > tmp) arr[j+1] = arr[j];
+            else break;
+        }
+        arr[j+1] = tmp;
+    }
+    return arr;
+}
+```
+
