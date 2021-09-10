@@ -2379,3 +2379,132 @@ function solution(n, arr) {
 }
 ```
 
+---
+## 📍 section07 - 5 - Lease Recently Used(카카오 캐시 문제 변형)
+간략한 문제 설명: `LRU` 알고리즘은 가장 최근에 사용되지 않은 것의 의미를 가지고 있다. 만약, `Cache Miss`일 땐 다음 `task`가 `cache`의 맨 앞에 오고 모든 작업이 뒤로 밀리고, `Cache Hit` 일 땐 다음 `task`와 동일한 `cache`안에 있는 값을 맨 앞으로 당겨오고 나머지는 한 칸씩 뒤로 미루는 문제이다. 예를 들어 현재 `cache`가 `[1, 2, 3, 0, 0]`이고 다음 `task`는 `2`라면 `[2, 1, 3, 0, 0, 0]`이 된다.
+
+이 문제는 삽입정렬의 특징인 `target`을 `temp`에 저장하고 `temp`보다 `arr[i]=arr[i-1]`처럼 덮어씌우는 방식을 이용하면 풀 수 있는 문제이다. 중요한것은 실행속도를 얼마냐 빨리하느냐인데, 내가 작성한 코드는 3중 반복문이었고, 강의코드는 2중 반복문이었다. 이 문제를 풀 수 있는 방법은 4가지인데, 자신의 입맛대로 풀면 된다. 
+
+첫번째 방법은 `hit | miss` 일때 모두 한칸씩 앞으로 밀거나 당기는 방법인데 썩 와닿지 않아서 직접 그려봤다. 다른 방법들에 비해 코드가 짧은것이 장점이다. 그리고 <a href='https://ywtechit.tistory.com/169'>저번</a>에 풀었던 <a href='https://www.acmicpc.net/problem/16935'>배열돌리기3</a> 문제처럼 지금과 같이 `target`을 `temp`로 빼두고 덮어씌우다가 제일 마지막 `index`에 할당해주는 방법을 종종 사용했었다.(잊지않으려고 <a href='https://ywtechit.tistory.com/212'>글</a>까지 적었는데.. 이제는 까먹지말고 제때 사용하자!!)
+
+![](https://images.velog.io/images/abcd8637/post/208a2fa7-d351-4859-a375-5d6025c299cb/KakaoTalk_Photo_2021-09-10-11-46-07.jpeg)
+
+1. `hit`, `miss` 둘 다 반복문을 이용해서 한칸씩 밀거나 당기고 마지막에 `cache[0]=x`를 넣는다.
+2. `hit`일때 `for`문을 거꾸로 덮어씌우고, `miss` 일 때 `unshift`를 이용한다.
+3. `hit`일때 `while`문을 거꾸로 덮어씌우고, `miss` 일 때 `unshift`를 이용한다.
+4. `hit`일때 `splice(pos,1)`으로 해당 원소만 빼내어 맨 앞에 `unshift`해주고, `miss` 일 때 `unshift`를 이용한다.
+
+```javascript
+// 방법1
+let s = 5;
+let n = 9;
+let order = [1, 2, 3, 2, 6, 2, 3, 5, 7];
+
+console.log(solution(s, n, order));
+
+function solution(s, n, order){
+    let cache = Array.from({length: s}, () => 0);
+
+    for (let x of order){
+        let pos=-1;
+        for(let i=0; i<s; i++) if (cache[i] === x) pos=i;
+        if (pos === -1){
+            for(let i=s-1; i>=1; i--) cache[i]=cache[i-1]
+        }else{
+            for(let i=pos; i>=1; i--) cache[i]=cache[i-1]
+        }
+        cache[0]=x
+    }
+    return cache.join(" ");
+}
+```
+
+```javascript
+// 방법2
+let s = 5;
+let n = 9;
+let order = [1, 2, 3, 2, 6, 2, 3, 5, 7];
+
+console.log(solution(s, n, order));
+
+function solution(s, n, order){
+    let cache = Array.from({length: s}, () => 0);
+    for (let x of order){
+        let pos=-1;
+        for (let i=0; i<n; i++){
+            if (cache[i]===x) pos=i
+        }
+        if (pos === -1){
+             cache.unshift(x);
+             if (cache.length > s) cache.pop();
+        }
+        else{
+            let temp = cache[pos];
+            for (let i=pos; i>=0; i--) cache[i] = cache[i-1];
+            cache[0] = temp;
+        }
+    }
+    return cache.join(" ");
+}
+```
+
+```javascript
+// 방법3
+let s = 5;
+let n = 9;
+let order = [1, 2, 3, 2, 6, 2, 3, 5, 7];
+
+console.log(solution(s, n, order));
+
+function solution(s, n, order){
+    let cache = Array.from({length: s}, () => 0);
+
+    for (let x of order){
+        let pos=-1;
+        for (let i=0; i<n; i++){
+            if (cache[i]===x) pos=i
+        }
+    
+        if (pos === -1){
+            cache.unshift(x);
+            if (cache.length > s) cache.pop();
+        }
+        else{
+            let temp = cache[pos];
+            let left = pos-1;
+            while(left>=0) {
+                cache[left+1] = cache[left];
+                left--;
+            }
+            cache[0] = temp;
+        }
+    }
+    return cache.join(" ");
+}
+```
+
+```javascript
+// 방법4
+let s = 5;
+let n = 9;
+let order = [1, 2, 3, 2, 6, 2, 3, 5, 7];
+
+console.log(solution(s, n, order));
+
+function solution(s, n, order){
+    order.forEach((val) => {
+        let pos = -1;
+        for (let i=0; i<s; i++) if (cache[i] === val) pos = i;
+        if (pos === -1) {
+            cache.unshift(val);
+            if(cache.length>s) cache.pop();
+        } else {
+            cache.splice(pos, 1);
+            cache.unshift(val)
+        }
+        return cache.join(" ");
+    });
+}
+```
+
+
