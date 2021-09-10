@@ -2532,4 +2532,27 @@ function solution(arr) {
 }
 ```
 
+---
+## 📍 section07 - 7 - 좌표정렬
+평면상의 좌표(x, y)가 주어질 때 모든 좌표를 오름차순으로 정렬하는데 만약, `x`값이 같으면 `y`을 기준으로 정렬하는 문제다. <a href='https://ywtechit.tistory.com/269?category=960739'>이전</a>글도 참고하자.
 
+```javascript
+// let arr = [120, 125, 152, 130, 135, 135, 143, 127, 160];
+let arr = [120, 130, 150, 150, 130 ,150]
+
+console.log(solution(arr));
+
+function solution(arr) {
+    let sortArr = [...arr];
+    let ans = [];
+    sortArr.sort((a, b) => a - b);
+
+    arr.forEach((val, idx) => {
+        if (val !== sortArr[idx]) {
+            ans.push(idx+1)
+        }
+    });
+
+    return ans.join(" ");
+}
+```
