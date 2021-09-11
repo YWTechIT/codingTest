@@ -2571,6 +2571,8 @@ function solution(arr) {
 4. 현재 `eT`에는 `x[1]`(현재 회의종료시간)을 할당한다.
 5. 반복문 끝까지 비교한다.
 
+![](https://images.velog.io/images/abcd8637/post/cb3914a9-32d0-4931-97e3-eccc7150c92d/KakaoTalk_Photo_2021-09-11-10-29-55.jpeg)
+
 ```javascript
 let n = 5;
 let arr = [[1, 4], [2, 3], [3, 5], [4, 6], [5, 7]];
