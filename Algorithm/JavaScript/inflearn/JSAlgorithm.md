@@ -2598,3 +2598,82 @@ function solution(n, arr) {
     return cnt;
 }
 ```
+
+---
+## 📍 section07 - 9 - 결혼식
+피로연 장소에 동시에 존재하는 최대 인원수를 구하여 그 인원을 수용할 수 있는 장소를 빌리려고 한다. 만약, 입력이 13 15라면 13시 정작에 피로연장에 존재하고 15시에는 존재하지 않는문제다. 첫째 줄에 피로연장에 동시에 존재하는 최대 인원을 출력하는 문제다.
+
+이 문제도 `greedy`로 풀 수 있는 문제인데, <a href='https://ywtechit.tistory.com/302'>회의실 배정</a>처럼 입력을 정렬을 하되, 정렬 기준을 `결혼식에 등장하는 시간(s)`, `결혼식장에서 나가는 시간(e)`으로 나눠서 오름차순으로 정렬을 해야한다. 입력을 타임라인형식으로 그려보면 다음과 같다.
+
+![](https://images.velog.io/images/abcd8637/post/d47c5608-2d56-43c7-8936-417cc1e0338d/KakaoTalk_Photo_2021-09-11-09-20-45.jpeg)
+
+여기서 주의할 점은 `나간시간(e)`은 포함하지 않으므로 오름차순으로 정렬할 때 `들어오는시간(s)`과 `나가는시간(e)`이 동일하면 `e`가 먼저 오게 설정한다. 
+
+1. 피로연에 등장하는 시간과 나가는 시간을 나눈다.
+2. 시간을 오름차순으로 정렬하는데 시간이 같다면 나간시간을 먼저 앞에 세운다. (나간시간은 정각에 존재하지 않기 때문)
+3. 반복문을 돌면서 `s`를 만나면 `cnt++`을 해주고, `e`를 만나면 `cnt--`를 해준다.
+4. `cnt`의 최대값을 갱신한다.
+
+여담이지만, 문자를 기준으로 정렬하고 싶으면 `charCodeAt()` 함수를 사용해 비교문자를 `ASCII` 코드로 바꾸어 준 다음, 값을 비교해주면 된다. 여기선 `s`의 `ASCII`코드는 `115`이고, `e`는 `101`이므로 `e`가 더 작다.
+
+```javascript
+let n = 5;
+let arr = [[14, 18], [12, 15], [15, 20], [20, 30], [5, 14]];
+
+console.log(solution(n, arr));
+
+function solution(n, arr) {
+    let tL = [];
+
+    for (let x of arr) {
+        tL.push([x[0], "s"]);
+        tL.push([x[1], "e"]);
+    }
+
+    tL.sort((a, b) => {
+        if (a[0] === b[0]) return a[1].charCodeAt() - b[1].charCodeAt();
+        else return a[0] - b[0];
+    });
+
+    let cnt = 0;
+    let answer = 0;
+
+    for (let x of tL) {
+        if (x[1] === "s") cnt++;
+        else cnt--;
+        answer = Math.max(answer, cnt);
+    }
+    return answer;
+}
+```
+
+---
+## 📍 section07 - 10 - 이분검색
+이분검색은 시간복잡도가 `O(logN)`으로 선형검색인 `O(N)`보다 빠른 특징을 가지고 있다. 대량의 데이터를 탐색할 때 효과적인데, 예를 들어 `1,000,000`개의 데이터에서 특정 값을 찾는다고 가정하면, 반복문을 사용해 선형적으로 탐색하면 최악의 경우 `백만번`을 돌아야하지만 `이진탐색(binarySearch)`을 이용하면 최대 `11`번까지 돌면 된다. 하지만, 이진탐색은 `오름차순` 혹은 `내림차순`으로 정렬되어있어야 찾을 수 있는 전제조건이 있다.
+
+1. `while`문의 범위는 `lt<=rt`인데, `lt`와 `rt`가 같을 때 까지 돌고 그 `lt`가 `rt`보다 커질 경우는 탐색을 종료한다.
+2. `mid`값을 갱신한다. 
+3. `target`이 `arr[mid]`보다 왼쪽에 있을 경우 현재 `mid` 오른쪽에는 내가 찾으려는 값이 없으므로 다음 `rt`를 `mid-1`로 재설정한다.
+4. `target`이 `arr[mid]`보다 오른쪽에 있을 경우 현재 `mid` 왼쪽에는 내가 찾으려는 값이 없으므로 `lt`를 `mid+1`로 재설정한다.
+
+```javascript
+let arr = [23, 87, 65, 12, 57, 32, 99, 81];
+let m = 32;
+
+console.log(binarySearch(arr, m));
+👉🏽 3
+
+function binarySearch(arr, target){ 
+    let lt = 0;
+    let rt = arr.length - 1;
+    arr.sort((a, b) => a - b);
+
+    while (lt <= rt) {
+        let mid = Math.floor((lt + rt) / 2);
+
+        if (arr[mid] === target) return mid + 1;
+        else if (arr[mid] > target) rt = mid-1;
+        else lt = mid+1;
+    }
+}
+```
