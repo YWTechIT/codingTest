@@ -2782,3 +2782,29 @@ function solution(n, c, arr){
     return answer;
 }
 ```
+
+---
+## 📍 section08 - 1 - 재귀함수
+이번 섹션은 재귀함수와 완전탐색(깊이우선탐색: DFS)을 배운다. 이전부터 재귀파트는 어려움을 많이 호소했는데, 이번 섹션을 통해 감을 되찾았으면 좋겠다. 첫번째 문제는 자연수 `N`이 입력됐을 때 재귀함수를 이용하여 `1부터 N까지` 출력하는 문제다. <a href='https://ywtechit.tistory.com/48'>이전</a>에 <a href='https://codeup.kr/problem.php?id=1901'>코드업</a>에서 `python`으로 한번 풀어본 문제다. 예전에 재귀문제를 풀었을 때는 하단 `before` 방법처럼 호출된 재귀함수를 적고 `return`이 나오면 다시 올라가는 방법을 사용했는데, 이것의 단점은 재귀가 깊어지면 어떤 코드에서부터 다시 진행해야하는지 헷갈려서 많은 어려움을 겪었다. 하지만 강의선생님께서 `after` 방법처럼 현재 호출된 재귀 함수와 호출된 코드라인을 적어두면 다시 돌아왔을 때 어디서부터 진행되는지 바로 확인 할 수 있어 헷갈릴 일이 없다고 하셨다. 이 섹션을 풀면서 손으로 그릴 때는 `after` 방법처럼 해야겠다.
+
+![](https://images.velog.io/images/abcd8637/post/99a1adf5-e41a-4345-9fee-0add9706042b/KakaoTalk_Photo_2021-09-15-11-14-27.jpeg)
+
+1. `DFS`를 실행하면 `L-1` 함수를 호출한다.
+2. 계속해서 `L-1`함수를 호출하다 `L`이 1보다 작으면 `return`하고 `stack`에 저장한 함수를 불러오면서 `console.log`를 실행한다.
+
+```javascript
+let n = 10;
+
+solution(n);
+
+function solution(n){
+  function DFS(L) {
+      if (L < 1) return;
+      DFS(L - 1);
+      console.log(L);
+  }
+
+  DFS(n);
+}
+```
+
