@@ -2808,3 +2808,33 @@ function solution(n){
 }
 ```
 
+---
+## 📍 section08 - 2 - 재귀함수를 이용한 이진수 출력
+10진수 `N`을 2진수로 변환하는 문제이다. <a href='https://ywtechit.tistory.com/307'>저번</a>에 풀었던 재귀함수에서 조금 응용하면 쉽게 풀 수 있는 문제다. 비록 재귀를 사용하진 않았지만 <a href='https://ywtechit.tistory.com/109'>이진수</a>와 관련한 문제는 <a href='https://www.acmicpc.net/problem/3460'>백준 3460 - 이진수</a>문제도 풀었다. 재귀를 이용할 때 초보자는 `if-else`문을 사용하는것이 더 이해하기 쉽다고 선생님께서 말씀하셨다. 이진수를 출력하려면 어떤 수를 몫이 `0`이 될 때까지 `2`로 계속 나누면서 나머지를 누적하는데 이때, 나머지를 거꾸로 누적해야 이진수가 된다. 예를 들어 `11`을 이진수로 표현한다고 가정하면 다음과 같이 계산하면 된다. 
+
+![](https://images.velog.io/images/abcd8637/post/92d73fff-2e9b-4c2f-ad90-dfb21247f52a/KakaoTalk_Photo_2021-09-16-11-42-35.jpeg)
+
+그리고 `answer`코드를 `DFS` 함수 위에 선언하냐 밑에 선언하냐에 따라 값이 달라지는데 `DFS` 위에 선언하게 되면 나머지가 반대방향으로 출력되는것을 알아두자.
+
+1. `level(L)`이 `0`이 될때까지 재귀함수를 돌린다. `0`이면 `return`한다.
+2. `0`이 아니면 재귀함수를 돌리는데, 인자는 `2`로 나눈 몫을 넣는다.
+3. 모든 재귀함수를 들려서 나올차례가 되면 나오면서 나머지를 `answer`에 넣는다.
+
+```javascript
+let n = 11;
+
+console.log(solution(n));
+
+function solution(n){
+  let answer="";
+  function DFS(L){
+    if (L === 0) return;
+    else {
+      DFS(Math.floor(L/2));
+      answer+=(L%2)
+    }  
+  }
+  DFS(n)
+  return answer;
+}
+```
