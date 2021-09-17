@@ -2904,3 +2904,56 @@ function solution3(v){
 solution3(1)
 👉🏽 4 5 2 6 7 3 1
 ```
+
+---
+## 📍 section08 - 4 - 부분집합 구하기(DFS)
+자연수 `n`이 주어지면 `1부터 N까지`의 원소를 갖는 집합의 부분집합을 모두 구하여 출력예제와 같은 순서로 출력하는데 공집합은 출력하지 않는 문제다. `N`의 범위는 `1<=N<=10`인데 만약, `N`이 10개라면 내가 구해야 할 부분집합의 개수는 `2^10-1 = 1,024-1(공집합)= 1,023`개이다. 재귀적인 방법으로 부분집합을 찾아 갈 때 다음처럼 그림을 그리면 이해하기가 쉽다.
+
+```
+// 입력
+3
+
+// 출력
+1 2 3
+1 2
+1 3
+1
+2 3
+2
+3
+```
+
+![](https://images.velog.io/images/abcd8637/post/adf9747e-8e96-4dc3-a273-95cd1632a8bd/KakaoTalk_Photo_2021-09-17-10-20-00.jpeg)
+
+1. 길이 `N`만큼 빈 배열을 0으로 선언한다. (마지막에 `index`를 출력하면 그것이 부분집합이 된다.)
+2. 현재 `L`레벨 일 때, `visit[v] = 1`로 선언하여 재귀적으로 순회하고 `visit[v] = 0`로 선언하여 재귀적으로 순회한다.
+3. 한 가지가 끝나면 값을 출력한다.
+
+```javascript
+let n = 3;
+
+console.log(solution(3));
+
+function solution(n) {
+    let visit = Array.from({ length: n + 1 }, () => 0); // n번까지 idx가 생겨야하므로
+    let answer = [];
+
+    function DFS(v) {
+        if (v === n + 1) {
+            let temp = "";
+            for (let i = 0; i < visit.length; i++) {
+                if (visit[i]) temp += (i + " ");
+            }
+            answer.push(temp.trim());
+        } else {
+            visit[v] = 1;
+            DFS(v + 1);
+            visit[v] = 0;
+            DFS(v + 1);
+        }
+    }
+    DFS(1);
+    
+    return answer.join("\n");
+}
+```
