@@ -3197,6 +3197,10 @@ function solution(n, m){
 
 거스름돈 문제는 <a href='https://velog.io/@abcd8637/%EC%9D%B4%EA%B2%83%EC%9D%B4-%EC%BD%94%EB%94%A9%ED%85%8C%EC%8A%A4%ED%8A%B8%EB%8B%A4-8%EC%9D%BC%EC%B0%A8'>그리디</a>로 풀어본적 있다. 하지만, 이 문제는 그리디로는 풀 수 없다. 왜냐하면 동전의 단위가 서로 배수 형태가 아니라 무작위로 주어진 경우기 때문이다. 이럴 땐 `DFS` 혹은 `DP`를 이용하면 된다. 만약, 동전이 `[500, 100, 50, 10]`처럼 배수형태로 나오면 그리디로 풀 수 있다. 또, 앞서 배운 <a href='https://ywtechit.tistory.com/310'>부분집합</a>으로는 이 문제를 풀 수 없는데, 왜냐하면 동전을 각 한번씩 쓰는것이 아니고 거스름돈이 더 이상 없어질 때까지 무한정으로 쓸 수 있기 때문이다. 그러나 동전의 개수가 커질수록 계산하는 가짓수도 늘어나기 때문에 `edgeCut`을 이용했는데, `11`, `12`번 라인처럼 조건을 걸어주면 연산횟수를 대폭 낮출 수 있다. 약간의 팁을 추가하자면 `coin`을 내림차순으로 정렬을 하고나서 `DFS`로 들어가는 것인데, 정렬하는데 시간이 조금 들더라도(`O(NlogN)`) 거스름돈은 동전의 큰 단위를 먼저 주는것이 횟수를 낮출 수 있기 때문이다.
 
+거스름돈을 큰 단위부터 바꿔줄 때 재귀 흐름도는 다음과 같다.
+
+![](https://images.velog.io/images/abcd8637/post/4c3adf06-1626-472c-8f19-2a6bde2cb838/KakaoTalk_Photo_2021-09-26-08-03-19.jpeg)
+
 ```javascript
 let n = 3;
 let coin = [1, 2, 5];
@@ -3206,6 +3210,7 @@ console.log(solution(n, coin, change));
 
 function solution(n, coin, change) {
     let answer = Number.MAX_SAFE_INTEGER;
+    coin.sort((a, b) => b - a);  // 거스름돈을 큰 단위부터 바꿔주면서 시간을 단축시킨다.
 
     function DFS(L, sum) {
         if (sum > change) return;    // change보다 sum이 크면 더 이상 계산 할 필요가 없음.
