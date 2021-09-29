@@ -3377,3 +3377,77 @@ function DFS(n, r){
 console.log(DFS(n, r));
 👉🏽 471435600
 ```
+
+---
+## 📍 section08 - 13 - 수열 추측하기
+문제는 다음과 같다. 가장 윗줄에 1부터 `N`까지의 숫자가 한 개씩 적혀 있다. 파스칼의 삼각형을 예로 들어 `N`이 4이고 가장 윗 줄에 `3 1 2 4`가 있다고 할 때 다음 그림과 같이 그려진다.
+
+![](https://images.velog.io/images/abcd8637/post/dd386a50-2f60-40a7-951a-56167980a020/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202021-09-28%2011.01.07.png)
+
+`N`과 가장 밑에 있는 숫자가 주여져 있을 때 가장 윗줄에 있는 숫자를 구하는 프로그램을 작성하시오. 여러가지 답이 나오면 사전순으로 가장 앞에 오는것을 출력한다.
+```
+// 입력
+4 16
+
+// 출력
+3 1 2 4
+```
+
+문제만 봐서는 조금 어렵다고 생각했는데, 어떻게 풀어야 할지 순서를 나누니까 괜찮았다. 여기서 파스칼의 삼각형 공식을 알아야하는데, 조합이 사용된다. 예를 들어 `1 2 3 4`가 주어진다고 할 때 모든 수를 차례로 더하면 다음과 같은 결과가 나온다.
+
+![](https://images.velog.io/images/abcd8637/post/a86a0cdc-0d71-4997-8701-a1621b811aae/KakaoTalk_Photo_2021-09-28-11-09-10.jpeg)
+
+사진 제일 하단에 있는 `1+2+2+2+3+3+3+4`의 값을 자세히 살펴보니 1은 `1번`, 2는 `3번`, 3은 `3번`, 4는 `1번`이 사용됐다. 입력이 `1 2 3 4`가 아니어도 4개의 숫자를 방금처럼 구하면 사용된 갯수는 `1 3 3 1`로 동일하다. 5개의 숫자는 `1 4 6 4 1`번씩 쓰인다. 이를 조합으로 나타낼 수 있는데, `1 3 3 1`은 `3C0, 3C1, 3C2, 3C3`으로 나타낼 수 있고 `n`개 일때는 `n-1C0, n-1C1, ..., n-1Cn-2, n-1Cn-1`으로 나타낼 수 있다. 다시 문제로 돌아가서 파스칼 삼각형에서 가장 윗줄에 있는 숫자를 맞춰야 하는데, 정확하게 어떤 수가 `target`과 동일한지 모르니까 1부터 `N`까지 일렬로 나열하는 모든 경우의 수(중복을 허락하지 않는 순열, 여기서는 `4*3*2*1=24`)를 찾고 해당 수를 파스칼의 공식 `1 3 3 1`을 이용하여 하나씩 곱해서 모두 더한 값이 `target`과 같은지 확인하면 된다. 중복을 허락하지 않는 순열은 `visited` 배열을 사용하여 체크해주면 된다. 순열을 구하는 방법을 잘 모르겠다면 <a href='https://ywtechit.tistory.com/316'>다음</a>을 참고하자. 내가 풀었을 때는 조합(1 3 3 1)을 한번에 구해놓고 종료조건에 도달했을 때 `index`끼리 곱했는데 선생님은 아예 `DFS` 함수 인자에 `sum`을 넣어 재귀를 계산할 때마다 더하는 방법을 사용했다. 이렇게 계산하면 전자보다 연산속도가 빨라지는 장점이 있다.
+
+1. 1부터 `N`까지 중복을 허락하지 않고 일렬로 나열하는 방법(중복을 허락하지 않는 순열)을 구한다.
+2. `n-1C0 ~ n-1Cn-1`까지 경우의 수를 구한다.(이때, 연산속도를 낮추기 위해 메모이제이션을 사용)
+3. 1번에서 구한 값을 각각의 `index`에 맞게 2번 값을 곱한다. (DFS함수의 인자로 넘겨 재귀가 뻗어나갈 때마다 계산한다.)
+4. 3번에서 구한 값을 모두 더해 `target`과 같은 값인지 확인한다.
+5. 처음으로 결과가 되는 값을 출력한다. (`flag=true`로 바꿔 그 다음 불 필요한 연산을 줄인다.)
+
+```javascript
+let n = 4;
+let target = 16;
+
+console.log(solution(n, target));
+
+function solution(n, target){
+  let memo = Array.from(Array(11), () => Array(11).fill(0));
+  let visited = Array.from({length: n+1}, () => 0);
+  let arr = Array.from({length: n}, () => 0);
+  let combi = Array.from({length: n}, () => 0);
+  let answer;
+  
+  function pascal(n, r){
+    if (memo[n][r]) return memo[n][r];
+    if (n===r || r===0) return 1;
+    else return memo[n][r] = pascal(n-1, r-1) + pascal(n-1, r);
+  }
+
+  for (let i=0; i<n; i++) combi[i] = pascal(n-1, i);
+
+  let flag = false;
+
+  function DFS(L, sum){
+    if (flag) return;
+    if (L === n && sum === target){
+      answer = arr.slice();
+      flag = true;
+    }else{
+      for (let i=1; i<=n; i++){
+        if (visited[i] === 0){
+          visited[i] = 1;
+          arr[L] = i;
+          DFS(L+1, sum+(arr[L]*combi[L]));
+          visited[i]=0;
+        }
+      }
+    }
+  }
+  
+  DFS(0, 0)
+  return answer;
+}
+👉🏽 3 1 2 4
+```
+
