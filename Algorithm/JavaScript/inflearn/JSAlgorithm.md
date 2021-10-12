@@ -3947,3 +3947,119 @@ v=8, p=3
 v=14, p=3
 3
 ```
+
+---
+## 📍 section09 - 6 - 섬나라 아일랜드(BFS, DFS)
+문제: N*N의 섬나라 아일랜드의 지도가 격자판의 정보로 주어집니다. 각 섬은 1로 표시되어 상하좌우와 대각선으로 연결되어 있으며, 0은 바다입니다. 섬나라 아일랜드에 몇 개의 섬이 있는지 구하는 프로그램을 작성하세요.
+
+![](https://images.velog.io/images/abcd8637/post/f3737a6c-15a0-4c6d-a575-e49f1127ef54/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202021-10-12%2011.07.26.png)
+
+이 문제는 `DFS` 와 `BFS`탐색으로 모두 풀 수 있는 문제다. 이 방법을 이용하면 <a href='https://www.acmicpc.net/problem/4963'>백준4963 - 섬의 개수</a>도 한번 풀어보자!
+
+먼저, `DFS`로 푸는 방법을 알아보자.
+1. `visited` 배열을 선언하지 않고 현재 좌표를 0으로 만든 다음에 대각선 좌표의 값이 1인 곳만 탐색한다.(이때, 재귀적으로 `dfs` 함수를 호출한다.)
+2. `board`를 돌면서 현재 좌표와 대각선좌표까지 0이면 더 이상 탐색할 수 없으므로 다음 좌표로 넘어간다. 넘어갈 때 `cnt` 증가
+
+```javascript
+// DFS
+let n = 7;
+let arr = [
+    [1, 1, 0, 0, 0, 1, 0],
+    [0, 1, 1, 0, 1, 1, 0],
+    [0, 1, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 0, 1, 1],
+    [1, 1, 0, 1, 1, 0, 0],
+    [1, 0, 0, 0, 1, 0, 0],
+    [1, 0, 1, 0, 1, 0, 0],
+];
+
+console.log(solution(n, arr));
+
+function solution(n, arr){
+  let dx = [-1, -1, 0, 1, 1, 1, 0, -1];
+  let dy = [0, 1, 1, 1, 0, -1, -1, -1];
+  let cnt=0;
+
+  function dfs(x, y){
+    console.log(`x=${x}, y=${y}`)
+    arr[x][y]=0;
+    for(let i=0; i<8; i++){
+      let nx=x+dx[i];
+      let ny=y+dy[i];
+      if(nx<0 || ny<0 || nx>=n || ny>=n) continue;
+      if(arr[nx][ny]) dfs(nx, ny);
+    }
+  }
+
+  for(let x=0; x<n; x++){
+    for(let y=0; y<n; y++){
+      if (arr[x][y]){
+        dfs(x, y);
+        cnt++;
+      }
+    }
+  }
+  return cnt;
+}
+
+👉🏽 5
+```
+
+다음으로, `BFS`로 푸는 방법을 알아보자.
+1. `visited` 배열을 선언하지 않고 현재 좌표를 0으로 만든 다음에 대각선 좌표의 값이 1인 곳만 탐색한다. 대각선 좌표가 1이면 `queue`에 넣는다. 
+2. `queue`값이 `shift` 될 때 또 대각선 좌표를 살펴본다. 대각선 좌표가 1이면 `queue`에 넣고 0이면 continue한다.
+3. `board`를 돌면서 현재 좌표와 대각선 좌표까지 0이면 더 이상 탐색할 수 없으므로 다음 좌표로 넘어간다. 넘어갈 때 `cnt` 증가
+
+```javascript
+// BFS
+let n = 7;
+let arr = [
+    [1, 1, 0, 0, 0, 1, 0],
+    [0, 1, 1, 0, 1, 1, 0],
+    [0, 1, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 0, 1, 1],
+    [1, 1, 0, 1, 1, 0, 0],
+    [1, 0, 0, 0, 1, 0, 0],
+    [1, 0, 1, 0, 1, 0, 0],
+];
+
+console.log(solution(n, arr));
+
+function solution(n, arr){
+  let dx = [-1, -1, 0, 1, 1, 1, 0, -1];
+  let dy = [0, 1, 1, 1, 0, -1, -1, -1];
+  let cnt=0;
+  let queue=[];
+
+  function bfs(x, y){
+    arr[x][y]=0;
+    queue.push([x, y]);
+    
+    while(queue.length){
+      let [x, y] = queue.shift();
+      console.log(`x=${x}, y=${y}`)
+      for(let i=0; i<8; i++){
+        let nx=x+dx[i];
+        let ny=y+dy[i];
+        if(nx<0 || ny<0 || nx>=n || ny>=n) continue;
+        if(arr[nx][ny]){
+          arr[nx][ny]=0;
+          queue.push([nx, ny])
+        }
+      }
+    }
+  }
+
+  for(let x=0; x<n; x++){
+    for(let y=0; y<n; y++){
+      if (arr[x][y]){
+        bfs(x, y);
+        cnt++;
+      }
+    }
+  }
+  return cnt;
+}
+
+👉🏽 5
+```
