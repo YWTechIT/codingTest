@@ -3818,3 +3818,132 @@ function solution(n, m, arr){
 6
 ```
 
+---
+## 📍 section09 - 4 - 이진트리 넓이우선탐색(BFS)
+다음과 같이 생긴 이진트리에서 `BFS`로 `1 2 3 4 5 6 7` 출력이 나와야 한다.
+
+![](https://images.velog.io/images/abcd8637/post/7ea32801-40c7-40e2-bc21-5e4b1b776ae9/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202021-10-07%2011.43.51.png)
+
+1. `visited` 방문 배열을 선언할 필요 없이 `nv>7` 일 때는 더 이상 `queue`에 `push` 하지 않아도 되므로 `break`한다.
+2. `queue`에 더 이상 값이 없을 때까지 `shift()`한다.
+
+```javascript
+console.log(solution());
+
+function solution(){
+  let queue = [];
+  let answer = "";
+  queue.push(1);
+
+  while (queue.length){
+    let v = queue.shift();
+    answer+=v+" ";
+
+    for (let nv of [v*2, v*2+1]){
+      if (nv > 7) break;
+      queue.push(nv);
+    } 
+  }
+
+  return answer
+}
+👉🏽 1 2 3 4 5 6 7
+```
+
+---
+## 📍 section09 - 5 - 송아지 찾기(BFS: 상태트리탐색)
+문제: 현수의 위치와 송아지의 위치가 수직선상의 좌표 점으로 주어지면 현수는 현재 위치에서 송아지의 위치까지 다음과 같은 방법으로 이동한다. 송아지는 움직이지 않고 제자리에 있다. 현수는 한 번의 점프로 앞으로 1, 뒤로 1, 앞으로 5를 이동할 수 있다. 최소 몇 번의 점프로 현수가 송아지의 위치까지 갈 수 있는지 구하는 프로그램을 작성하세요.
+
+`BFS`를 사용하는 문제인데, 왜 `BFS`를 사용하는지 강의를 통해 배울 수 있었다. 결론적으로 상태트리, 레벨트리를 살펴보면서 깊이 우선 탐색인 `DFS`처럼 한 `level`만 끝까지 `target`과 동일 할 때까지 탐색하는 것이 아니라, 한 레벨에서 이동 할 수 있는 좌표를 살펴보고 `target`하고 다르면 다음 레벨을 살펴보고 (무한반복) 이런식으로 넓이우선탐색으로 푸는 방법이 지금 문제와 알맞다. 여담으로 이 방법으로 <a href='https://www.acmicpc.net/problem/1697'>백준1697 - 숨바꼭질</a>을 풀 수 있으니까 이 문제를 풀고나서 한번 도전해보자.
+
+1. `BFS`를 이용하여 레벨탐색, 상태트리 탐색을 이용한다.
+2. 현재 `queue`에서 이동 할 수 있는 새로운 좌표(`nv`)를 다시 `queue`에 넣을 때 `target`과 같은지 확인하는 방법이 `queue`에서 `shift` 할 때 `target`을 확인하는 방법보다 실행시간을 조금이라도 더 단축 시킬 수 있다.
+3. `nv>0 && nv=10000`을 한 이유는 좌표가 1부터 10000까지로 정해져있기 때문에 범위를 벗어나지 않도록 하기 위함이다.
+4. `visited` 배열을 선언해 이미 한번 탐색한 좌표는 새로운 좌표로 이동하지 못하게 설정했다.(`visited`를 선언하지 않는다면 똑같은 좌표로 이동할것이고 이는 불 필요한 연산으로 이어진다.)
+5. 하단의 사진처럼 상태트리탐색은 `level`을 우선적으로 탐색하는 것이기 때문에 방향은 상하가 아닌 좌우로 진행된다.
+6. 하단의 코드는 2번 방법을 비교하기 위해 작성한 코드인데, 새로운 좌표를 다시 `queue`에 넣을 때 연산 횟수가 적다는것을 알 수 있다.
+
+![](https://images.velog.io/images/abcd8637/post/7f0c66be-4a54-46f4-8ed0-9358509bf092/KakaoTalk_Photo_2021-10-12-10-31-44.jpeg)
+
+```javascript
+// 새로운 좌표에서 target 확인
+let s = 5;
+let target = 14;
+
+console.log(solution(s, target));
+
+function solution(s, target){
+  let visited = Array.from({length: target+1}, () => 0);
+  let queue=[];
+
+  visited[s] = 1;
+  queue.push([s, 0]);
+
+  while(queue.length){
+    let [v, p] = queue.shift();
+		console.log(`v=${v}, p=${p}`)
+
+    for(let x of [v-1, v+1, v+5]){
+      if (x === target) return p+1;
+      if (!visited[x] && x >= 1 && x <= 10000){
+        visited[x]=1;
+        queue.push([x, p+1]);
+      }
+    }
+  }
+}
+
+👉🏽
+v=5, p=0
+v=4, p=1
+v=6, p=1
+v=10, p=1
+v=3, p=2
+v=9, p=2
+3
+```
+
+```javascript
+// queue에서 나중에 좌표 확인
+let s = 5;
+let position = 14;
+
+console.log(solution(s, position));
+
+function solution(s, position){
+  let visited = Array.from({length: position+1}, () => 0);
+  let queue=[];
+
+  visited[s] = 1;
+  queue.push([s, 0]);
+
+  while(queue.length){
+    let [v, p] = queue.shift();
+    console.log(`v=${v}, p=${p}`)
+    
+    if (v === position) return p;
+
+    for(let x of [v-1, v+1, v+5]){
+      if (!visited[x] && x >= 1 && x <= 10000){
+        visited[x]=1;
+        queue.push([x, p+1]);
+      }
+    }
+  }
+}
+
+👉🏽
+v=5, p=0
+v=4, p=1
+v=6, p=1
+v=10, p=1
+v=3, p=2
+v=9, p=2
+v=7, p=2
+v=11, p=2
+v=15, p=2
+v=2, p=3
+v=8, p=3
+v=14, p=3
+3
+```
