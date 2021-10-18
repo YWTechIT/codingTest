@@ -348,3 +348,28 @@ process.stdin.on('data', data => {
     }
 });
 ```
+
+---
+## 📍 프로그래머스 2단계 - 짝지어 제거하기
+<a href='https://programmers.co.kr/learn/courses/30/lessons/12973'>프로그래머스 2단계 - 짝지어 제거하기</a>
+
+### ⚡️ 나의 풀이
+이 문제의 핵심은 같은 알파벳이 2개 붙어있는 짝을 어떻게 찾는지가 핵심인데, 결론적으로 스택(`stack`)을 이용해서 짝을 찾았다. 
+
+1. 현재 `stack`이 비어있지 않고, `stack[-1]`이 현재 `x`와 같으면 `stack`의 제일 마지막 원소를 `pop`한다. (짝지어진 문자열이기 때문)
+2. 1번 조건에 충족하지 않으면 모두 `stack`에 넣는다.
+3. 주어진 문자열을 끝까지 탐색하고 남은 `stack`의 길이가 1보다 크면 짝지어 제거에 실패했기 때문에 `0`을 `stack`의 길이가 0이면 짝지어 제거에 성공했기 때문에 `1`을 리턴한다.
+
+```javascript
+function solution(s) {
+    let stack = [];
+    
+    for (let x of s) {
+        if (stack && stack[stack.length - 1] === x) {
+            stack.pop();
+        }else stack.push(x);
+    }
+
+  return stack.length >= 1 ? 0 : 1;
+}
+```
