@@ -404,3 +404,38 @@ function solution(priorities, location){
 }
 ```
 
+---
+## 📍 프로그래머스 1단계 - 모의고사
+<a href='https://programmers.co.kr/learn/courses/30/lessons/42840'>프로그래머스 1단계 - 모의고사</a>
+
+### ⚡️ 나의 풀이
+풀이 방식을 떠올리는게 조금 어려웠다. 각각의 수포자들이 찍는 방식에는 일정한 패턴이 있었고, 이 패턴을 어떤 방식으로 활용할지 생각하는게 큰 관건이었다. 결론적으로 `answer`의 `index`와 각각 수포자들의 `i % 패턴.length` 으로 확인했다.
+
+1. 각각의 수포자들의 반복되는 패턴을 `mathGiveUpMethod`에 담아둔다.
+2. 가장 많이 문제를 맞힌 사람을 알기 위해 `3`만큼 0으로 배열을 선언한다.
+3. `answer` 반복문을 돌면서 현재 `answer[i]`와 각각의 수포자의 패턴을 비교하여 동일한지 다른지 확인한다 여기서 `i%5`, `i%8`, `i%10`을 한 이유는 만약, `answer`의 `length`가 `[0].length`, `[1].length`, `[2].length`보다 길게되면 각각의 `index`를 비교를 할 수 없기 때문에 `answer.length`길이가 크더라도 수포자는 각각 동일한 패턴을 지녔으므로 해당 패턴의 길이만큼 나눈 나머지의 값을 비교해주면 된다.
+4. 정답을 제일 많이 맞춘 개수 `max`에 저장한다.
+5. 정답이 순서대로 들은 배열과 4번에서 구한 `max`를 비교하면서 `max`와 같은 값의 `index`를 `maxGroup`에 넣는다. (해당 사람이 누구인지 알기 위해)
+
+```javascript
+function solution(answers){
+  let mathGiveUpMethod = [[1, 2, 3, 4, 5], [2, 1, 2, 3, 2, 4, 2, 5], [3, 3, 1, 1, 2, 2, 4, 4, 5, 5]];
+  let cntGroup = Array.from({length: 3}, ()=>0);
+
+  for (let i=0; i<answers.length; i++){
+    if (answers[i] === mathGiveUpMethod[0][i%5]) cntGroup[0]++;
+    if (answers[i] === mathGiveUpMethod[1][i%8]) cntGroup[1]++;
+    if (answers[i] === mathGiveUpMethod[2][i%10]) cntGroup[2]++;
+  }
+  
+  let max = Math.max.apply(null, cntGroup);
+  let maxGroup = [];
+  
+  for (let i=0; i<3; i++){
+    if (cntGroup[i]===max) maxGroup.push(i+1);
+  }
+  
+  return maxGroup;
+}
+```
+
