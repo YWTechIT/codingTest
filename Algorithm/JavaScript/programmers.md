@@ -468,3 +468,39 @@ function solution(progresses, speeds){
 }
 ```
 
+---
+## 📍 프로그래머스 2단계 - 다리를 지나는 트럭
+<a href='https://programmers.co.kr/learn/courses/30/lessons/42583'>프로그래머스 2단계 - 다리를 지나는 트럭</a>
+
+### ⚡️ 나의 풀이
+<a href='https://ywtechit.tistory.com/187'>이전</a>에 `python`으로 풀어본 경험이 있다. 오랜만에 풀어서 이전에 푼 기억은 잘 나지 않았다. 처음에는 조금 헤맸는데 나름의 순서를 그려가며 풀었다. 제일 눈여겨봐야 할 점은 `bridge`는 초마다 항상 `shift()`를 해주고 `weight`는 `bridge`의 `shift()`값을 더해준다는 것과 `bridge`의 초기값은 `bridge_length`만큼 0으로 초기화 해준다. 그래야 트럭이 `bridge_length`만큼 `bridge`에 올라갈 수 있다.
+
+1. `bridge`는 `weight`와 관계없이 초마다 `shift()`한다.
+2. `trucks`가 남아있으면 `weight`의 조건을 따진다. 만약, 현재 무게와 다음에 올 트럭의 무게를 더했을 때 `limit`보다 작다면(`weight + trucks[0] <= limit`) `bridge`로 트럭을 이동시킨다. 이후 트럭의 무게만큼 `weight`를 더한다. 현재 무게와 다음에 올 트럭의 무게를 더했을 때 `limit`보다 크다면(`weight + trucks[0] > limit`) 트럭은 이동시키지 않고 다리 위에 있는 트럭만 앞으로 이동시킨다. (`bridge`에는 0을 `push`)
+3. `trucks`가 더 이상 남아있지 않다면 `weight`의 조건을 따지지 않고 다리 위에 있는 트럭을 한 칸씩 이동시킨다.
+4. `bridge`에 아무것도 남아있지 않으면 반복문을 종료한다.
+
+```javascript
+function solution(bridge_length, limit, trucks) {
+  var answer = 0;
+  let bridge = Array.from({ length: bridge_length }, () => 0);
+  let weight = 0;
+
+  while (bridge.length !== 0) {
+      weight -= bridge.shift();
+
+      if (trucks.length > 0) {
+          let out = trucks[0];
+          if (weight + out <= limit) {
+              bridge.push(trucks.shift());
+              weight += out;
+          } else bridge.push(0);
+      }
+      answer++;
+  }
+
+  return answer;
+}
+
+```
+
