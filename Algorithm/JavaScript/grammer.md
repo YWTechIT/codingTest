@@ -290,3 +290,32 @@ Reference
 1. [자바스크립트 중급 강좌 #3 - 객체 메소드(Object methods), 계산된 프로퍼티(Computed property)](https://www.youtube.com/watch?v=6NZpyA64ZUU&list=PLZKTXPmaJk8JZ2NAC538UzhY_UNqMdZB4&index=3)
 2. [모던 JavaScript 튜토리얼](https://ko.javascript.info/)
 3. [Object.assign() - MDN](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Object/assign)
+
+---
+## 📍 typeOf 연산자에 대해 알아보자
+
+### typeOf 연산자
+1. `typeof` 연산자는 피연산자의 데이터 타입을 문자열로 반환한다. 총 7가지 문자열 `string`, `number`, `boolean`, `undefined`, `symbol`, `object`, `function` 중 한 개를 반환한다. `null`을 반환하는 경우는 없으며, 함수의 경우 `function`을 반환한다.
+2. `typeof(null)`의 결과값은 `null`이 아니라 `object`를 반환하는데 주의하자. 이것은 자바스크립트의 첫번째 버전의 버그다.(<a href='https://2ality.com/2013/10/typeof-null.html'>typeof null의 역사</a>) 하지만 기존 코드에 영향을 줄 수 있기 때문에 아직까지 수정되지 못하고 있다. 만약, `null` 타입인지 확인하고 싶다면 일치 연산자(`===`)를 사용하여 확인하자.
+3. 선언하지 않은 식별자를 `typeof` 연산자로 연산해보면 `ReferenceError`가 발생하지 않고 `undefined`를 반환한다.
+
+```javascript
+typeof ('') // string
+typeof (1) // number
+typeof (NaN) // number
+typeof (true) // boolean
+typeof (undefined) // undefined
+typeof (Symbol()) // symbol
+typeof (null) // object
+typeof ([]) // object
+typeof ({}) // object
+typeof (new Date()) // object
+typeof (/test/gi) // object
+typeof (function(){}) // function
+
+let a = null
+a === null // true
+
+typeof(nothing) // undefined
+```
+
