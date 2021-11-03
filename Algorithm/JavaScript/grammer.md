@@ -319,3 +319,6 @@ a === null // true
 typeof(nothing) // undefined
 ```
 
+reference
+1. <a href='https://www.aladin.co.kr/shop/UsedShop/wuseditemall.aspx?ItemId=251552545'>모던 자바스크립트 딥 다이브</a>
+
