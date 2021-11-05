@@ -322,3 +322,26 @@ typeof(nothing) // undefined
 reference
 1. <a href='https://www.aladin.co.kr/shop/UsedShop/wuseditemall.aspx?ItemId=251552545'>모던 자바스크립트 딥 다이브</a>
 
+---
+## 📍 전치연산자와 후치연산자에 대해 알아보자
+개념자체는 어려운 편이 아닌데, 알고리즘 문제를 풀다보면 헷갈리는 경우가 있어 기록으로 남겨놓는다. 전치연산자와 후치연산자를 잘 활용한 문제는 투 포인터 개념을 활용한 <a href='https://ywtechit.tistory.com/275'>두 배열 합치기</a> 문제였다. 
+
+1. 전치연산자(prefix form): 연산자(`++x`, `--x`)가 변수 앞에 오는경우 전치 형태이고, `증가/감소`가 먼저 이루어지고 값을 리턴함.
+2. 후치연산자(postfix form): 연산자(`x++`, `x--`)가 변수 뒤에 오는경우 후치 형태이고, `증가/감소` 이전에 먼저 값을 리턴함.
+
+`예제 1`의 `counter`와 `a`의 값 모두 `2`다. 왜냐하면 `++counter`로 인해 `counter`도 값이 1증가했고, `a`는 증가한 값을 변수로 저장했기 때문이다. `예제 2`는 조금 다르게 `counter`의 값은 1, `b`의 값은 2이다. 왜냐하면 `counter++`는 `counter`변수의 값은 변함이 없고 `b`의 변수만 `counter`에서 1 더한 값을 변수로 지정했기 때문이다.
+
+```javascript
+// 예제 1
+let counter = 1;
+let a = ++counter;
+console.log(counter, a);
+👉🏽 2 2
+
+// 예제 2
+let counter = 1;
+let b = counter++;
+console.log(counter, b);
+👉🏽 1 2
+```
+
