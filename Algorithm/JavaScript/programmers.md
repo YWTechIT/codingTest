@@ -501,6 +501,71 @@ function solution(bridge_length, limit, trucks) {
 
   return answer;
 }
-
 ```
 
+---
+## 📍 프로그래머스 2단계 - 주식가격
+<a href='https://programmers.co.kr/learn/courses/30/lessons/42584'>프로그래머스 2단계 - 주식가격</a>
+
+### ⚡️ 나의 풀이
+문제를 한참 들여다봐도 도대체 무슨 말인가 하는 생각이 여러번 들어서 풀지 말까하는 생각이 들었지만 <a href='https://programmers.co.kr/questions/20326'>이 글</a>에서 다른 분이 지문을 쉽게 풀어 작성해주셔서 이해가 되었다.
+
+문제를 자바스크립트로 풀고 싶었지만 지원 언어에 포함이 되어있지 않기 때문에 별 수 없이 `python`으로 풀었다. `queue`를 이용해서 풀었고 풀이방법은 다음과 같다.
+
+
+
+```python
+from collections import deque
+
+def solution(prices):
+    prices = deque(prices)
+    n = len(prices)
+    answer = []
+
+    while prices:
+        out = prices.popleft()
+        time = 0
+
+        for i in prices:
+            time += 1
+            if i < out:
+                break
+
+        answer.append(time)
+    return answer
+
+print(solution(prices))
+```
+
+---
+## 📍 프로그래머스 2단계 - 오픈채팅방
+<a href='https://programmers.co.kr/learn/courses/30/lessons/42888'>프로그래머스 2단계 - 오픈채팅방</a>
+
+### ⚡️ 나의 풀이
+처음 문제를 풀기 전 문제분류에 `2019 KAKAO BLIND RECRUITMENT` 라고 되어있어서 카카오문제니까 어렵지 않을까?라고 했는데 어렵지 않았다. 문제의 내용은 길었지만 코드는 짧게 작성할 수 있는 문제였다. 결론적으로 반복문을 2번 사용했는데 처음 닉네임이 변경되는 모든 과정에 반복문을 한번 사용하고, 모든 기록이 처리된 마지막에 반복문을 한번 더 사용했다. 세부과정은 다음과 같다.
+
+1. `idInfo`는 `new Map()`으로 선언하여 `hash`값을 이용했다.
+2. `status`가 `Enter` 혹은 `Change`일 때 `idInfo`의 `nickName`을 변경한다.
+3. 모든 기록이 처리된 후 채팅방 메시지를 출력한다. `status`가 `Enter` 혹은 `Leave`일 때 메시지를 출력하는데, 이때 `2`번과정을 진행한 `userInfo`의 `nickName`을 출력한다.
+
+```javascript
+function solution(records) {
+    var answer = [];
+    let idInfo = new Map();
+    
+    // Create or Change id if status Enter or Change
+    for (let record of records){
+        let [status, userId, nickName] = record.split(" ");
+        if ((status === "Enter") || (status === "Change")) idInfo.set(userId, nickName);
+    }
+    
+    // Finally Enter or Leave message after processed
+    for (let record of records){
+        let [status, userId] = record.split(" ");
+        if (status === "Enter") answer.push(`${idInfo.get(userId)}님이 들어왔습니다.`);
+        else if (status === "Leave") answer.push(`${idInfo.get(userId)}님이 나갔습니다.`);
+    }
+    
+    return answer;
+}
+```
