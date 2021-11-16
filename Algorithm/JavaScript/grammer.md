@@ -368,3 +368,22 @@ bar();  // 1
 reference 
 1. <a href='https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=206513031'>코어 자바스크립트</a>
 2. <a href='https://www.aladin.co.kr/shop/UsedShop/wuseditemall.aspx?ItemId=251552545'>모던 자바스크립트 딥 다이브</a>
+
+---
+## 📍 부드럽게 scroll 하는 방법 알아보기
+`medium`을 보다가 `Div`의 맨 아래로 `scroll` 하는 몇 가지 방법(`scrollTop`, `clientHeight`, `scrollIntoView`)을 작성한 <a href='https://javascript.plainenglish.io/how-to-scroll-to-the-bottom-of-a-div-with-javascript-9a4542855410'>글</a>을 보던 중 `scrollIntoView` 메서드가 간편해보여서 해당 메소드로 직접 기능을 직접 구현하면서 배운점을 남긴다. <a href='https://developer.mozilla.org/ko/docs/Web/API/Element/scrollIntoView'>scrollIntoView</a>메서드는 `scrollIntoView()`가 호출 된 요소가 사용자에게 표시되도록 요소의 상위 컨테이너를 스크롤하는 메소드인데, `caniuse` <a href='https://caniuse.com/?search=scrollintoview'>사이트</a>에서 보면 거의 대부분의 브라우저에서 지원하므로 크로스브라우징을 고려할 때 사용해도 괜찮은 메소드인것을 확인할 수 있다.
+
+![](https://images.velog.io/images/abcd8637/post/0caf9ea8-7a66-4188-a349-48f7baae3069/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202021-11-16%2019.43.45.png)
+
+<a href='https://developer.mozilla.org/ko/docs/Web/API/Element/scrollIntoView'>MDN</a>을 참고하면 알 수 있지만 `scrollIntoView` 메서드의 인자는 총 2개를 받는데, `alignToTop`과 `scrollIntoViewOptions`가 되겠다. 첫번째 인자인 `boolean`형태의 `alignToTop=true`는 `element` 요소의 상단을 기준으로, `alignToTop=false`는 `element` 요소의 하단을 기준으로 스크롤을 설정한다. 두번째 인자인 `scrollIntoViewOptions`는 최대 3개의 객체로 값을 넘겨 받을 수 있는데, `behavior(auto(default) || smooth)`, `block(start(default) || center || end || nearest)`, `inline(start(default) || center || end || nearest)` 값을 넘겨받는다. `alignToTop` 생략하더라도 부드러운 움직임을 사용해야 하기 때문에 `scrollIntoViewOptions`에서 `smooth`를 포함했고, `block`의 상단 혹은 하단까지 내려가야하므로 `block`도 포함했다. 구현 결과를 하단의 `copePen`으로 직접 작성했는데, `browser`에서 `scroll`하면 괜찮은데 여기에서 버튼을 누르면 현재 `document.body`까지 같이 `scroll`이 되는데 왜 이렇게 되는지 잘 모르겠다.
+
+<p class="codepen" data-height="300" data-theme-id="dark" data-default-tab="html" data-slug-hash="LYjXQOE" data-user="YWTechIT" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/YWTechIT/pen/LYjXQOE">
+  Untitled</a> by an (<a href="https://codepen.io/YWTechIT">@YWTechIT</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+reference
+1. <a href='https://javascript.plainenglish.io/how-to-scroll-to-the-bottom-of-a-div-with-javascript-9a4542855410'>medium</a>
+2. <a href='https://developer.mozilla.org/ko/docs/Web/API/Element/scrollIntoView'>MDN</a>
