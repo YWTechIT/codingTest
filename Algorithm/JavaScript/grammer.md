@@ -387,3 +387,216 @@ reference
 reference
 1. <a href='https://javascript.plainenglish.io/how-to-scroll-to-the-bottom-of-a-div-with-javascript-9a4542855410'>medium</a>
 2. <a href='https://developer.mozilla.org/ko/docs/Web/API/Element/scrollIntoView'>MDN</a>
+
+---
+## 📍 JSON 객체 깔끔하게 정리하기(depth 줄이기)
+`fetch`나 `axios`를 이용해서 `json`형태의 데이터를 받아 올 때 다음 데이터와 같이 너저분(?)할 때가 있다. 
+
+```javascript
+let users = [
+    {
+        gender: "female",
+        name: {
+            title: "Mrs",
+            first: "Emília",
+            last: "Vieira",
+        },
+        location: {
+            street: {
+                number: 3944,
+                name: "Rua Santa Luzia ",
+            },
+            city: "Indaiatuba",
+            state: "Acre",
+            country: "Brazil",
+            postcode: 26038,
+            coordinates: {
+                latitude: "23.2809",
+                longitude: "-115.5400",
+            },
+            timezone: {
+                offset: "+10:00",
+                description: "Eastern Australia, Guam, Vladivostok",
+            },
+        },
+        email: "emilia.vieira@example.com",
+        login: {
+            uuid: "b2571400-3882-4338-93df-6d4fb09a0d06",
+            username: "brownpeacock605",
+            password: "father",
+            salt: "fRwNiuz7",
+            md5: "5f594b1e31c96ffd5a40bf7efed2e4e3",
+            sha1: "3634458cf569467a5f2cdd46ec3c6a86a9f12b04",
+            sha256: "d0b25f5502e1a88b49017833b5247629150a6326d2870d9af63bdd595217e138",
+        },
+        dob: {
+            date: "1981-06-20T06:08:31.406Z",
+            age: 40,
+        },
+        registered: {
+            date: "2019-04-12T21:34:33.551Z",
+            age: 2,
+        },
+        phone: "(20) 9022-5571",
+        cell: "(32) 5117-1461",
+        id: {
+            name: "",
+            value: null,
+        },
+        picture: {
+            large: "https://randomuser.me/api/portraits/women/4.jpg",
+            medium: "https://randomuser.me/api/portraits/med/women/4.jpg",
+            thumbnail: "https://randomuser.me/api/portraits/thumb/women/4.jpg",
+        },
+        nat: "BR",
+    },
+    {
+        gender: "female",
+        name: {
+            title: "Mrs",
+            first: "Anne",
+            last: "Burke",
+        },
+        location: {
+            street: {
+                number: 8567,
+                name: "Depaul Dr",
+            },
+            city: "York",
+            state: "Kentucky",
+            country: "United States",
+            postcode: 98943,
+            coordinates: {
+                latitude: "14.8362",
+                longitude: "65.8872",
+            },
+            timezone: {
+                offset: "-3:30",
+                description: "Newfoundland",
+            },
+        },
+        email: "anne.burke@example.com",
+        login: {
+            uuid: "5f26d53c-17da-4a21-83a8-539fc83c5d55",
+            username: "sadelephant909",
+            password: "baxter",
+            salt: "CYSz1FYq",
+            md5: "573f67237e881ed9dd07bacab90080df",
+            sha1: "8b95f7fced02ec9aba752bb2ebd7fcab35da9256",
+            sha256: "23e52b0456fdf03fdabd8a3945728d08ce029e7633d3bd6317ba41c157cd16dc",
+        },
+        dob: {
+            date: "1977-01-14T23:06:16.613Z",
+            age: 44,
+        },
+        registered: {
+            date: "2007-05-13T19:29:17.788Z",
+            age: 14,
+        },
+        phone: "(741)-381-4863",
+        cell: "(793)-695-9075",
+        id: {
+            name: "SSN",
+            value: "922-18-5994",
+        },
+        picture: {
+            large: "https://randomuser.me/api/portraits/women/85.jpg",
+            medium: "https://randomuser.me/api/portraits/med/women/85.jpg",
+            thumbnail: "https://randomuser.me/api/portraits/thumb/women/85.jpg",
+        },
+        nat: "US",
+    }
+];
+``` 
+
+데이터 자체로 필요한 객체만 뽑아서 앞단에 표시해도 되지만, 객체를 직관적이고 한눈에 봐도 깔끔하게 보이게끔 바꾸고 싶다는 강박감이 들지 않는가? 여러가지 방법이 있겠지만, 함수를 만들어서 필요한 기능별로 역할을 나눠 `1depth`의 객체로  바꾸는 코드를 작성했다. 먼저 `fetchUsers()` 함수로 `fetch()` 기능만 담당하는 함수를 만들고, `getOptimizeData()` 함수로 `1depth`의 객체로 바꾼다. 마지막으로 결과를 반환하는 `responseUsers()` 함수를 만들었다. 처음 받은 데이터에 `map`함수로 객체 하나씩 꺼내서 `getOptimizeData` 함수에 파라미터로 넣었다 결론적으로 다음과 같이 바뀌었다. 언젠가 `json`으로 받은 객체를 정리하는 일이 생기면 지금과 같은 패턴으로 유용하게 써먹을 수 있을 것 같아 글을 남긴다.
+
+```javascript
+// 객체 최적화
+function getOptimizeData(users) {
+    const email = users.email;
+    const name = `${users.name.first} ${users.name.last}`;
+    const pictureUrl = users.picture.large;
+    const username = users.login.username;
+    const location = `${users.location.country}, ${users.location.state}, ${users.location.city}`;
+    const age = users.dob.age;
+
+    return {
+        email,
+        name,
+        pictureUrl,
+        username,
+        location,
+        age,
+    };
+}
+
+// fetch 함수
+const fetchUsers = () => {
+    return fetch("https://randomuser.me/api/?results=10")
+        .then((user) => user.json())
+        .then((data) => data.results);
+};
+
+// 결과 반환
+const requestUsers = () => {
+    return fetchUsers().then((users) => {
+        return users
+            .map((user) => getOptimizeData(user))
+    });
+};
+
+👉🏽
+[
+    {
+        email: "kreszenz.linnemann@example.com",
+        name: "Kreszenz Linnemann",
+        pictureUrl: "https://randomuser.me/api/portraits/women/28.jpg",
+        username: "purplesnake729",
+        location: "Germany, Bayern, Waldkirch",
+    },
+    {
+        email: "kelly.wood@example.com",
+        name: "Kelly Wood",
+        pictureUrl: "https://randomuser.me/api/portraits/women/74.jpg",
+        username: "brownzebra447",
+        location: "United Kingdom, Derbyshire, Bangor",
+    },
+    {
+        email: "romy.guerin@example.com",
+        name: "Romy Guerin",
+        pictureUrl: "https://randomuser.me/api/portraits/women/37.jpg",
+        username: "smallelephant251",
+        location: "France, Vosges, Angers",
+    },
+    {
+        email: "frida.petersen@example.com",
+        name: "Frida Petersen",
+        pictureUrl: "https://randomuser.me/api/portraits/women/75.jpg",
+        username: "greenmouse281",
+        location: "Denmark, Danmark, Sørvad",
+    },
+    {
+        email: "deann.barnes@example.com",
+        name: "Deann Barnes",
+        pictureUrl: "https://randomuser.me/api/portraits/women/14.jpg",
+        username: "greenpeacock642",
+        location: "Australia, New South Wales, Warrnambool",
+    },
+    {
+        email: "zara.brown@example.com",
+        name: "Zara Brown",
+        pictureUrl: "https://randomuser.me/api/portraits/women/31.jpg",
+        username: "redgorilla850",
+        location: "New Zealand, Marlborough, Whanganui",
+    },
+    {
+        email: "kaja.guttormsen@example.com",
+        name: "Kaja Guttormsen",
+        pictureUrl: "https://randomuser.me/api/portraits/women/88.jpg",
+        username: "goldenostrich157",
+        location: "Norway, Nord-Trøndelag, Eide",
+    },
+];
+```
+
