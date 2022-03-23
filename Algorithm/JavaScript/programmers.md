@@ -572,6 +572,8 @@ function solution(records) {
 
 ---
 ## 📍 프로그래머스 2단계 - 올바른 괄호
+<a href='https://programmers.co.kr/learn/courses/30/lessons/12909'>프로그래머스 2단계 - 올바른 괄호</a>
+
 이전에 인프런에서 자바스크립트 알고리즘 강의를 들을 때 풀었던 문제(<a href='https://ywtechit.tistory.com/283'>글 보기</a>)이다. `stack`을 이용하면 간단하게 풀 수 있다. 열린괄호일 때 `stack`에 집어넣고, 닫힌괄호가 나오면 `stack`에 열린괄호가 있으면 `pop`해주고 값이 없다면 그것은 올바르지 않은 괄호기 때문에 `false`를 `return`해주면 된다.
 
 ```javascript
@@ -587,5 +589,24 @@ function solution(s) {
   }
 
   return stack.length ? false : true;
+}
+```
+
+---
+## 📍 프로그래머스 2단계 - 가장 큰 수
+<a href='https://programmers.co.kr/learn/courses/30/lessons/42746'>프로그래머스 2단계 - 가장 큰 수</a>
+
+정수를 이어 붙일 때 사칙연산을 하는게 아니기 때문에 `map`함수를 이용하여 `numbers`를 모두 `String`으로 변경해준다. 이후에 `sort`함수를 이용하여 인자끼리 대소관계를 비교해준다. 여기서 주의할 점은 비교 순서를 헷갈리지 말아야 한다. 만약, `numbers`가 `[6, 10, 2]`가 주어지면 첫번째 비교대상에서 인자 `a`는 `10`, `b`는 `6`이다. 따라서 `b+a`는 `610`이고, `a+b`는 `106`이다. 서로의 값을 빼면 양수이기 때문에 순서를 유지하고 다음 차례로 넘어간다. 만약, 서로의 값을 뺐을 때 음수라면 위치를 바꿔준다.
+
+마지막으로 입력이 모두 0일 때가 있는데, 이때는 `Number`형태로 변환했을 때 값이 `0`인지 구별하면 된다.
+
+```javascript
+function solution(numbers) {
+  const answer = numbers
+    .map(String)
+    .sort((a, b) => (b + a) - (a + b))
+    .join("");
+
+  return +answer === 0 ? "0" : answer;
 }
 ```
