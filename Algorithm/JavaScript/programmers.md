@@ -569,3 +569,23 @@ function solution(records) {
     return answer;
 }
 ```
+
+---
+## 📍 프로그래머스 2단계 - 올바른 괄호
+이전에 인프런에서 자바스크립트 알고리즘 강의를 들을 때 풀었던 문제(<a href='https://ywtechit.tistory.com/283'>글 보기</a>)이다. `stack`을 이용하면 간단하게 풀 수 있다. 열린괄호일 때 `stack`에 집어넣고, 닫힌괄호가 나오면 `stack`에 열린괄호가 있으면 `pop`해주고 값이 없다면 그것은 올바르지 않은 괄호기 때문에 `false`를 `return`해주면 된다.
+
+```javascript
+function solution(s) {
+  const stack = [];
+
+  for (const parenthesis of s) {
+    if (parenthesis === "(") stack.push(parenthesis);
+    else {
+      if (stack[stack.length - 1]) stack.pop();
+      else return false;
+    }
+  }
+
+  return stack.length ? false : true;
+}
+```
