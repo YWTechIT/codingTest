@@ -645,35 +645,37 @@ function solution(n, computers) {
 ```
 
 ---
-## 📍 프로그래머스 2단계 - 큰 수 만들기
-그리디를 활용하는 문제인데, 너무 어렵게 생각했다. 결론적으로 `k`가 남아있는지 없는지에 여부에 따라 로직을 분리했다. 2번 순서까지만 작성하면 12번 테스트케이스가 실패로 뜨는데, `k` 값이 남아있기 때문에 처리하는 로직을 작성해야 한다. (3번 참고)
+## 📍 프로그래머스 2단계 - 구명보트
 
-1. 반복문으로 `number`을 탐색한다.
-2. `answer`의 마지막 값이 `num`보다 작으면 가장 큰 수를 만들기 위해 `num`을 `push`하기 위해 `answer`의 마지막 값을 `pop`해준다. 이때, 1개의 수를 제거했으므로 `k`를 1씩 빼준다.
-3. 반복문을 모두 돌고난 이후에도 `k`가 남아있다면 `k`개 수만큼 제거해야하기 때문에 `k`번 만큼 `pop`을 해준다.
+<a href='https://programmers.co.kr/learn/courses/30/lessons/42885'>문제보기</a>
 
-하단에는 입출력 3번째 예시의 `number = 4177252841`, `k = 4`의 풀이방법이다.
+무게 제한이 있는 구명보트를 최대한 적게 사용하여 사람을 태우는 문제인데, 처음에 `people`을 `sort`하는 것 까진 생각했으나, 이후 로직(무게가 적은 순을 먼저 태워야 할지 높은 순을 먼저 태워야할지?)은 해결하지 못했다. 해결법을 찾아보니 무게가 제일 많은 사람과 무게가 제일 적은 사람을 구명보트에 태우는 방법이 있었다. (왜 이런 생각을 못했을까 😄) 구체적인 로직은 다음과 같다.
 
-![](https://images.velog.io/images/abcd8637/post/90178d4a-e87c-4f3e-b197-87597d01f9ff/KakaoTalk_Photo_2022-03-25-11-43-01.jpeg)
+1. `people`을 내림차순으로 정렬한다.
+2. 무게가 제일 많이 나가는 사람과 무게가 제일 적게 나가는 사람의 합이 `limit`보다 작다면 둘 다 구명보트에 태운다.
+3. 무게가 제일 많이 나가는 사람과 무게가 제일 적게 나가는 사람의 합이 `limit`보다 크다면 무게가 제일 많이 나가는 사람만 태운다.
+4. 무게가 제일 많이 나가는 사람이 `limit / 2`보다 작다면 구명보트는 `남은 인원 수 / 2`만큼만 필요하다. 왜냐하면 처음에 `people`을 내림차순으로 정렬했기 때문에 무게가 제일 많이 나가는 사람 뒤에는 그보다 낮은 무게의 사람밖에 없기 때문이다. 또한 구명보트에는 최대 2명까지만 태울 수 있기 때문이다.
+
+풀이방법은 여러가지가 있지만, 나는 `투 포인터`를 이용했다. 특이사항으로 `9번 라인`은 `4번 로직`의 경우인데, 해당 조건을 만족하게 되면 더 이상 `while`문을 돌지 않고 `return cnt`하게 된다. 나머지의 경우에는 공통적으로 `lt`가 증가하면서 동시에 `cnt`도 증가한다.
 
 ```javascript
-function solution(number, k) {
-  let answer = [];
+function solution(people, limit) {
+  let lt = 0;
+  let rt = people.length - 1;
+  let cnt = 0;
 
-  for (const num of number) {
-    while (answer.length && k > 0 && answer[answer.length - 1] < num) {
-      k--;
-      answer.pop();
+  people.sort((a, b) => b - a);
+
+  while (lt <= rt) {
+    if (people[lt] <= limit / 2) {
+      cnt += Math.ceil((rt - lt + 1) / 2);
+      return cnt;
     }
-    answer.push(num);
-  }
 
-  // 테스트케이스 12번 조건
-  while (k) {
-    answer.pop();
-    k--;
+    if (people[lt] + people[rt] <= limit) rt--;
+    lt++;
+    cnt++;
   }
-
-  return answer.join("");
+  return cnt;
 }
 ```
