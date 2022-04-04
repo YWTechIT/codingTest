@@ -802,3 +802,63 @@ reference
 1. https://en.wikipedia.org/wiki/H-index
 2. https://ko.wikipedia.org/wiki/H_%EC%A7%80%EC%88%98
 3. https://www.ibric.org/myboard/read.php?Board=news&id=270333
+
+---
+## 📍 프로그래머스 2단계 - 소수 찾기
+
+<a href='https://programmers.co.kr/learn/courses/30/lessons/42839'>문제보기</a>
+
+---
+
+카테고리가 완전탐색으로 나와있지만, 재귀 중에서도 중복을 허용하지 않는 순열을 이용해서 풀었다.(부분집합, 순열, 조합을 구하는 방법은 <a href='https://ywtechit.tistory.com/322'>다음 글</a>을 참고해주세요.) 로직을 작성하기 이전에 최대 `numbers`의 길이가 `7`이면 순열을 구하는 최악의 경우의 수는 `9999999!`라고 생각해서 시간초과가 나는거아니야..?라는 생각을 했는데, 0부터 9999999를 탐색하는게 아니라 `numbers`의 `length`를 돌며 순열을 구하는 로직이기 때문에 `9999999!`가 아니라 `7!`인것을 깨달았다.
+
+문제를 풀며 주의 할 점은, `11과 011은 같은 숫자로 취급합니다.`라는 조건을 미루어 보아 중복된 값은 제거해야 하는데, 처음에 `check`배열(`let check = Array.from({ length: 9999999 }, () => false)`)을 통해 중복된 값이 있으면 `return`하는 코드를 작성했으나, 하단 사진처럼 실행시간이 너무 오래걸려 다른 방법을 모색했고 결론적으로 `set`을 이용하여 중복을 제거하니 실행시간이 현저히 빨라졌다.
+
+소수를 구별하는 방법은 여러가지가 있지만 반복문의 범위를 `제곱근 + 1`까지만 설정하면 더욱 빠르게 찾을 수 있다.(<a href='https://ywtechit.tistory.com/13'>관련 글 보러가기</a>)
+
+![](https://media.vlpt.us/images/abcd8637/post/365a0eb9-84fa-41e5-a4c4-5a0c819a9f8a/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202022-04-04%2010.32.17.png)
+
+![](https://media.vlpt.us/images/abcd8637/post/a28f25df-af95-4da2-96ea-074ee866506d/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202022-04-04%2010.31.56.png)
+
+```javascript
+function solution(numbers) {
+  const n = numbers.length;
+  const set = new Set();
+
+  for (let m = 1; m <= n; m += 1) {
+    let visited = Array.from({ length: n }, () => 0);
+    let temp = Array.from({ length: m }, () => 0);
+    DFS(0, m, visited, temp);
+  }
+
+  function DFS(L, m, visited, temp) {
+    if (L === m) {
+      const number = Number(temp.join(""));
+      const isPrimeNumber = isPrime(number);
+      if (isPrimeNumber) set.add(number);
+    } else {
+      for (let i = 0; i < n; i += 1) {
+        if (!visited[i]) {
+          visited[i] = 1;
+          temp[L] = numbers[i];
+          DFS(L + 1, m, visited, temp);
+          visited[i] = 0;
+        }
+      }
+    }
+  }
+
+  return set.size;
+}
+
+function isPrime(n) {
+  if (n === 0 || n === 1) return false;
+  let flag = true;
+
+  for (let i = 2; i <= Math.floor(n / 2) + 1; i += 1) {
+    if (!flag) return false;
+    if (n % i === 0) flag = false;
+  }
+  return true;
+}
+```
